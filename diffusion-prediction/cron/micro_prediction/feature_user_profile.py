@@ -1,0 +1,123 @@
+# -*-coding:utf-8-*-
+
+import sys
+import json
+import time
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import scan
+
+reload(sys)
+sys.path.append("../../")
+from global_config import pre_flow_text, type_flow_text
+from global_utils import es_flow_text, es_retweet
+from time_utils import ts2hour,ts2datetime, datetime2ts
+es_text = es_flow_text
+
+def user_fansnum(event, start_ts, end_ts, type=1):
+    query_body = {
+        query_body,
+        "size":100000,
+        "sort":{"user_fansnum":"desc"}
+    }
+
+    st = start_ts
+    et = end_ts
+    index_list = pre_flow_text+ts2datetime(st)
+
+    uid_set = set()
+    count = 0
+    total_count = 0
+    total_fans = 0 #参与者用户粉丝数
+    total_origin = 0 #原创微博数
+    total_origin_ts = 0
+    total_retweet = 0 #转发微博数
+    total_retweet_ts = 0
+    total_comment = 0
+
+    origin_important_hour = [] # 重要微博发布时间
+    origin_important_user = [] # 重要的参与者，会引发新的传播
+    #origin_important_user_10000 = []
+    origin_important_user_count = 0
+    origin_important_user_retweet = 0 # 重要用户最近被转发量
+    #important_user_retweet_10000 = 0
+
+    retweet_important_hour = []
+    retweet_important_user = []
+    retweet_important_user_count = 0
+    retweet_important_user_retweet = 0
+
+    positive_count = 0
+    neutral_count = 0
+    negetive_count = 0
+    search_results = es_event.search(index=index_list, doc_type="text", body=query_body)["hits"]["hits"]
+    #search_results = es_event.search(index="event", doc_type="text", body=query_body)["hits"]["hits"]
+    total_count = len(search_results)
+    for item in search_results:
+        if item["_source"]["user_fansnum"] >= 100000: # 重要参与者
+            if int(item["_source"]["message_type"]) == 1:
+                origin_important_user.append(item["_source"]["uid"])
+                tmp_ts = item["_source"]["timestamp"]
+                origin_important_hour.append(ts2hour(tmp_ts))
+            elif int(item["_source"]["message_type"]) == 3:
+                retweet_important_user.append(item["_source"]["uid"])
+                tmp_ts = item["_source"]["timestamp"]
+                retweet_important_hour.append(ts2hour(tmp_ts))
+       
+
+        if int(item["_source"]["message_type"]) == 1:
+            total_origin += 1 # origin ratio
+            total_origin_ts += ts2hour(item["_source"]["timestamp"])
+            total_fans += item["_source"]["user_fansnum"] #
+        elif int(item["_source"]["message_type"]) == 3:
+            total_retweet += 1 # retweet ratio
+            total_retweet_ts += ts2hour(item["_source"]["timestamp"])
+            total_fans += item["_source"]["user_fansnum"] #
+        else:
+            total_comment += 1
+
+        # 情绪统计
+        if int(item["_source"]["sentiment"]) == 1:
+            positive_count += 1
+        elif int(item["_source"]["sentiment"]) == 2:
+            neutral_count += 1
+        else:
+            negetive_count += 1
+
+    try:
+        average_origin_imp_hour = sum(origin_important_hour)/float(len(origin_important_hour))
+    except:
+        average_origin_imp_hour = 0
+    try:
+        average_retweet_imp_hour = sum(retweet_important_hour)/float(len(retweet_important_hour))
+    except:
+        average_retweet_imp_hour = 0
+
+    # 重要参与用户的最近一周的转发量
+    if origin_important_user:
+        results = es_retweet.mget(index="be_retweet", doc_type="user", body={"ids":list(origin_important_user)})["docs"]
+        for item in results:
+            if item["found"]:
+                tmp = json.loads(item["_source"]["uid_be_retweet"]).values()
+                tmp_result = 0
+                for i in tmp:
+                    tmp_result += int(i)
+                origin_important_user_retweet += tmp_result   
+    origin_important_user_count = len(origin_important_user)
+
+    if retweet_important_user:
+        results = es_retweet.mget(index="be_retweet", doc_type="user", body={"ids":list(retweet_important_user)})["docs"]
+        for item in results:
+            if item["found"]:
+                tmp = json.loads(item["_source"]["uid_be_retweet"]).values()
+                tmp_result = 0
+                for i in tmp:
+                    tmp_result += int(i)
+                retweet_important_user_retweet += tmp_result   
+    retweet_important_user_count = len(retweet_important_user)
+
+    return [total_fans,total_origin,total_retweet,total_comment, positive_count,neutral_count,negetive_count, origin_important_user_count, origin_important_user_retweet, retweet_important_user_count, retweet_important_user_retweet,average_origin_imp_hour,average_retweet_imp_hour,total_count]
+
+
+if __name__ == "__main__":
+    print user_fansnum(["维稳维权"], 1479164400, 1479164400+3600)
+
