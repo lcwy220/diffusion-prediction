@@ -11,6 +11,9 @@ def ts2datetime(ts):
 def ts2date(ts):
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(ts))
 
+def ts2hour(ts):
+    return int(time.strftime('%H', time.localtime(ts)))
+
 def datetime2ts(date):
     return int(time.mktime(time.strptime(date, '%Y-%m-%d')))
 

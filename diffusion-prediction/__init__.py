@@ -5,17 +5,10 @@ from elasticsearch import Elasticsearch
 from flask_debugtoolbar import DebugToolbarExtension
 from user_portrait.extensions import admin
 from user_portrait.jinja import gender, tsfmt, Int2string, gender_text, user_email, user_location, user_birth, user_vertify, weibo_source
-from user_portrait.index.views import mod as indexModule
-from user_portrait.attribute.views import mod as attributeModule
+from user_portrait.social_sensing.views import mod as socialsensingModule
+from user_portrait.prediction.views import mod as predictionModule
 from user_portrait.manage.views import mod as manageModule
-from user_portrait.recommentation.views import mod as recommentationModule
-from user_portrait.profile.views import mod as profileModule
-from user_portrait.overview.views import mod as overviewModule
-from user_portrait.influence_application.views import mod as influenceModule
-from user_portrait.login.views import mod as loginModule
-from user_portrait.group.views import mod as groupModule
-from user_portrait.tag.views import mod as tagModule
-from user_portrait.weibo.views import mod as weiboModule
+from user_portrait.interfere.views import mod as interfereModule
 
 def create_app():
     app = Flask(__name__)
@@ -25,18 +18,13 @@ def create_app():
     register_jinja_funcs(app)
 
     # Create modules
-    app.register_blueprint(indexModule)
+    app.register_blueprint(socialsensingModule)
+    app.register_blueprint(predictionModule)
     app.register_blueprint(manageModule)
-    app.register_blueprint(attributeModule)
-    app.register_blueprint(recommentationModule)
-    app.register_blueprint(overviewModule)
-    app.register_blueprint(influenceModule)
-    app.register_blueprint(loginModule)
-    app.register_blueprint(groupModule)
-    app.register_blueprint(tagModule)
-    app.register_blueprint(weiboModule)
+    app.register_blueprint(interfereModule)
     # the debug toolbar is only enabled in debug mode
     app.config['DEBUG'] = True
+
 
     app.config['ADMINS'] = frozenset(['youremail@yourdomain.com'])
     app.config['SECRET_KEY'] = 'SecretKeyForSessionSigning'
@@ -101,10 +89,10 @@ def create_app():
    
 
 def register_blueprints(app):
-    app.register_blueprint(indexModule)
+    app.register_blueprint(socialsensingModule)
     app.register_blueprint(manageModule)
-    app.register_blueprint(attributeModule)
-    app.register_blueprint(profileModule)
+    app.register_blueprint(predictionModule)
+    app.register_blueprint(interfereModule)
 
 def register_extensions(app):
     app.config.setdefault('ES_USER_PROFILE_URL', 'http://219.224.135.97:9208/')
