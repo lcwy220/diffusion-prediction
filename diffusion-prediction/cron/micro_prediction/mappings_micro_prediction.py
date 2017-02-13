@@ -85,10 +85,10 @@ def mappings_micro_task(task_name):
 
     return "1"
 
-def manage_micro_prediction_task():
+def manage_prediction_task():
     index_info = {
         "mappings":{
-            "micro_task":{
+            "prediction_task":{
                 "properties":{
                     "task_name":{
                         "type": "string",
@@ -102,17 +102,13 @@ def manage_micro_prediction_task():
                         "type": "string",
                         "index": "not_analyzed"
                     },
-                    "task_type":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
                     "prediction_time":{ # next stage prediction time
                         "type": "long"
                     },
                     "prediction_count":{ # next stage prediction value
                         "type": "long"
                     },
-                    "create_by":{
+                    "submit_user":{
                         "type": "string",
                         "index": "not_analyzed"
                     },
@@ -130,9 +126,11 @@ def manage_micro_prediction_task():
                         "type": "string",
                         "index": "not_analyzed"
                     },
-                    "history_status":{
-                        "type": "string",
-                        "index": "not_analyzed"
+                    "macro_during":{
+                        "type": "long",
+                    },
+                    "micro_during":{
+                        "type": "long",
                     },
                     "create_at":{
                         "type": "long"
@@ -140,7 +138,7 @@ def manage_micro_prediction_task():
                     "finish":{
                         "type": "string",
                         "index": "not_analyzed"
-                    },
+                    }
                 }
             }
         }

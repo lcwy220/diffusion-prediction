@@ -10,7 +10,8 @@ import json
 reload(sys)
 sys.path.append("../../")
 from global_utils import es_flow_text, es_prediction, r_micro
-from global_config import minimal_time_interval, pre_flow_text, type_flow_text, data_order, K
+from global_config import minimal_time_interval, pre_flow_text, type_flow_text, data_order, K,
+                            index_manage_prediction_task, type_manage_prediction_task, index_type_prediction_task
 from time_utils import ts2datetime, datetime2ts, ts2date
 
 # featrues are stored in task es with index_name of task_name 
@@ -166,16 +167,16 @@ def dispose_data(task_name,current_ts):
 
 
     # update prediction value in es
-    task_detail = es_prediction.get(index=index_manage_micro_task, \
-            doc_type=index_type_micro_task, id=task_name)["_source"]
+    task_detail = es_prediction.get(index=index_manage_prediction_task, \
+            doc_type=type_manage_prediction_task, id=task_name)["_source"]
     task_detail["prediction_time"] = current_ts + minimal_time_interval
-    if current_ts >= task_detail["stop_time"]:
+    if current_ts >= int(task_detail["stop_time"]):
         task_detail["finish"] = "1"
         task_detail["processing_status"] = "0"
 
     # update task info
-    es_prediction.index(index=index_manage_micro_task, \
-            doc_type=index_type_micro_task, id=task_name, body=task_detail)
+    es_prediction.index(index=index_manage_prediction_task, \
+            doc_type=type_manage_prediction_task, id=task_name, body=task_detail)
 
     # update prediction
     es_prediction.update(index=task_name, doc_type=index_type_micro_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})
