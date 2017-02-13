@@ -25,10 +25,11 @@ data_order = ["total_fans_number", "origin_weibo_number", "retweeted_weibo_numbe
         "origin_important_user_retweet", "retweet_important_user_count", "retweet_important_user_retweet", \
         "total_count", "average_origin_imp_hour", "average_retweet_imp_hour"]
 
-# micro prediction task manage index
-index_manage_micro_task = "manage_micro_prediction_task"
+# prediction task manage index
+index_manage_prediction_task = "manage_prediction_task"
+type_manage_prediction_task = "prediction_task"
 
 
-# detail micro prediction task
-index_type_micro_task = "micro_task"
+# detail prediction task
+index_type_prediction_task = "micro_task"
 
