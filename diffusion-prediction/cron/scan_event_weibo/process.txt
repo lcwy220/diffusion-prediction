@@ -1,0 +1,4 @@
+1. 从任务列表es获取需要执行的任务，包括event,query_body,start_ts,end_ts，push到redis队列
+2. 弹出任务，检查是否有相应的es
+3. 调用wildcard搜索一段时间内的关键词微博
+4. 搜索event-es里所有原创微博，再去es-flow搜索转发和评论

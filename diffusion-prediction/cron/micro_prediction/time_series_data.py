@@ -13,25 +13,21 @@ from global_utils import es_flow_text, es_prediction, r_micro
 from global_config import minimal_time_interval, pre_flow_text, type_flow_text, data_order, K
 from time_utils import ts2datetime, datetime2ts, ts2date
 
-def organize_feature(task_name, start_ts, end_ts, query_body):
+# featrues are stored in task es with index_name of task_name 
+# event is used to search weibo from es_prediction with event index_name
+# update time is current ts, start_ts = current_ts - 3600
+
+
+def organize_feature(task_name, event, start_ts, end_ts):
     data = []
     index_list = []
-    start_time = datetime2ts(ts2datetime(start_ts))
-    end_time = datetime2ts(ts2datetime(end_ts))
-    while 1:
-        start_date = ts2datetime(start_ts)
-        index_list.append(pre_flow_text+start_date)
-        if start_date == end_time:
-            break
-        else:
-            start_ts += 3600*24
 
 
     while 1:
         data_dict = dict()
         if start_ts > end_ts:
             break
-        results_list = user_fansnum(query_body, start_ts, start_ts+minimal_time_interval)
+        results_list = user_fansnum(event, start_ts, start_ts+minimal_time_interval)
         for i in range(len(data_order)):
             data_dict[data_order[i]] = results_list[i]
         data_dict["update_time"] = start_ts+minimal_time_interval
@@ -61,7 +57,7 @@ def dispose_data(task_name,current_ts):
         "query": {
             "range":{
                 "update_time":{
-                    "lt": current_ts
+                    "lte": current_ts
                 }
             }
         }
@@ -165,6 +161,8 @@ def dispose_data(task_name,current_ts):
     pred = gbdt.predict(feature_list)
     for item in pred:
         prediction_value = item
+        prediction_value = math.exp(prediction_value)
+        print prediction_value
 
 
     # update prediction value in es
@@ -175,8 +173,12 @@ def dispose_data(task_name,current_ts):
         task_detail["finish"] = "1"
         task_detail["processing_status"] = "0"
 
+    # update task info
     es_prediction.index(index=index_manage_micro_task, \
             doc_type=index_type_micro_task, id=task_name, body=task_detail)
+
+    # update prediction
+    es_prediction.update(index=task_name, doc_type=index_type_micro_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})
 
     return True
 

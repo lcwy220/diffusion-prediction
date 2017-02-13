@@ -79,7 +79,9 @@ def mappings_micro_task(task_name):
         }
     }
 
-    es.indices.create(index=index_name, body=index_info, ignore=400)
+    if not es.indices.exists(index=task_name):
+
+        es.indices.create(index=index_name, body=index_info, ignore=400)
 
     return "1"
 
@@ -144,7 +146,9 @@ def manage_micro_prediction_task():
         }
     }
 
-    es.indices.create(index="manage_micro_prediction_task", body=index_info, ignore=400)
+    if not es.indices.exists(index="manage_micro_prediction_task"):
+
+        es.indices.create(index="manage_micro_prediction_task", body=index_info, ignore=400)
 
 if __name__ == "__main__":
     manage_micro_prediction_task()

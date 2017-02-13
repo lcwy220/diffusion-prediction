@@ -40,7 +40,9 @@ def ajax_get_macro_prediction():
 # micro prediction
 @mod.route('/get_micro_prediction/')
 def ajax_get_micro_prediction():
+    task_name = request.args.get('task_name','')
     results = []
+    results = get_predict_count(task_name)
 
     return json.dumps(results)
 
