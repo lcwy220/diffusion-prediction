@@ -1,7 +1,7 @@
 # -*-coding:utf-8-*-
 
-from diffusion-prediction.global_utils import es_prediction
-from diffusion-prediction.global_config import minimal_time_interval
+from diffusion_prediction.global_utils import es_prediction
+from diffusion_prediction.global_config import minimal_time_interval
 
 def get_predict_count(task_name, start_ts, end_ts):
     query_body = {
@@ -12,7 +12,7 @@ def get_predict_count(task_name, start_ts, end_ts):
                     "lte": end_ts
                 }
             }
-        }，
+        },
         "sort":{"update_time":{"order":"asc"}},
         "size":100000
     }
@@ -40,7 +40,7 @@ def get_predict_count(task_name, start_ts, end_ts):
         return_list.append([ts_list[i], truth_value_list[i], prediction_value_list[i]])
 
     # final
-    return_list.append([ts_list[-1]+minimal_time_interval, 0, prediction_value_list[-1]]
+    return_list.append([ts_list[-1]+minimal_time_interval, 0, prediction_value_list[-1]])
 
     return json.dumps(return_list)
 

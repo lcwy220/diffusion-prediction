@@ -13,7 +13,7 @@ from time_utils import ts2datetime, datetime2ts, ts2date
 new_es = es_prediction
 es = es_flow_text
 
-def search_weibo():
+def search_weibo(task_name):
     query_body = {
         "query": {
             "match_all":{}
@@ -77,7 +77,6 @@ def scan_weibo(event, start_ts, end_ts):
                 try:
                     re_es = es_scan.next()
                     detail = re_es["_source"]
-                    detail["event"] = event
                     _id = detail["mid"]
                     action = {'index': {"_id": _id}}
                     bulk_action.extend([action, detail])
@@ -90,39 +89,6 @@ def scan_weibo(event, start_ts, end_ts):
                     if bulk_action:
                         new_es.bulk(bulk_action, index=event, doc_type="text", timeout=600)
                     break
-
-
-
-def query_start_ts(event):
-    query_body = {
-        "query":{
-            #"term":{"event": event}
-            "match_all":{}
-        },
-        "sort":{"timestamp":{"order":"asc"}},
-        "size": 1
-    }
-
-    start_ts = new_es.search(index=event, doc_type="text", body=query_body)["hits"]["hits"][0]["_source"]["timestamp"]
-
-    return start_ts
-
-def query_end_ts(event):
-    query_body = {
-        "query":{
-            #"term":{"event": event}
-            "match_all":{}
-        },
-        "sort":{"timestamp":{"order":"desc"}},
-        "size": 1
-    }
-
-    end_ts = new_es.search(index=event, doc_type="text", body=query_body)["hits"]["hits"][0]["_source"]["timestamp"]
-
-    return end_ts
-
-
-
 
 
 

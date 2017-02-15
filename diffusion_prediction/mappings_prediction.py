@@ -10,6 +10,10 @@ from global_config import type_manage_prediction_task, index_manage_prediction_t
 
 def manage_prediction_task():
     index_info = {
+        'settings':{
+            'number_of_replicas': 0,
+            'number_of_shards': 5
+        },
         "mappings":{
             type_manage_prediction_task:{
                 "properties":{
@@ -17,7 +21,15 @@ def manage_prediction_task():
                         "type": "string",
                         "index": "not_analyzed"
                     },
-                    "keywords":{
+                    "pinyin_task_name":{
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "must_keywords":{
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "should_keywords":{
                         "type": "string",
                         "index": "not_analyzed"
                     },
@@ -42,7 +54,7 @@ def manage_prediction_task():
                     "stop_time":{ # task end time
                         "type": "long"
                     },
-                    "start_time":{ # task start time
+                    "submit_time":{ # task start time
                         "type": "long"
                     },
                     "remark":{
@@ -55,8 +67,12 @@ def manage_prediction_task():
                     "micro_during":{
                         "type": "long",
                     },
-                    "create_at":{
-                        "type": "long"
+                    "scan_text_time":{
+                        "type": "long",
+                    },
+                    "scan_text_processing":{
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "finish":{
                         "type": "string",
@@ -72,6 +88,6 @@ def manage_prediction_task():
         es.indices.create(index=index_manage_prediction_task, body=index_info, ignore=400)
 
 if __name__ == "__main__":
-    manage_micro_prediction_task()
+    manage_prediction_task()
 
 

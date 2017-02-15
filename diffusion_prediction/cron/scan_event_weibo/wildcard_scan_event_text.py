@@ -3,6 +3,7 @@
 import time
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
+from event_text_mappings import get_mappings
 
 import sys
 reload(sys)
@@ -22,8 +23,22 @@ def ts2date(ts):
 
 
 # 事件关键词列表，起始时间(2016-12-08)，终止时间(2016-12-10)，搜索类型
-def scan_event_text(event, query_body, start_ts, end_ts):
-    index_name = event
+def scan_event_text(task_name, must_keywords, should_keywords,end_ts, start_ts):
+    index_name = task_name
+    get_mappings(task_name)
+    must_words = must_keywords.split("&")
+    should_words = should_keywords.split("&")
+    must_list = []
+    should_list = []
+    if must_words:
+        for item in must_words:
+            must_list.append({"wildcard":{"text":"*"+item+"*"}})
+    must_list.append({"range":{"timestamp":{"gte": start_ts, "lte": end_ts}}})
+
+    if should_words:
+        for item in should_words:
+            should_list.append({"wildcard":{"text":"*"+item+"*"}})
+
     index_list = []
     end_time = ts2datetime(end_ts)
     while 1:
@@ -39,7 +54,8 @@ def scan_event_text(event, query_body, start_ts, end_ts):
     query_body = {
         "query":{
             "bool":{
-                query_body
+                "must": must_list,
+                "should": should_list
             }
         },
         "size":2000
@@ -54,7 +70,6 @@ def scan_event_text(event, query_body, start_ts, end_ts):
             try:
                 re_es = es_scan.next()
                 detail = re_es["_source"]
-                detail["event"] = event
                 _id = detail["mid"]
                 action = {'index': {"_id": _id}}
                 bulk_action.extend([action, detail])
@@ -72,11 +87,4 @@ def scan_event_text(event, query_body, start_ts, end_ts):
 
 
 if __name__ == "__main__":
-    event_list = [["中国"],["地球仪"]]
-    aa = []
-    for each in event_list:
-        for iter in each:
-            aa.append(iter.decode("utf-8"))
-    event_name = "&".join(aa)
-    print event_name.encode("utf-8")
     scan_event_text(event_name, event_list, "2017-01-04","2017-01-10")

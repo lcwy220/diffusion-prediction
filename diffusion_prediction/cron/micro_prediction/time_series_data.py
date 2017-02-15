@@ -22,6 +22,7 @@ from time_utils import ts2datetime, datetime2ts, ts2date
 def organize_feature(task_name, event, start_ts, end_ts):
     data = []
     index_list = []
+    task_name = "micro_prediction_" + task_name
 
 
     while 1:
@@ -46,6 +47,8 @@ def organize_feature(task_name, event, start_ts, end_ts):
 # organise data feature
 
 def dispose_data(task_name,current_ts):
+    origin_task_name = task_name
+    task_name = "micro_prediction_" + task_name
     query_body = {
         "query": {
             "match_all":{}
@@ -168,15 +171,14 @@ def dispose_data(task_name,current_ts):
 
     # update prediction value in es
     task_detail = es_prediction.get(index=index_manage_prediction_task, \
-            doc_type=type_manage_prediction_task, id=task_name)["_source"]
-    task_detail["prediction_time"] = current_ts + minimal_time_interval
+            doc_type=type_manage_prediction_task, id=origin_task_name)["_source"]
     if current_ts >= int(task_detail["stop_time"]):
         task_detail["finish"] = "1"
         task_detail["processing_status"] = "0"
 
-    # update task info
-    es_prediction.index(index=index_manage_prediction_task, \
-            doc_type=type_manage_prediction_task, id=task_name, body=task_detail)
+        # update task info
+        es_prediction.index(index=index_manage_prediction_task, \
+            doc_type=type_manage_prediction_task, id=origin_task_name, body=task_detail)
 
     # update prediction
     es_prediction.update(index=task_name, doc_type=index_type_micro_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})

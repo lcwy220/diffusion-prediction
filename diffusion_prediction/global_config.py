@@ -2,7 +2,7 @@
 
 ES_FLOW_TEXT_PORT = ["219.224.134.216:9201", "219.224.134.217:9201"]
 ES_BE_RETWEET_PORT = ["219.224.134.216:9201", "219.224.134.217:9201"]
-ES_PREDICTION_PORT = ["219.224.134.216:9201", "219.224.134.217:9201"]
+ES_PREDICTION_PORT = ["219.224.134.216:9202"]
 
 REDIS_HOST = "219.224.134.213"
 REDIS_PORT = "7371"
@@ -32,4 +32,7 @@ type_manage_prediction_task = "prediction_task"
 
 # detail prediction task
 index_type_prediction_task = "micro_task"
+
+# task_list scan text
+task_scan_text = "task_scan_text"
 

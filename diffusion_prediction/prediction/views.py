@@ -1,13 +1,14 @@
 #-*- coding:utf-8 -*-
 
 import os
+import pinyin
 import time
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 
-from diffusion-prediction.time_utils import ts2datetime, datetime2ts
-from diffusion-prediction.global_utils import es_prediction
-from diffusion-prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
+from diffusion_prediction.time_utils import ts2datetime, datetime2ts
+from diffusion_prediction.global_utils import es_prediction
+from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
 
 from utils import get_predict_count
 
@@ -17,33 +18,40 @@ mod = Blueprint('prediction', __name__, url_prefix='/prediction')
 # create task
 @mod.route('/create_task/')
 def ajax_create_task():
-    finish = 0
+    finish = ["0"]
     task_name = request.args.get('task_name','')
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     submit_user = request.args.get('submit_user', 'admin@qq.com')
     stop_time = request.args.get('stop_time', "")
     remark = request.args.get('remark', '')
     submit_time = time.time()
     macro_during = request.args.get('macro_during', 3600)
-    micro_during = reuqest.args.get("micro_during", 3600)
-    query_body = reuqest.args.get('query_body', '') # revise
+    micro_during = request.args.get("micro_during", 3600)
+    must_keywords = request.args.get('must_keywords', '') # &&&
+    should_keywords = request.args.get('should_keywords', '')
 
     task_detail = dict()
     task_detail["task_name"] = task_name
+    task_detail['pinyin_task_name'] = pinyin_task_name
     task_detail["submit_user"] = submit_user
-    task_detail["stop_time"] = stop_time
+    task_detail["stop_time"] = int(stop_time)
     task_detail["remark"] = remark
-    task_detail["submit_time"] = submit_time
+    task_detail["must_keywords"] = must_keywords
+    task_detail["should_keywords"] = should_keywords
+    task_detail["submit_time"] = int(submit_time)
     task_detail["macro_during"] = macro_during
     task_detail["micro_during"] = micro_during
-    task_detail["query_body"] = query_body
-    task_detail["finish"] = 0
+    task_detail["finish"] = "0" # micro prediction finish
+    task_detail["scan_text_time"] = submit_time # 上一次复制文本的时间
+    task_detail["scan_text_processing"] = "0" # 是否正在复制微博文本
 
 
-    exist_task = es_prediction.exists(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=task_name)
+    exist_task = es_prediction.exists(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=pinyin_task_name)
     if not exist_task:
-        es_prediction.index(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=task_name, body=task_detail)
+        es_prediction.index(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=pinyin_task_name, body=task_detail)
+        finish = ["1"]
 
-    return finish
+    return json.dumps(finish)
 
 
 # show task

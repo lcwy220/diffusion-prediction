@@ -3,12 +3,12 @@
 from flask import Flask
 from elasticsearch import Elasticsearch
 from flask_debugtoolbar import DebugToolbarExtension
-from user_portrait.extensions import admin
-from user_portrait.jinja import gender, tsfmt, Int2string, gender_text, user_email, user_location, user_birth, user_vertify, weibo_source
-from user_portrait.social_sensing.views import mod as socialsensingModule
-from user_portrait.prediction.views import mod as predictionModule
-from user_portrait.manage.views import mod as manageModule
-from user_portrait.interfere.views import mod as interfereModule
+from diffusion_prediction.extensions import admin
+from diffusion_prediction.jinja import gender, tsfmt, Int2string, gender_text, user_email, user_location, user_birth, user_vertify, weibo_source
+from diffusion_prediction.social_sensing.views import mod as socialsensingModule
+from diffusion_prediction.prediction.views import mod as predictionModule
+from diffusion_prediction.manage.views import mod as manageModule
+#from diffusion_prediction.interfere.views import mod as interfereModule
 
 def create_app():
     app = Flask(__name__)
@@ -21,7 +21,7 @@ def create_app():
     app.register_blueprint(socialsensingModule)
     app.register_blueprint(predictionModule)
     app.register_blueprint(manageModule)
-    app.register_blueprint(interfereModule)
+    #app.register_blueprint(interfereModule)
     # the debug toolbar is only enabled in debug mode
     app.config['DEBUG'] = True
 
@@ -92,13 +92,11 @@ def register_blueprints(app):
     app.register_blueprint(socialsensingModule)
     app.register_blueprint(manageModule)
     app.register_blueprint(predictionModule)
-    app.register_blueprint(interfereModule)
+    #app.register_blueprint(interfereModule)
 
 def register_extensions(app):
-    app.config.setdefault('ES_USER_PROFILE_URL', 'http://219.224.135.97:9208/')
-    app.extensions['es_user_profile'] = Elasticsearch(app.config['ES_USER_PROFILE_URL'])
-    app.config.setdefault('ES_USER_PORTRAIT_URL', 'http://219.224.135.93:9200/')
-    app.extensions['es_user_portrait'] = Elasticsearch(app.config['ES_USER_PORTRAIT_URL'])
+    app.config.setdefault('ES_URL', 'http://219.224.134.216:9202/')
+    app.extensions['es_prediction'] = Elasticsearch(app.config['ES_URL'])
 
 def register_jinja_funcs(app):
     funcs = dict(gender=gender,

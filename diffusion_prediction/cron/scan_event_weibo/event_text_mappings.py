@@ -4,11 +4,14 @@ import sys
 reload(sys)
 sys.path.append("../../")
 
+import pinyin
 from global_utils import es_prediction as es
 
 def get_mappings(index_name):
     index_info = {
             'settings':{
+                'number_of_replicas': 0,
+                'number_of_shards': 5,
                 'analysis':{
                     'analyzer':{
                         'my_analyzer':{
@@ -119,5 +122,6 @@ def get_mappings(index_name):
         es.indices.create(index=index_name, body=index_info, ignore=400)
 
 if __name__=='__main__':
-    get_mappings("event-0118")
+    task_name = pinyin.get("十四年抗战", format="strip", delimiter="_")
+    get_mappings(task_name)
     #es.indices.put_mapping(index="monitored_text", doc_type="text", body={'properties':{"category":{"type":"string"}}}, ignore=400)

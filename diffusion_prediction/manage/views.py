@@ -5,7 +5,7 @@ import time
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 
-from diffusion-prediction.time_utils import ts2datetime, datetime2ts
+from diffusion_prediction.time_utils import ts2datetime, datetime2ts
 
 
 mod = Blueprint('manage', __name__, url_prefix='/manage')

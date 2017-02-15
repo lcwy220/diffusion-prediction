@@ -17,7 +17,12 @@ es = es_prediction
 def user_fansnum(event, start_ts, end_ts):
     query_body = {
         "query":{
-            "match_all":{}
+            "range":{
+                "timestamp":{
+                    "gte": start_ts,
+                    "lt": end_ts
+                }
+            }
         }
     }
 
