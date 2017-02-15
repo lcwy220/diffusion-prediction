@@ -35,4 +35,6 @@ index_type_prediction_task = "micro_task"
 
 # task_list scan text
 task_scan_text = "task_scan_text"
+type_macro_feature_result = "macro_feature_result"
+
 

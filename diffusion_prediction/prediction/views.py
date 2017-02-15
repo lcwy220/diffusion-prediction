@@ -45,6 +45,9 @@ def ajax_create_task():
     task_detail["scan_text_time"] = submit_time # 上一次复制文本的时间
     task_detail["scan_text_processing"] = "0" # 是否正在复制微博文本
 
+    task_detail["macro_value_finish"] = '0'
+    task_detail["macro_trendline_finish"] = '0'
+
 
     exist_task = es_prediction.exists(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=pinyin_task_name)
     if not exist_task:
