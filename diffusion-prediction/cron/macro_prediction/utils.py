@@ -107,7 +107,7 @@ def save_event_info_results(event,topic_field,total_num,total_user_fans,\
     print 'pinyin:',pinyin.get(event, format="strip", delimiter="_")
     pinyin_event = pinyin.get(event, format="strip", delimiter="_")
 
-    mappings_event_info()
+    macro_feature_result(pinyin_event)
 
     index_name = 'macro_event_info'
     id = pinyin_event

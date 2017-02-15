@@ -72,6 +72,7 @@ def train_gbdt():
     print 'training_data_1',len(training_data)   
     
     traing_value = []
+    
     '''
     #event-1228
     with open("0116_005_truth_delete2_1228.txt") as f:
@@ -126,13 +127,9 @@ def train_gbdt():
         f.write(json.dumps(prediction))
 
     #把模型存到硬盘
-    #with open("all_gbdt_10_1000_4.pkl" ,"wb") as f:
-    #    pickle.dump(gbdt, f)
+    with open("macro-prediction-value.pkl" ,"wb") as f:
+        pickle.dump(gbdt, f)
     
-    #从硬盘中加载模型，然后实例化使用。
-    #with open("all_gbdt_10_1000_4.pkl" ,"rb") as f:
-    #    pickle.loads(gbdt, f)
-
 
 if __name__ == "__main__":
     train_gbdt()

@@ -33,3 +33,6 @@ type_manage_prediction_task = "prediction_task"
 # detail prediction task
 index_type_prediction_task = "micro_task"
 
+type_macro_feature_result = "macro_feature_result"
+
+
