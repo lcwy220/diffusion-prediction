@@ -36,8 +36,10 @@ def ajax_create_task():
     task_detail["macro_during"] = macro_during
     task_detail["micro_during"] = micro_during
     task_detail["query_body"] = query_body
-    task_detail["finish"] = 0
-
+    task_detail["finish"] = '0'
+    task_detail["macro_value_finish"] = '0'
+    task_detail["macro_trendline_finish"] = '0'
+    
 
     exist_task = es_prediction.exists(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=task_name)
     if not exist_task:
