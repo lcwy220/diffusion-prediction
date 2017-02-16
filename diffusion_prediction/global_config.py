@@ -36,5 +36,8 @@ index_type_prediction_task = "micro_task"
 # task_list scan text
 task_scan_text = "task_scan_text"
 type_macro_feature_result = "macro_feature_result"
+task_micro_prediction = "task_micro_prediction"
+task_trendline = "task_trendline"
+pre_trendline = "trendline_"
 
 

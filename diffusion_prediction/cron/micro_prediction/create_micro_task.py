@@ -1,5 +1,8 @@
 # -*-coding:utf-8-*-
 
+from mappings_micro_prediction import mappings_micro_task
+from time_series_data import *
+
 import sys
 reload(sys)
 sys.path.append('../../')
@@ -20,4 +23,54 @@ def create_task():
             doc_type=type_manage_prediction_task, body=query_body)["hits"]["hits"]
     for item in results:
         task_name = item["_source"]["pinyin_task_name"]
+        print "push task_name: ", task_name
         r_micro.lpush(task_micro_prediction, json.dumps(task_name, item["_source"]["scan_text_time"], current_ts))
+
+
+def task_list():
+    create_task()
+    while 1:
+        task_detail = r_micro.rpop(task_micro_prediction)
+        if not task_detail:
+            break
+
+        task_detail = json.loads(task_detail)
+        task_name = task_detail[0]
+        start_ts = task_detail[1]
+        end_ts = task_detail[2]
+
+        mappings_micro_task("micro_prediction_"+task_name)
+
+        while 1:
+            es_result = es_prediction.get(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=task_name)["_source"]
+            if int(es_result["scan_text_processing"]) == 0:
+                break
+            else:
+                time.sleep(60)
+
+        organize_feature(task_name, task_name, start_ts, end_ts)
+        dispose_data(task_name, end_ts)
+
+def test():
+    task_name = "mao_ze_dong_dan_chen_ji_nian_ri"
+    start_ts = 1482681600
+    end_ts = 1483113600
+    mappings_micro_task("micro_prediction_"+task_name)
+
+    while 1:
+
+        if start_ts > end_ts:
+            break
+        organize_feature(task_name, task_name,start_ts, start_ts+3600)
+        dispose_data(task_name, start_ts+3600)
+        start_ts += 3600
+
+
+
+if __name__ == "__main__":
+    #task_list()
+    test()
+
+
+
+

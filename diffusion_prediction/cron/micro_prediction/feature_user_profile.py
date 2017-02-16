@@ -8,7 +8,7 @@ from elasticsearch.helpers import scan
 
 reload(sys)
 sys.path.append("../../")
-from global_config import pre_flow_text, type_flow_text
+from global_config import pre_flow_text, type_flow_text,index_type_be_retweet, index_be_retweet
 from global_utils import es_flow_text, es_retweet, es_prediction
 from time_utils import ts2hour,ts2datetime, datetime2ts
 es_text = es_flow_text
@@ -61,7 +61,7 @@ def user_fansnum(event, start_ts, end_ts):
     while 1:
         try:
             es_re = es_scan.next()
-            item = es_re["_source"]
+            item = es_re
             if item["_source"]["user_fansnum"] >= 100000: # 重要参与者
                 if int(item["_source"]["message_type"]) == 1:
                     origin_important_user.append(item["_source"]["uid"])
@@ -106,7 +106,7 @@ def user_fansnum(event, start_ts, end_ts):
 
     # 重要参与用户的最近一周的转发量
     if origin_important_user:
-        results = es_retweet.mget(index="be_retweet", doc_type="user", body={"ids":list(origin_important_user)})["docs"]
+        results = es_retweet.mget(index=index_be_retweet, doc_type=index_type_be_retweet, body={"ids":list(origin_important_user)})["docs"]
         for item in results:
             if item["found"]:
                 tmp = json.loads(item["_source"]["uid_be_retweet"]).values()
@@ -117,7 +117,7 @@ def user_fansnum(event, start_ts, end_ts):
     origin_important_user_count = len(origin_important_user)
 
     if retweet_important_user:
-        results = es_retweet.mget(index="be_retweet", doc_type="user", body={"ids":list(retweet_important_user)})["docs"]
+        results = es_retweet.mget(index=index_be_retweet, doc_type=index_type_be_retweet, body={"ids":list(retweet_important_user)})["docs"]
         for item in results:
             if item["found"]:
                 tmp = json.loads(item["_source"]["uid_be_retweet"]).values()
@@ -126,8 +126,9 @@ def user_fansnum(event, start_ts, end_ts):
                     tmp_result += int(i)
                 retweet_important_user_retweet += tmp_result   
     retweet_important_user_count = len(retweet_important_user)
+    total_count = total_origin+total_retweet+total_comment
 
-    return [total_fans,total_origin,total_retweet,total_comment, positive_count,neutral_count,negetive_count, origin_important_user_count, origin_important_user_retweet, retweet_important_user_count, retweet_important_user_retweet,average_origin_imp_hour,average_retweet_imp_hour,total_count]
+    return [total_fans,total_origin,total_retweet,total_comment, positive_count,neutral_count,negetive_count, origin_important_user_count, origin_important_user_retweet, retweet_important_user_count, retweet_important_user_retweet,total_count,average_origin_imp_hour,average_retweet_imp_hour]
 
 
 if __name__ == "__main__":

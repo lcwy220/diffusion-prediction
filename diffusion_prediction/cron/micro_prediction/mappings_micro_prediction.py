@@ -10,6 +10,9 @@ from global_utils import es_prediction as es
 
 def mappings_micro_task(task_name):
     index_info = {
+        "settings":{
+            "number_of_replicas":0
+            },
         "mappings":{
             "micro_task":{
                 "properties":{
@@ -81,75 +84,12 @@ def mappings_micro_task(task_name):
 
     if not es.indices.exists(index=task_name):
 
-        es.indices.create(index=index_name, body=index_info, ignore=400)
+        es.indices.create(index=task_name, body=index_info, ignore=400)
 
     return "1"
 
-def manage_prediction_task():
-    index_info = {
-        "mappings":{
-            "prediction_task":{
-                "properties":{
-                    "task_name":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "keywords":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "query_body":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "prediction_time":{ # next stage prediction time
-                        "type": "long"
-                    },
-                    "prediction_count":{ # next stage prediction value
-                        "type": "long"
-                    },
-                    "submit_user":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "processing_status":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "stop_time":{ # task end time
-                        "type": "long"
-                    },
-                    "start_time":{ # task start time
-                        "type": "long"
-                    },
-                    "remark":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "macro_during":{
-                        "type": "long",
-                    },
-                    "micro_during":{
-                        "type": "long",
-                    },
-                    "create_at":{
-                        "type": "long"
-                    },
-                    "finish":{
-                        "type": "string",
-                        "index": "not_analyzed"
-                    }
-                }
-            }
-        }
-    }
-
-    if not es.indices.exists(index="manage_micro_prediction_task"):
-
-        es.indices.create(index="manage_micro_prediction_task", body=index_info, ignore=400)
 
 if __name__ == "__main__":
-    manage_micro_prediction_task()
     es.indices.create(index="micro_prediction_task", ignore=400)
 
 

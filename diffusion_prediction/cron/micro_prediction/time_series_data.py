@@ -10,7 +10,7 @@ import json
 reload(sys)
 sys.path.append("../../")
 from global_utils import es_flow_text, es_prediction, r_micro
-from global_config import minimal_time_interval, pre_flow_text, type_flow_text, data_order, K,
+from global_config import minimal_time_interval, pre_flow_text, type_flow_text, data_order, K,\
                             index_manage_prediction_task, type_manage_prediction_task, index_type_prediction_task
 from time_utils import ts2datetime, datetime2ts, ts2date
 
@@ -35,12 +35,11 @@ def organize_feature(task_name, event, start_ts, end_ts):
         data_dict["update_time"] = start_ts+minimal_time_interval
         start_ts += minimal_time_interval
         print start_ts
-        es_prediction.index(index=task_name, doc_type=index_type_micro_task, id=start_ts, body=data_dict)
+        es_prediction.index(index=task_name, doc_type=index_type_prediction_task, id=start_ts, body=data_dict)
 
     #data_list = [total_fans_list,total_origin_list,total_retweet_list,total_comment_list,positive_count_list,neutral_count_list,negetive_count_list,origin_important_user_count,origin_important_user_retweet,retweet_important_user_count,retweet_important_user_retweet, total_count,average_origin_imp_hour_list,average_retweet_imp_hour_list]
     #y_value = total_count
 
-    print item.encode("utf-8")
 
 
 # search the lastest 12 time interval data
@@ -85,12 +84,13 @@ def dispose_data(task_name,current_ts):
     average_retweet_imp_hour_list = []
 
     feature_list = []
-    results = es_prediction.search(index=task_name, doc_type=index_type_micro_task, body=query_body)["hits"]["hits"]
-    location = es_prediction.count(index=task_name, doc_type=index_type_micro_task, body=sort_query_body)["count"]
+    results = es_prediction.search(index=task_name, doc_type=index_type_prediction_task, body=query_body)["hits"]["hits"]
+    location = es_prediction.count(index=task_name, doc_type=index_type_prediction_task, body=sort_query_body)["count"]
 
     if len(results) != K:
         short_len = K - len(results)
         results.extend([[]]*short_len)
+    print "result: ", len(results), K
     results.reverse()
     for item in results:
         if item:
@@ -124,9 +124,11 @@ def dispose_data(task_name,current_ts):
             average_origin_imp_hour_list.append(0)
             average_retweet_imp_hour_list.append(0)
             total_count.append(0)
+    print total_count
 
     # feature
-    feature_list.append(location)
+    feature_list.append(location+1)
+    feature_list.append(total_count[-1]+total_count[-3]-2*total_count[-2])
     for each in total_fans_list:
         feature_list.append(math.log(int(each)+1))
     for each in origin_important_user_retweet:
@@ -181,7 +183,7 @@ def dispose_data(task_name,current_ts):
             doc_type=type_manage_prediction_task, id=origin_task_name, body=task_detail)
 
     # update prediction
-    es_prediction.update(index=task_name, doc_type=index_type_micro_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})
+    es_prediction.update(index=task_name, doc_type=index_type_prediction_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})
 
     return True
 

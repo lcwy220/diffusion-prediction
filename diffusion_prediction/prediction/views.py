@@ -9,6 +9,7 @@ from flask import Blueprint, url_for, render_template, request, abort, flash, se
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts
 from diffusion_prediction.global_utils import es_prediction
 from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
+from diffusion_prediction.time_utils import ts2datehour, datehour2ts
 
 from utils import get_predict_count
 
@@ -22,9 +23,10 @@ def ajax_create_task():
     task_name = request.args.get('task_name','')
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     submit_user = request.args.get('submit_user', 'admin@qq.com')
+    current_ts = int(time.time())
+    submit_time = request.args.get('submit_time', current_ts)
     stop_time = request.args.get('stop_time', "")
     remark = request.args.get('remark', '')
-    submit_time = time.time()
     macro_during = request.args.get('macro_during', 3600)
     micro_during = request.args.get("micro_during", 3600)
     must_keywords = request.args.get('must_keywords', '') # &&&
@@ -42,7 +44,7 @@ def ajax_create_task():
     task_detail["macro_during"] = macro_during
     task_detail["micro_during"] = micro_during
     task_detail["finish"] = "0" # micro prediction finish
-    task_detail["scan_text_time"] = submit_time # 上一次复制文本的时间
+    task_detail["scan_text_time"] = datehour2ts(ts2datehour(float(submit_time))) # 上一次复制文本的时间
     task_detail["scan_text_processing"] = "0" # 是否正在复制微博文本
 
     task_detail["macro_value_finish"] = '0'
