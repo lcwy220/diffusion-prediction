@@ -16,7 +16,10 @@ def create_task():
     current_ts = datehour2ts(ts2datehour(ts))
     query_body = {
         "query": {
-            "term":{"finish":"0"}
+            "should":[
+                {"term":{"finish":"0"}},
+                {"term":{"macro_value_finish": "0"}},
+                {"term":{"macro_trendline_finish": "0"}}
         },
         "size":10000
     }
