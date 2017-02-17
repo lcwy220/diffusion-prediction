@@ -1,3 +1,4 @@
+
 #-*- coding:utf-8 -*-
 
 import os
@@ -7,7 +8,7 @@ import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts
-from diffusion_prediction.global_utils import es_prediction
+from diffusion_prediction.global_utils import es_prediction, r_trendline
 from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
 from diffusion_prediction.time_utils import ts2datehour, datehour2ts
 
@@ -78,14 +79,23 @@ def ajax_show_task():
 
     return json.dumps(task_list)
 
+@mod.route('/delete_task/')
+def ajax_delete_task():
+    task_name = request.args.get("task_name", "")
+    if task_name:
+        es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=task_name)
+
+    return json.dumps(["1"])
+
+# macro trendline prediction
+@mod.route('/get_macro_trendline/')
+def ajax_get_macro_trendline():
+    task_name = request.args.get('task_name','')
+    pinyin_task_name = "trendline_"+task_name
+    results = r_trendline.get(pinyin_task_name)
 
 
-# macro prediction
-@mod.route('/get_macro_prediction/')
-def ajax_get_macro_prediction():
-    results = []
-
-    return json.dumps(results)
+    return results
 
 
 
@@ -102,3 +112,9 @@ def ajax_get_micro_prediction():
 
     return results
 
+# macro value prediction
+@mod.route('/get_macro_prediction/')
+def ajax_get_macro_prediction():
+
+
+    return None

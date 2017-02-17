@@ -1,5 +1,7 @@
 # -*-coding:utf-8-*-
 
+import time
+import json
 from dispose_data import dispose_data
 from weibo_series_prediction import *
 
@@ -9,6 +11,7 @@ sys.path.append('../../')
 from global_utils import es_prediction, r_trendline
 from global_config import task_trendline,index_manage_prediction_task, type_manage_prediction_task,\
         index_type_prediction_task, pre_trendline
+from time_utils import ts2datehour, datehour2ts
 
 def create_task():
     ts = time.time()
@@ -24,7 +27,12 @@ def create_task():
             doc_type=type_manage_prediction_task, body=query_body)["hits"]["hits"]
     for item in results:
         task_name = item["_source"]["pinyin_task_name"]
-        r_trendline.lpush(task_trendline, task_name)
+        stop_time = item["_source"]["stop_time"]
+        if stop_time < ts:
+            es_prediction.update(index=index_manage_prediction_task,\
+                    doc_type=type_manage_prediction_task, id=task_name,  body={"doc":{"macro_trendline_finish":"1"}})
+        else:
+            r_trendline.lpush(task_trendline, task_name)
 
 
 def task_list():
@@ -38,6 +46,7 @@ def task_list():
 
         # obtain time series
         value, total_len, time_list = dispose_data(task_name)
+        print value, time_list
 
         # weibo prediction
         k = 5
@@ -61,7 +70,7 @@ def task_list():
 
 
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
     create_task()
     task_list()
 

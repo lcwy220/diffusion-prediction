@@ -1,11 +1,15 @@
 # -*-coding:utf-8-*-
 
+RUN_TYPE=0
+
+
 ES_FLOW_TEXT_PORT = ["219.224.134.216:9201", "219.224.134.217:9201"]
 ES_BE_RETWEET_PORT = ["219.224.134.216:9201", "219.224.134.217:9201"]
 ES_PREDICTION_PORT = ["219.224.134.216:9202"]
+ES_USER_PROFILE = ["219.224.134.216:9201"]
 
 REDIS_HOST = "219.224.134.213"
-REDIS_PORT = "7371"
+REDIS_PORT = "7381"
 
 pre_flow_text = "flow_text_"
 type_flow_text = "text"
@@ -40,4 +44,31 @@ task_micro_prediction = "task_micro_prediction"
 task_trendline = "task_trendline"
 pre_trendline = "trendline_"
 
+
+
+
+# social sensing text clsssifier
+TOPIC_ABS_PATH = "/home/ubuntu8/yuankun/diffusion-prediction/diffusion_prediction/cron/model_file/topic"
+
+# social sensing
+index_sensing = "manage_sensing_task"
+type_sensing = "task"
+id_sensing = "social_sensing_task"
+
+topic_value_dict = {"art": 1, "computer":2, "economic":7, "education":7.5, "environment":8.7, "medicine":7.8,"military":7.4, "politics":10, "sports":4, "traffic":6.9, "life":1.8, "anti-corruption":9.5, "employment":6, "fear-of-violence":9.3, "house":6.4, "law":8.6, "peace":5.5, "religion":7.6, "social-security":8.6}
+zh_data = ['文体类_娱乐','科技类','经济类','教育类','民生类_环保','民生类_健康',\
+        '军事类','政治类_外交','文体类_体育','民生类_交通','其他类',\
+        '政治类_反腐','民生类_就业','政治类_暴恐','民生类_住房','民生类_法律',\
+        '政治类_地区和平','政治类_宗教','民生类_社会保障']
+
+name_list = ['art','computer','economic','education','environment','medicine',\
+        'military','politics','sports','traffic','life',\
+        'anti-corruption','employment','fear-of-violence','house',\
+        'law','peace','religion','social-security']
+
+
+profile_index_name = "weibo_user"
+profile_index_type = "user"
+flow_text_index_name_pre = "flow_text_"
+flow_text_index_type = "text"
 

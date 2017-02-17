@@ -6,11 +6,10 @@ import re
 import csv
 import sys
 from decimal import *
-#reload(sys)
-#sys.path.append('../../../')
-#from parameter import TOPIC_ABS_PATH as abs_path
+reload(sys)
+sys.path.append('../../../')
+from global_config import TOPIC_ABS_PATH as abs_path
 
-abs_path = TOPIC_ABS_PATH = '/home/user_portrait_0320/revised_user_portrait/user_portrait/user_portrait/cron/model_file/topic'
 name_list = ['art','computer','economic','education','environment','medicine',\
             'military','politics','sports','traffic','life',\
             'anti-corruption','employment','fear-of-violence','house',\
