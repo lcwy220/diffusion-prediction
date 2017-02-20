@@ -1,0 +1,59 @@
+{% extends "public_nav.html" %}
+{% block title %}<title>事件感知</title>{% endblock %}
+{% block my_css %}
+    <link rel="stylesheet" href="/static/css/event_perception.css">
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <div class="new_perception_task">
+        <p style="width: 60%;margin: 0 auto">新建感知任务</p>
+        <div class="new_task_menu">
+            <div class="task_name menu_m">
+                <span>人物名称</span>
+                <input type="text" placeholder="请输入您的名称"/>
+            </div>
+            <div class="task_words menu_m">
+                <span>关键词</span>
+                <input type="text" placeholder="请输入您的关键词"/>
+            </div>
+            <div class="task_time menu_m">
+                <span>时间选择</span>
+                <div style="width: 450px!important;padding: 0;">
+                    <span style="display: inline-block">从</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class='input-group date' id='datetimepicker6'>
+                                <input type='text' class="form-control" style="height: 28px"/>
+                                <span class="input-group-addon" style="height: 28px">
+                                    <span class="icon icon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <span style="display: inline-block">到</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class='input-group date' id='datetimepicker7'>
+                                <input type='text' class="form-control" style="height: 28px"/>
+                                <span class="input-group-addon" style="height: 28px">
+                                    <span class="icon icon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+</body>
+</html>
