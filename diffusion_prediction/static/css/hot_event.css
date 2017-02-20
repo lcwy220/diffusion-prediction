@@ -1,0 +1,31 @@
+/*内容样式*/
+body {
+    background: url("/static/images/event.png") no-repeat;
+    background-size: 100% 250%;
+}
+#container .hot_event .event_list {
+    width: 60%;
+    padding: 20px 30px;
+    margin: 0 auto 20px;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+#container .hot_event .event_list .weibo_explain{
+    margin: 10px auto;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_left,
+#container .hot_event .event_list .weibo_explain .weibo_detail_right{
+    display: inline-block;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right {
+    width: 80%;
+    float: right;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_words,
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source{
+    color: white;
+    font-size: 10px;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source {
+    margin-top: 5px;
+}

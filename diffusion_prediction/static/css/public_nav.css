@@ -47,6 +47,9 @@ a,a:link,a:hover,a:visited,a:active {
     font-size: 18px;
     font-weight: 900;
 }
+#nav .nav_bottom .list .main_li .li_a:hover {
+    color: black;
+}
 #nav .nav_bottom .list .setting a {
     display: block;
     padding: 5px;

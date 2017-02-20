@@ -1,0 +1,48 @@
+/*内容样式*/
+body {
+    background: url("/static/images/result.png") no-repeat;
+    background-size: 100%;
+}
+#container {
+    width: 70%;
+    margin: 0 auto;
+}
+#container .res_top {
+    width: 100%;
+    margin: 20px auto;
+}
+#container .res_top .res_title {
+    color: white;
+}
+#container .res_timeTrend #timeTrend_figure {
+    width: 100%;
+    height: 500px;
+}
+#container .res_timeTrend #timeTrend_weibo {
+    width: 100%;
+    height: 600px;
+}
+#container .res_timeTrend #timeTrend_weibo .weibo_time {
+    font-size: 16px;
+    color: white;
+}
+#container .res_timeTrend #timeTrend_weibo .words_left,
+#container .res_timeTrend #timeTrend_weibo .words_right {
+    float:left;
+    width: 50%;
+    height: 550px;
+}
+#container .res_timeTrend #timeTrend_weibo .words_left #weibo_key_words {
+    width: 100%;
+    height: 550px;
+}
+#container #timeTrend_weibo .weibo_right #weibo_content .weibo_words {
+    color: white;
+}
+#container #timeTrend_weibo .weibo_right #weibo_content .weibo_source span {
+    color: #f4ed92;
+}
+#container .res_timeTrend #timeTrend_weibo .words_left{
+
+}
+

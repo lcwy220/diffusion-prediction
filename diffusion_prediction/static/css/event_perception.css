@@ -1,28 +1,6 @@
-/*清除默认样式*/
-html,body,div,img,h1,h2,h3,h4,h5,h6,input,button,span,p,b,strong,em,li,ul,ol,dl,dt,dd,
-th,tr,td,textarea,select,table,form {
-    margin: 0;
-    padding: 0;
-    -webkit-user-select: none;
-    font-family: '微软雅黑';
-}
-ul,li,ol {
-    list-style: none;
-}
-img {
-    border:none;
-}
-input,select,textarea,button {
-    outline: none;
-    border: none;
-}
-a,a:link,a:hover,a:visited,a:active {
-    text-decoration: none;
-}
-/*内容样式*/
 body {
-    background: url("../image/home.jpg") no-repeat;
-    background-size: cover;
+    background: url("/static/images/home.jpg") no-repeat;
+    /*background-size: cover;*/
 }
 #container {
     width: 100%;
@@ -30,16 +8,49 @@ body {
 #container .new_perception_task .new_task_menu {
     width: 60%;
     padding: 20px 30px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
     border: 1px solid darkgray;
     border-radius: 10px;
 }
 #container .new_perception_task .new_task_menu .menu_m {
-    margin: 5px auto;
+    margin: 15px auto;
+    font-size: 10px;
+}
+#container .new_perception_task .new_task_menu .menu_m .menu_m_s {
+    display: inline-block;
+    width: 150px;
+}
+#container .new_perception_task .new_task_menu .menu_m input {
+    padding: 2px 5px;
+    width: 150px;
+    margin-left: 30px;
+    border-radius: 15px;
+}
+#container .new_perception_task .new_task_menu .menu_m .task_time_cor input {
+    border-radius: 0;
 }
 #container .new_perception_task .new_task_menu span {
     color: white;
     font-weight: 800;
     font-size: 16px;
-
 }
+#container .new_perception_task .new_task_menu .new_build button {
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    background-color: #5e5e5e;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+#container .new_perception_task .new_task_menu .new_build button:hover {
+    background-color: black;
+}
+/*任务列表*/
+#container .tasks_lists .tasks_lists_every {
+    width: 60%;
+    /*padding: 20px 30px;*/
+    margin: 0 auto 40px;
+    /*border: 1px solid darkgray;*/
+    /*border-radius: 10px;*/
+}
+
