@@ -1,0 +1,30 @@
+body {
+    background: url("/static/images/fore.jpg") no-repeat;
+    background-size: 100% 120%;
+}
+#container .build_prediction,#container .prediction_task {
+    width: 70%;
+    margin: 20px auto;
+}
+#container .build_prediction .prediction_menu {
+    height: 400px;
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid silver;
+    margin-bottom: 10px;
+}
+#container .build_prediction .prediction_menu .menu_1,
+#container .build_prediction .prediction_menu .menu_2,
+#container .build_prediction .prediction_menu .menu_3{
+    width: 80%;
+    margin: 40px auto 0;
+}
+#container .build_prediction .prediction_menu .menu_4 button {
+    padding: 5px 15px;
+    color: white;
+    background-color: #464646;
+    border-radius: 5px;
+}
+#container .build_prediction .prediction_menu .menu_4 button:hover {
+    background-color: #000;
+}

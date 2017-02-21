@@ -8,7 +8,7 @@ from diffusion_prediction.jinja import gender, tsfmt, Int2string, gender_text, u
 from diffusion_prediction.social_sensing.views import mod as socialsensingModule
 from diffusion_prediction.prediction.views import mod as predictionModule
 from diffusion_prediction.manage.views import mod as manageModule
-#from diffusion_prediction.interfere.views import mod as interfereModule
+from diffusion_prediction.interfere.views import mod as interfereModule
 
 def create_app():
     app = Flask(__name__)
@@ -21,7 +21,7 @@ def create_app():
     app.register_blueprint(socialsensingModule)
     app.register_blueprint(predictionModule)
     app.register_blueprint(manageModule)
-    #app.register_blueprint(interfereModule)
+    app.register_blueprint(interfereModule)
     # the debug toolbar is only enabled in debug mode
     app.config['DEBUG'] = True
 

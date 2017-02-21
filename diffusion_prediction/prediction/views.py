@@ -15,6 +15,16 @@ from utils import get_predict_count
 
 mod = Blueprint('prediction', __name__, url_prefix='/prediction')
 
+#页面链接
+@mod.route('/situation_prediction/')
+def situation_prediction():
+
+    return render_template('perleption/prediction.html')
+
+@mod.route('/forecast_result/')
+def forecast_result():
+
+        return render_template('perleption/forecast_result.html')
 
 # create task
 @mod.route('/create_task/')
