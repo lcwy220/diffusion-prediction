@@ -5,10 +5,16 @@ import time
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 
-from diffusion-prediction.time_utils import ts2datetime, datetime2ts
+#from diffusion-prediction.time_utils import ts2datetime, datetime2ts
 
 
 mod = Blueprint('interfere', __name__, url_prefix='/interfere')
+
+#页面链接
+@mod.route('/intervention_decision/')
+def intervention_decision():
+
+    return render_template('interfere/un_decision.html')
 
 
 # create task
