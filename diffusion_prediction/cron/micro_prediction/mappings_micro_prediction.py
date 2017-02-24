@@ -73,6 +73,9 @@ def mappings_micro_task(task_name):
                     "update_time":{
                         "type": "long"
                     },
+                    "prediction_value":{
+                        "type": "double"
+                    },
                     "create_by":{
                         "type": "string",
                         "index": "not_analyzed"
