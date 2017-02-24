@@ -16,6 +16,10 @@ def intervention_decision():
 
     return render_template('interfere/un_decision.html')
 
+@mod.route('/strategy_results/')
+def strategy_results():
+
+    return render_template('interfere/strategy_results.html')
 
 # create task
 @mod.route('/create_interfere_task/')

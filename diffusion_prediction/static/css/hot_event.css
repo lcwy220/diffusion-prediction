@@ -1,7 +1,7 @@
 /*内容样式*/
 body {
     background: url("/static/images/event.png") no-repeat;
-    background-size: 100% 250%;
+    background-size: 100% 120%;
 }
 #container .hot_event .event_list {
     width: 60%;

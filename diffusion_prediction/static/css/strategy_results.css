@@ -1,0 +1,56 @@
+body {
+    background: url("/static/images/results.png") no-repeat;
+    background-size: 100% 110%;
+}
+#container {
+    width: 70%;
+    margin: 20px auto;
+}
+#container .hot_event .event_list,#container .key_users .user_list,#container .critical_path .path_list,
+#container .guide_user .guide_list,#container .integrat .integrat_list{
+    width: 100%;
+    padding: 20px 30px;
+    margin: 0 auto 20px;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+}
+#container .hot_event .event_list .weibo_explain{
+    margin: 10px auto;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_left,
+#container .hot_event .event_list .weibo_explain .weibo_detail_right{
+    display: inline-block;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right {
+    width: 80%;
+    float: right;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_words,
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source{
+    color: white;
+    font-size: 10px;
+}
+#container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source {
+    margin-top: 5px;
+}
+
+/*综合策略微博*/
+#container .integrat .integrat_list .inter_weibo .weibo_explain{
+    margin: 10px auto;
+}
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_left,
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right{
+    display: inline-block;
+}
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right {
+    width: 80%;
+    float: right;
+}
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_words,
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_source{
+    color: white;
+    font-size: 10px;
+}
+#container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_source {
+    margin-top: 5px;
+}

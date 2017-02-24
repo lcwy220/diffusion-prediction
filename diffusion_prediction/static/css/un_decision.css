@@ -1,0 +1,41 @@
+body {
+    background: url("/static/images/descide.png") no-repeat;
+    background-size: 100% 100%;
+}
+#container {
+    width: 70%;
+    margin: 20px auto;
+}
+#container .build_decision .decision_menu {
+    height: 400px;
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid silver;
+    margin-bottom: 10px;
+}
+#container .build_decision .decision_menu .menu_1,
+#container .build_decision .decision_menu .menu_2 {
+    width: 80%;
+    margin: 40px auto 0;
+}
+#container .build_decision .decision_menu .menu_3 button {
+    padding: 5px 15px;
+    color: white;
+    background-color: #464646;
+    border-radius: 5px;
+}
+#container .build_decision .decision_menu .menu_3 button:hover {
+    background-color: #000;
+}
+#container .build_decision .decision_menu .menu_2 .menu_2_detail p {
+    display: inline-block;
+    margin-left: 30px;
+}
+#container .build_decision .decision_menu .menu_2 .menu_2_detail .detail_1,
+#container .build_decision .decision_menu .menu_2 .menu_2_detail .detail_2,
+#container .build_decision .decision_menu .menu_2 .menu_2_detail .detail_3,
+#container .build_decision .decision_menu .menu_2 .menu_2_detail .detail_4 {
+    padding: 2px 0;
+    margin-bottom: 10px;
+}
+

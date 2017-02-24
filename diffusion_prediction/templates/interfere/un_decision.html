@@ -2,13 +2,25 @@
 {% block title %}<title>干预决策</title>{% endblock %}
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/un_decision.css">
+<style>
+    .table>thead:first-child>tr:first-child>th,.table-bordered>tbody>tr>td {
+        text-align: center;
+        color: white;
+    }
+    .progress {
+        margin-bottom: 0;
+    }
+    .fixed-table-container tbody tr:first-child td {
+        color: white;
+    }
+</style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
     <div class="build_decision">
         <p>
-            <span style="display: block;color: white;font-weight: 900;padding: 5px;">新建决策任务</span>
+            <span style="display: block;font-size:14px;color: white;font-weight: 900;padding: 5px;">新建决策任务</span>
         </p>
         <div class="decision_menu">
             <div class="menu_1">
@@ -36,7 +48,7 @@
             </div>
             <div class="menu_2">
                 <h3 style="float: left;color: white;font-weight: 900;margin-right: 40px">干预策略</h3>
-                <div class="menu_2_detail" style="width: 60%;display: inline-block;">
+                <div class="menu_2_detail" style="width: 60%;display: inline-block;color: white">
                     <div class="detail_1">
                         <input type="checkbox" id="im_one"> 关键微博
                         <p>
@@ -103,7 +115,7 @@
                     </td>
                     <td>admin</td>
                     <td>
-                        <span class="prediction_results" style="text-decoration: underline;cursor: pointer;">预测结果</span>
+                        <span class="decision_results" style="text-decoration: underline;cursor: pointer;">查看策略</span>
                         <span>删除</span>
                     </td>
                 </tr>
@@ -134,7 +146,9 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-
+    $('.decision_results').on('click',function () {
+        window.open('/interfere/strategy_results/');
+    })
 </script>
 <script src="/static/js/un_decision-1.js"></script>
 <script src="/static/js/un_decision-2.js"></script>
