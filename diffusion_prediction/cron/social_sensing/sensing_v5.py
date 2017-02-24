@@ -15,43 +15,46 @@ reload(sys)
 sys.path.append("../../")
 from global_utils import es_flow_text as es_text
 from global_utils import es_user_profile as es_profile
-from global_utils import es_user_portrait
 from global_utils import R_SOCIAL_SENSING as r
+from global_utils import es_prediction
 from time_utils import ts2datetime, datetime2ts, ts2date
-from global_utils import flow_text_index_name_pre, flow_text_index_type, profile_index_name, profile_index_type, \
-                         portrait_index_name, portrait_index_type
-from parameter import SOCIAL_SENSOR_TIME_INTERVAL as time_interval
-from parameter import SOCIAL_SENSOR_FORWARD_RANGE as forward_time_range
-from parameter import DETAIL_SOCIAL_SENSING as index_sensing_task
-from parameter import INDEX_MANAGE_SOCIAL_SENSING as index_manage_social_task
-from parameter import DOC_TYPE_MANAGE_SOCIAL_SENSING as task_doc_type
-from parameter import FORWARD_N as forward_n
-from parameter import INITIAL_EXIST_COUNT as initial_count
-from parameter import IMPORTANT_USER_NUMBER, IMPORTANT_USER_THRESHOULD, signal_brust, signal_track,\
-                       signal_count_varition, signal_sentiment_varition, signal_nothing,signal_nothing_variation, \
-                       unfinish_signal, finish_signal, signal_sensitive_variation, WARNING_SENSITIVE_COUNT, DAY
 
-from parameter import topic_value_dict
+from global_config import topic_value_dict
 AVERAGE_COUNT = 4000
 MEAN_COUNT = 100
 
+
+time_interval = 3600
+forward_time_range = 12*3600
+DAY = 24*3600
+index_sensing_task = "social_sensing_task"
+type_sensing_task = "social_sensing"
+index_manage_social_task = "manage_sensing_task"
+task_doc_type = "task"
+forward_n = 24
+initial_count = 12
+flow_text_index_name_pre = "flow_text_"
+flow_text_index_type = "text"
+profile_index_name = "weibo_user"
+profile_index_type = "user"
+
 # 获得前12个小时内 各个时间段内社会传感器发布微博的原创微博/转发微博/评论微博，计算均值和方差
 
-def get_forward_numerical_info(task_name, ts, create_by):
+def get_forward_numerical_info(task_name, ts):
     results = []
     ts_series = []
     for i in range(1, forward_n+1):
         ts_series.append(ts-i*time_interval)
 
     # check if detail es of task exists
-    doctype = create_by + "-" + task_name
-    index_exist = es_user_portrait.indices.exists_type(index_sensing_task, doctype)
+    doctype = task_name
+    index_exist = es_prediction.indices.exists_type(index_sensing_task, doctype)
     if not index_exist:
         print "new create task detail index"
         mappings_sensing_task(doctype)
 
     if ts_series:
-        search_results = es_user_portrait.mget(index=index_sensing_task, doc_type=doctype, body={"ids":ts_series})['docs']
+        search_results = es_prediction.mget(index=index_sensing_task, doc_type=doctype, body={"ids":ts_series})['docs']
         found_count = 0
         average_origin = []
         average_retweeted = []
@@ -367,9 +370,7 @@ def social_sensing(task_detail):
     # 任务名 传感器 终止时间 之前状态 创建者 时间
     task_name = task_detail[0]
     social_sensors = task_detail[1]
-    stop_time = task_detail[2]
-    create_by = task_detail[3]
-    ts = int(task_detail[4])
+    ts = int(task_detail[2])
 
     print ts2date(ts)
     # PART 1
@@ -415,6 +416,7 @@ def social_sensing(task_detail):
     current_comment_count = statistics_count['comment']
 
 
+    """
     # 聚合当前时间内重要的人
     important_uid_list = []
     datetime = ts2datetime(ts-time_interval)
@@ -437,18 +439,24 @@ def social_sensing(task_detail):
 
     print "filter_important_list", filter_important_list
     print "important_results", important_uid_list
+    """
 
     #判断感知
-    finish = unfinish_signal # "0"
-    process_status = "1"
 
 
-    if int(stop_time) <= ts: # 检查任务是否已经完成
-        finish = finish_signal
-        process_status = "0"
 
     # 感知到的事, all_mid_list
     sensitive_text_list = []
+    tmp_sensitive_warning = ""
+    text_dict = dict() # 文本信息
+    mid_value = dict() # 文本赋值
+    duplicate_dict = dict() # 重合字典
+    portrait_dict = dict() # 背景信息
+    classify_text_dict = dict() # 分类文本
+    classify_uid_list = []
+    duplicate_text_list = []
+    sensitive_words_dict = dict()
+    sensitive_weibo_detail = {}
 
     # 有事件发生时开始
     if 1:
@@ -514,14 +522,13 @@ def social_sensing(task_detail):
                             duplicate_dict[item['_id']] = item['same_from']
 
                 # 分类
+                mid_value = dict()
                 if classify_text_dict:
                      classify_results = topic_classfiy(classify_uid_list, classify_text_dict)
-                     mid_value = dict()
                      #print "classify_results: ", classify_results
                      for k,v in classify_results.iteritems(): # mid:value
                         mid_value[k] = topic_value_dict[v[0]]
 
-            sensitive_weibo_detail = {}
             if sensitive_words_dict:
                 sensitive_mid_list = sensitive_words_dict.keys()
                 sensitivie_weibo_detail = query_hot_weibo(ts, sensitive_mid_list, time_interval)
@@ -539,21 +546,9 @@ def social_sensing(task_detail):
     results['retweeted_weibo_count'] = current_retweeted_count
     results['comment_weibo_count'] = current_comment_count
     results['weibo_total_number'] = current_total_count
-    results['important_users'] = json.dumps(filter_important_list)
-    results['unfilter_users'] = json.dumps(important_uid_list)
     results['timestamp'] = ts
-    #results['clustering_topic'] = json.dumps(topic_list)
     # es存储当前时段的信息
-    doctype = create_by + '-' + task_name
-    es_user_portrait.index(index=index_sensing_task, doc_type=doctype, id=ts, body=results)
+    es_prediction.index(index=index_sensing_task, doc_type=type_sensing_task, id=ts, body=results)
 
-    # 更新manage social sensing的es信息
-    temporal_result = es_user_portrait.get(index=index_manage_social_task, doc_type=task_doc_type, id=doctype)['_source']
-    temporal_result['finish'] = finish
-    temporal_result['processing_status'] = process_status
-    history_status = json.loads(temporal_result['history_status'])
-    history_status.append(ts)
-    temporal_result['history_status'] = json.dumps(history_status)
-    es_user_portrait.index(index=index_manage_social_task, doc_type=task_doc_type, id=doctype, body=temporal_result)
     return "1"
 

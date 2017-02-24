@@ -56,6 +56,9 @@ def manage_prediction_task():
                     "stop_time":{ # task end time
                         "type": "long"
                     },
+                    "start_time":{ # task end time
+                        "type": "long"
+                    },
                     "submit_time":{ # task start time
                         "type": "long"
                     },

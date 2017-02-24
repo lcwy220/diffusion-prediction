@@ -24,7 +24,7 @@ def create_task():
     for item in results:
         task_name = item["_source"]["pinyin_task_name"]
         print "push task_name: ", task_name
-        r_micro.lpush(task_micro_prediction, json.dumps(task_name, item["_source"]["scan_text_time"], current_ts))
+        r_micro.lpush(task_micro_prediction, json.dumps([task_name, item["_source"]["scan_text_time"], current_ts])
 
 
 def task_list():
@@ -43,7 +43,7 @@ def task_list():
 
         while 1:
             es_result = es_prediction.get(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=task_name)["_source"]
-            if int(es_result["scan_text_processing"]) == 0:
+            if int(es_result["scan_text_processing"]) == 2:
                 break
             else:
                 time.sleep(60)

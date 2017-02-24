@@ -29,7 +29,7 @@ def dispose_data(task_name):
     total_list = []
 
     for item in micro_results:
-        total_list.append(item["total_count"])
+        total_list.append(item["_source"]["total_count"])
 
     total_len = (end_ts-start_ts)/macro_during+1
     times = int(macro_during)/3600
@@ -41,7 +41,7 @@ def dispose_data(task_name):
     for item in total_list:
         count += item
         i += 1
-        strat_ts += 3600
+        start_ts += 3600
         if i % times == 0:
             adjust_list.append(count)
             count = 0

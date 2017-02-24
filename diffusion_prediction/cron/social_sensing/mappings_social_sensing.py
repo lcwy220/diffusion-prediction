@@ -6,10 +6,13 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
 reload(sys)
 sys.path.append("../../")
-from global_utils import es_user_portrait as es
+from global_utils import es_prediction as es
 
 def mappings_sensing_task(task_name):
     index_info = {
+        "settings":{
+            "number_of_replicas": 0
+        },
         "mappings":{
             task_name:{
                 "properties":{
@@ -99,6 +102,9 @@ def mappings_sensing_task(task_name):
 
 def manage_sensing_task():
     index_info = {
+        "settings":{
+            "number_of_replicas": 0
+        },
         "mappings":{
             "sensing_task":{
                 "properties":{
@@ -162,7 +168,7 @@ def manage_sensing_task():
     es.indices.create(index="manage_sensing_task", body=index_info, ignore=400)
 
 if __name__ == "__main__":
-    manage_sensing_task()
-    es.indices.create(index="social_sensing_task", ignore=400)
+    #manage_sensing_task()
+    mappings_sensing_task("social_sensing")
 
 

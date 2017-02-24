@@ -7,12 +7,8 @@ import json
 from sensing_v5 import social_sensing
 reload(sys)
 sys.path.append("../../")
-from global_utils import es_user_profile as es_profile
-from global_utils import es_user_portrait as es
+from global_utils import es_prediction as es
 from global_utils import R_SOCIAL_SENSING as r
-from parameter import DOC_TYPE_MANAGE_SOCIAL_SENSING as task_doc_type
-from parameter import INDEX_MANAGE_SOCIAL_SENSING as index_name
-from parameter import DETAIL_SOCIAL_SENSING as index_sensing_task
 from time_utils import ts2date
 
 def social_sensing_task():
@@ -32,6 +28,7 @@ def social_sensing_task():
             print_log = "&".join([file_path, "end", now_ts])
             break  # finish all task in task_list
         task_detail = json.loads(temp)
+        print "task detail: ", task_detail
         count += 1
         social_sensing(task_detail)
 

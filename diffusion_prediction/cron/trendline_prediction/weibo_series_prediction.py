@@ -322,23 +322,18 @@ if __name__=='__main__':
     k = 5
     h =0.5
     for key,value in map.items():
-        print(key)
-        print("Rare time series:")
-        print(value)
-        value = value[:20]
+        lenth = len(value)
+        print key, value.index(max(value))
+        value = value[:40]
         peak = spd(value,h,k)
         flag = judge(peak,value)
         if len(flag) == 2:
-            print("Two peaks:")
             paras = getTwoBeauties(value,flag[0],flag[1])
-            paras[-1] = 60
+            paras[-1] = lenth
             series = bassTwoPeaks(paras)
         else:
-            print("Single peak:")
             paras = getSingleBeauty(value)
-            paras[-1] = 60
-            print paras
+            paras[-1] = lenth
             series = bassOnePeak(paras)
-        print("prediction:")
-        print(series)
+        print series.index(max(series))
 
