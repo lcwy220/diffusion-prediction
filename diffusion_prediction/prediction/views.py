@@ -38,6 +38,7 @@ def ajax_create_task():
     task_detail['pinyin_task_name'] = pinyin_task_name
     task_detail["submit_user"] = submit_user
     task_detail["stop_time"] = int(stop_time)
+    task_detail["start_time"] = int(start_time)
     task_detail["remark"] = remark
     task_detail["must_keywords"] = must_keywords
     task_detail["should_keywords"] = should_keywords
@@ -81,9 +82,11 @@ def ajax_show_task():
 
 @mod.route('/delete_task/')
 def ajax_delete_task():
-    task_name = request.args.get("task_name", "")
-    if task_name:
-        es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=task_name)
+    task_name = request.args.get("task_name", "") # 中文
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
+    if pinyin_task_name:
+        es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=pinyin_task_name)
+        es_prediction.indices.delete(index="micro_prediction_"+pinyin_task_name)
 
     return json.dumps(["1"])
 
@@ -115,6 +118,8 @@ def ajax_get_micro_prediction():
 # macro value prediction
 @mod.route('/get_macro_prediction/')
 def ajax_get_macro_prediction():
+    weibo_number = 0
+    user_number = 0
 
 
-    return None
+    return json.dumps([weibo_number, user_number])
