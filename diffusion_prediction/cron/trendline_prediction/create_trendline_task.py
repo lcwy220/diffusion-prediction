@@ -43,6 +43,14 @@ def task_list():
             break
 
         task_name = task_detail
+        while 1:
+            es_results = es_prediction.get(index=index_manage_prediction_task,\
+                doc_type=type_manage_prediction_task, id=task_name)["source"]
+            if int(es_results["scan_text_processing"]) == 1:
+                time.sleep(60)
+            else:
+                break
+
 
         # obtain time series
         value, total_len, time_list = dispose_data(task_name)

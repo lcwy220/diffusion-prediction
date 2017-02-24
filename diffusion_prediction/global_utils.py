@@ -17,3 +17,5 @@ r_trendline = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=2)
 r_scan_text = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=1)
 
 R_SOCIAL_SENSING = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=3)
+
+r_stimulation = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=4)

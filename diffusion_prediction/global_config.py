@@ -72,3 +72,13 @@ profile_index_type = "user"
 flow_text_index_name_pre = "flow_text_"
 flow_text_index_type = "text"
 
+
+# interfere and stimulation
+type_manage_interfere_task = "interfere_task"
+index_manage_interfere_task = "manage_interfere_task"
+task_stimulation = "task_stimulation"
+
+
+# event analysis
+index_event_analysis = "manage_event_analysis"
+type_event_analysis = "event_analysis"
