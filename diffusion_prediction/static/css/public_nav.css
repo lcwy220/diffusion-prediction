@@ -25,9 +25,9 @@ a,a:link,a:hover,a:visited,a:active {
 }
 #nav .nav_top {
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 60px;
     text-align: center;
-    color: wheat;
+    color: white;
 }
 #nav .nav_bottom {
     width: 100%;
@@ -48,13 +48,13 @@ a,a:link,a:hover,a:visited,a:active {
     font-weight: 900;
 }
 #nav .nav_bottom .list .main_li .li_a:hover {
-    color: black;
+    color: #FFEB3B;
 }
 #nav .nav_bottom .list .setting a {
     display: block;
     padding: 5px;
-    color: white;
-    background-color: #5e5e5e;
+    color: #000;
+    background-color: white;
     font-size: 12px;
     text-align: center;
 }
