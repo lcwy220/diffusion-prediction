@@ -59,8 +59,8 @@ def manage_interfere_task():
                     "submit_time":{
                         "type": "long"
                     },
-                    "stop_threshold":{
-                        "type": "double"
+                    "update_time":{
+                        "type": "long"
                     },
                     "interfere_results":{
                         "type": "string",
@@ -96,6 +96,9 @@ def manage_interfere_task():
                     "stimulation_finish":{
                         "type":"string",
                         "index":"not_analyzed"
+                    },
+                    "stimulation_during":{
+                        "type":"long"
                     }
                 }
             }
@@ -112,7 +115,7 @@ def manage_interfere_task():
 if __name__ == "__main__":
     #manage_interfere_task()
 
-    es.indices.put_mapping(index=index_manage_interfere_task,doc_type=type_manage_interfere_task, body={"properties":{"stop_threshold":{"type":"double"}}})
-    es.update(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,id="mao_ze_dong_dan_chen_ji_nian_ri",body={"doc":{"stop_threshold":0.5}})
+    es.indices.put_mapping(index=index_manage_interfere_task,doc_type=type_manage_interfere_task, body={"properties":{"update_time":{"type":"long"}}})
+    es.update(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,id="mao_ze_dong_dan_chen_ji_nian_ri",body={"doc":{"update_time":1482724800}})
 
 

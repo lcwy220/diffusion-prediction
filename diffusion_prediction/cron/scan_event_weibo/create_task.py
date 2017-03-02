@@ -15,10 +15,11 @@ from time_utils import ts2datehour, datehour2ts
 def create_task():
     ts = time.time()
     current_ts = datehour2ts(ts2datehour(ts))
+    task_set = set()
 
     query_body_event = {
         "query": {
-            "term": {"finish":"0"}
+            "term": {"scan_text_finish":"0"}
         },
         "size": 10000
     }
@@ -35,8 +36,6 @@ def create_task():
         "query": {
             "should":[
                 {"term":{"finish":"0"}},
-                {"term":{"macro_value_finish": "0"}},
-                {"term":{"macro_trendline_finish": "0"}}
         },
         "size":10000
     }
