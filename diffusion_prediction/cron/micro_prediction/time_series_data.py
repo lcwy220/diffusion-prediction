@@ -19,7 +19,7 @@ from time_utils import ts2datetime, datetime2ts, ts2date
 # update time is current ts, start_ts = current_ts - 3600
 
 
-def organize_feature(task_name, event, start_ts, end_ts):
+def organize_feature(task_name, event, start_ts, end_ts, during=3600):
     data = []
     index_list = []
     task_name = "micro_prediction_" + task_name
@@ -29,7 +29,7 @@ def organize_feature(task_name, event, start_ts, end_ts):
         data_dict = dict()
         if start_ts > end_ts:
             break
-        results_list = user_fansnum(event, start_ts, start_ts+minimal_time_interval)
+        results_list = user_fansnum(event, start_ts, start_ts+during)
         for i in range(len(data_order)):
             data_dict[data_order[i]] = results_list[i]
         data_dict["update_time"] = start_ts+minimal_time_interval
@@ -45,7 +45,7 @@ def organize_feature(task_name, event, start_ts, end_ts):
 # search the lastest 12 time interval data
 # organise data feature
 
-def dispose_data(task_name,current_ts):
+def dispose_data(task_name,current_ts, during=3600):
     origin_task_name = task_name
     task_name = "micro_prediction_" + task_name
     query_body = {
@@ -71,17 +71,7 @@ def dispose_data(task_name,current_ts):
     total_origin_list = []
     total_retweet_list = []
     total_comment_list = []
-    positive_count_list = []
-    neutral_count_list = []
-    negetive_count_list = []
-    origin_important_user_count = []
-    origin_important_user_retweet = []
-    retweet_important_user_count = []
-    retweet_important_user_retweet = []
-    average_origin_imp_hour = 0
-    average_retweet_imp_hour = 0
-    average_origin_imp_hour_list = []
-    average_retweet_imp_hour_list = []
+    total_uid_list = []
 
     feature_list = []
     results = es_prediction.search(index=task_name, doc_type=index_type_prediction_task, body=query_body)["hits"]["hits"]
@@ -99,41 +89,24 @@ def dispose_data(task_name,current_ts):
             total_origin_list.append(item["origin_weibo_number"])
             total_retweet_list.append(item["retweeted_weibo_number"])
             total_comment_list.append(item["comment_weibo_number"])
-            positive_count_list.append(item["positive_weibo_number"])
-            neutral_count_list.append(item["neutral_weibo_number"])
-            negetive_count_list.append(item["negetive_weibo_number"])
-            origin_important_user_count.append(item["origin_important_user_number"])
-            origin_important_user_retweet.append(item["origin_important_user_retweet"])
-            retweet_important_user_count.append(item["retweet_important_user_count"])
-            retweet_important_user_retweet.append(item["retweet_important_user_retweet"])
-            average_origin_imp_hour_list.append(item["average_origin_imp_hour"])
-            average_retweet_imp_hour_list.append(item["average_retweet_imp_hour"])
             total_count.append(item["total_count"])
+            total_uid_list.append(item["total_uid_count"])
         else:
             total_fans_list.append(0)
             total_origin_list.append(0)
             total_retweet_list.append(0)
             total_comment_list.append(0)
-            positive_count_list.append(0)
-            neutral_count_list.append(0)
-            negetive_count_list.append(0)
-            origin_important_user_count.append(0)
-            origin_important_user_retweet.append(0)
-            retweet_important_user_count.append(0)
-            retweet_important_user_retweet.append(0)
-            average_origin_imp_hour_list.append(0)
-            average_retweet_imp_hour_list.append(0)
+            total_uid_list.append(0)
             total_count.append(0)
     print total_count
 
     # feature
     feature_list.append(location+1)
-    feature_list.append(total_count[-1]+total_count[-3]-2*total_count[-2])
     for each in total_fans_list:
         feature_list.append(math.log(int(each)+1))
-    for each in origin_important_user_retweet:
+    for each in total_count:
         feature_list.append(math.log(int(each)+1))
-    for each in retweet_important_user_retweet:
+    for each in total_uid_list:
         feature_list.append(math.log(int(each)+1))
 
     for i in range(len(total_origin_list)):
@@ -146,29 +119,34 @@ def dispose_data(task_name,current_ts):
         feature_list.append(math.log(int(each)+1))
         feature_list.append(float(each)/(1+total_count[i]))
 
-    feature_list.extend(positive_count_list)
-    feature_list.extend(neutral_count_list)
-    feature_list.extend(negetive_count_list)
-    feature_list.extend(origin_important_user_count)
-    feature_list.extend(retweet_important_user_count)
-    feature_list.extend(total_count)
-    feature_list.extend(average_origin_imp_hour_list)
-    feature_list.extend(average_retweet_imp_hour_list)
 
 
     # load model and prediction
-    if total_count[-1] >= 100:
-        with open("micro-prediction-up.pkl","r") as f:
-            gbdt = pickle.load(f)
-    else:
-        with open("micro-prediction-down.pkl", "r") as f:
-            gbdt = pickle.load(f)
+    if int(during) == 3600:
+        if total_count[-1] - total_count[-2] >= 0:
+            with open("1_8-up.pkl","r") as f:
+                gbdt = pickle.load(f)
+        else:
+            with open("1_8-down.pkl", "r") as f:
+                gbdt = pickle.load(f)
+    elif int(during) == 3*3600:
+        if total_count[-1] - total_count[-2] >= 0:
+            with open("3_8-up.pkl","r") as f:
+                gbdt = pickle.load(f)
+        else:
+            with open("3_8-down.pkl", "r") as f:
+                gbdt = pickle.load(f)
 
     pred = gbdt.predict(feature_list)
     for item in pred:
         prediction_value = item
         prediction_value = math.exp(prediction_value)
         print prediction_value
+
+
+    # update scan processing
+    es_prediction.update(index=index_manage_prediction_task,doc_type=type_manage_prediction_task, \
+            id=origin_task_name, body={"doc":{"scan_text_processing":"0"}}
 
 
     # update prediction value in es
@@ -186,6 +164,9 @@ def dispose_data(task_name,current_ts):
     es_prediction.update(index=task_name, doc_type=index_type_prediction_task, id=current_ts, body={"doc":{"prediction_value": prediction_value}})
 
     return True
+
+
+
 
 if __name__ == "__main__":
     organize()
