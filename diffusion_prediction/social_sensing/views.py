@@ -15,6 +15,21 @@ from get_task_detail import get_task_detail_2
 
 mod = Blueprint('social_sensing', __name__, url_prefix='/social_sensing')
 
+#页面链接
+@mod.route('/hot_event/')
+def hot_event():
+
+    return render_template('social_sensing/hot_event.html')
+
+@mod.route('/event_perception/')
+def event_perception():
+
+    return render_template('social_sensing/event_perception.html')
+
+@mod.route('/perceived_results/')
+def perceived_results():
+
+        return render_template('social_sensing/perceived_results.html')
 
 @mod.route('/create_task/')
 def ajax_create_task():
@@ -35,28 +50,6 @@ def ajax_delete_task():
 
     return json.dumps([])
 
-<<<<<<< HEAD
-#页面链接
-@mod.route('/hot_event/')
-def hot_event():
-
-    return render_template('social_sensing/hot_event.html')
-
-@mod.route('/event_perception/')
-def event_perception():
-
-    return render_template('social_sensing/event_perception.html')
-
-@mod.route('/perceived_results/')
-def perceived_results():
-
-        return render_template('social_sensing/perceived_results.html')
-
-
-# show current hot event
-@mod.route('/show_brusty_event/')
-def ajax_show_bursty_event():
-=======
 
 
 @mod.route('/show_task/')
@@ -86,7 +79,6 @@ def ajax_show_task():
         search_results = es.search(index=index_manage_sensing_task, doc_type=task_doc_type, body=query_body)['hits']['hits']
     except:
         search_results = []
->>>>>>> 310cd971e9051cefc44869897967fa8ff737e282
     results = []
 
 
@@ -134,6 +126,3 @@ def ajax_get_sensitive_text_detail():
     results = get_sensitive_text_detail(task_name, ts, user, order)
 
     return json.dumps(results)
-
-
-
