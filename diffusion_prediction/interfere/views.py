@@ -35,7 +35,7 @@ def ajax_create_interfere_task():
     task_detail["submit_user"] = submit_user
     task_detail["stop_time"] = int(stop_time)
     task_detail["start_time"] = int(start_time)
-    task_detail["update_time"] = int(submit_time)-sti_during
+    task_detail["update_time"] = int(submit_time)
     task_detail["remark"] = remark
     task_detail["must_keywords"] = must_keywords
     task_detail["should_keywords"] = should_keywords

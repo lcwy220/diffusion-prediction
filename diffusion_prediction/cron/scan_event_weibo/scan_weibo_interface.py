@@ -31,13 +31,13 @@ def scan_flow_text():
 
         if source == "prediction":
             es_prediction.update(index=index_manage_prediction_task,doc_type=type_manage_prediction_task, \
-                id=task_name, body={"doc":{"scan_text_processing":"0"}})
+                id=task_name, body={"doc":{"scan_text_processing":"2"}})
         elif source == "analysis":
             es_prediction.update(index=index_event_analysis ,doc_type=type_event_analysis, \
-                id=task_name, body={"doc":{"scan_text_processing":"2"}})
+                id=task_name, body={"doc":{"scan_text_processing":"0"}})
         elif source == "interfere":
             es_prediction.update(index=index_manage_interfere_task ,doc_type=type_manage_interfere_task, \
-                id=task_name, body={"doc":{"scan_text_processing":"2"}})
+                id=task_name, body={"doc":{"scan_text_processing":"1"}})
 
 
 
