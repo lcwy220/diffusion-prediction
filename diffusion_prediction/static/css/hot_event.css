@@ -1,7 +1,21 @@
 /*内容样式*/
-body {
-    background: url("/static/images/qingxin.jpg") no-repeat;
-    background-size: 100% 100%;
+#container .type-list {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 100px;
+    text-align: center;
+    font-size: 0;
+}
+#container .type-list span {
+    display: inline-block;
+    width: 20%;
+    color: #373D41;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #E5E6E6;
+    cursor: pointer;
+    transition: all linear 0.3s;
 }
 #container .hot_event .event_list {
     width: 60%;

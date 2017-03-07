@@ -29,31 +29,37 @@
 {% block header %}    
 <div id="nav">
     <div class="nav_top">
-        <h1>政治安全突发事件应急干预决策支持库系统</h1>
+        <h3>政治安全突发事件应急干预决策支持库系统</h3>
     </div>
     <div class="nav_bottom">
         <ul class="list">
             <li class="main_li">
                 <a class="list_one li_a" href="/social_sensing/hot_event/">热点事件</a>
+                <p class="line"></p>
             </li>
             <li class="main_li">
                 <a class="list_one li_a" href="/social_sensing/event_perception/">事件感知</a>
+                <p class="line"></p>
             </li>
             <li class="main_li">
                 <a class="list_two li_a" href="/prediction/situation_prediction/">态势预测</a>
+                <p class="line"></p>
             </li>
             <li class="main_li">
                 <a class="list_three li_a" href="/interfere/intervention_decision/">干预决策</a>
+                <p class="line"></p>
             </li>
-            <li class="main_li" style="position: relative;">
+            <li class="main_li main_4" style="position: relative;z-index: 5">
                 <a class="list_four li_a" href="/interfere/strategy_results/">系统管理</a>
-                <ul class="setting" style="position:absolute;width:100%;display: none;">
-                    <li><a href="/manage/purview/" class="power">权限管理</a></li>
-                    <li><a href="/manage/sensitive_words/" class="sentive_words">敏感词管理</a></li>
-                    <li><a href="###" class="day_note">日志管理</a></li>
-                </ul>
+                <p class="line"></p>
             </li>
         </ul>
+    </div>
+    <div class="setting" style="width:100%;text-align: center;display: none;padding: 30px 0 20px;
+    position:relative;top: -10px;z-index: 10">
+        <a href="/manage/purview/" class="power">权限管理</a>
+        <a href="/manage/sensitive_words/" class="sentive_words">敏感词管理</a>
+        <a href="###" class="day_note">日志管理</a>
     </div>
 </div>
 {% endblock %}
@@ -88,17 +94,30 @@
     }).on('mouseout',function () {
         $('.setting').css({display:'none'});
     });
-    $("#nav .nav_bottom .list .setting").on('mouseover',function () {
+    $(".setting").on('mouseover',function () {
         $(this).css({display:'block'});
+        $(".nav_bottom .list .list_four").css({borderBottom:'2px solid #2e90e6'});
     }).on('mouseout',function () {
         $(this).css({display:'none'});
+        $(".nav_bottom .list .list_four").css({borderBottom:'none'});
     });
-    $("#nav .nav_bottom .list .setting a").on('mouseover',function () {
-        $(this).css({backgroundColor:'#5e5e5e',color:'#FFEB3B'});
+
+    $('#nav .nav_bottom .list .main_li .li_a').on('mouseover',function () {
+        $(this).siblings('.line').css({left:'0%'});
     }).on('mouseout',function () {
-        $(this).css({backgroundColor:'#fff',color:'#000'});
+        $(this).siblings('.line').css({left:'-100%'});
     });
-</script>
+    window.onscroll=function () {
+        $('#nav').css({backgroundColor:'#777'});
+        $('#nav .nav_top').css({color:'white'});
+        $('#nav .nav_bottom .list .main_li .li_a').css({color:'white'});
+        if ($(document).scrollTop()==0){
+            $('#nav').css({backgroundColor:'#fff'});
+            $('#nav .nav_top').css({color:'black'});
+            $('#nav .nav_bottom .list .main_li .li_a').css({color:'black'});
+        }
+    };
+    </script>
 {% endblock %}
 
 <!-- 自己的JS -->
