@@ -111,11 +111,11 @@
 <script type="text/javascript">
     $("#container .type-list span").hover(function () {
         $(this).css({
-            '-webkit-transform': 'scale(1.2,1.2)',
-            '-moz-transform': 'scale(1.2,1.2)',
-            '-ms-transform': 'scale(1.2,1.2)',
-            '-o-transform': 'scale(1.2,1.2)',
-            'transform': 'scale(1.2,1.2)',
+            '-webkit-transform': 'scale(1,1.2)',
+            '-moz-transform': 'scale(1,1.2)',
+            '-ms-transform': 'scale(1,1.2)',
+            '-o-transform': 'scale(1,1.2)',
+            'transform': 'scale(1,1.2)',
             'width':'24%',
             'background-color': '#00c1de',
             'border':'1px solid #00c1de',
@@ -125,7 +125,6 @@
         $(this).siblings('span').css({
             'width':'19%'
         });
-        console.log($(this).siblings('span'))
     },function () {
         $(this).css({
             '-webkit-transform': 'scale(1,1)',
