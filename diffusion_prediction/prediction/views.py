@@ -56,7 +56,7 @@ def ajax_create_task():
     task_detail["macro_during"] = macro_during
     task_detail["micro_during"] = micro_during
     task_detail["finish"] = "0" # micro prediction finish
-    task_detail["scan_text_time"] = datehour2ts(ts2datehour(float(submit_time))) # 上一次复制文本的时间
+    task_detail["scan_text_time"] = datehour2ts(ts2datehour(float(submit_time)))-micro_during # 上一次复制文本的时间
     task_detail["scan_text_processing"] = "0" # 是否正在复制微博文本
 
     task_detail["macro_value_finish"] = '0'
