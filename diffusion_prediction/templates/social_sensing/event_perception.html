@@ -1,0 +1,153 @@
+
+{% extends "public_nav.html" %}
+{% block title %}<title>事件感知</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/event_perception.css">
+<style>
+    .table>thead:first-child>tr:first-child>th,.table-bordered>tbody>tr>td {
+        text-align: center;
+        color: white;
+    }
+    .progress {
+        margin-bottom: 0;
+    }
+    .bootstrap-table {
+        width: 60%;
+        margin: 0 auto 30px;
+    }
+    .fixed-table-container tbody tr:first-child td {
+        color: white;
+    }
+    .table>thead:first-child>tr:first-child>th {
+        width: 1%;
+    }
+    .bootstrap-table .table:not(.table-condensed)>tbody>tr>td:hover {
+        background-color: #2a2a2a;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <div class="new_perception_task">
+        <p style="width: 60%;margin: 0 auto">
+            <span style="display: block;color: white;font-weight: 900;padding: 5px;">新建感知任务</span>
+        </p>
+        <div class="new_task_menu">
+            <div class="task_name menu_m">
+                <span class="menu_m_s">人物名称</span>
+                <input type="text" placeholder="请输入您的名称" style=""/>
+            </div>
+            <div class="task_words menu_m">
+                <span class="menu_m_s">关键词</span>
+                <input type="text" placeholder="请输入您的关键词"/>
+            </div>
+            <div class="task_time menu_m">
+                <span style="position: relative;top: -7px;" class="menu_m_s">时间选择</span>
+                <div class="task_time_cor" style="width: 450px!important;padding: 0;display: inline-block">
+                    <span style="position: relative;top: -7px;left: 23px;">从</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class='input-group date' id='datetimepicker6'>
+                                <input type='text' class="form-control" style="height: 31px"/>
+                                <span class="input-group-addon" style="height: 28px;">
+                                    <span class="icon icon-calendar" style="color:black;"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <span style="position: relative;top: -7px;left: 23px;">到</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class='input-group date' id='datetimepicker7'>
+                                <input type='text' class="form-control" style="height: 31px"/>
+                                <span class="input-group-addon" style="height: 28px;">
+                                    <span class="icon icon-calendar" style="color:black;"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="new_build menu_m" style="height: 25px">
+                <button style="float: right;margin-right: 30px">新建任务</button>
+            </div>
+        </div>
+    </div>
+    <div class="tasks_lists table-responsive">
+        <p style="width: 60%;margin: 0 auto">
+            <span style="display: block;color: white;font-weight: 900;padding: 5px;">任务列表</span>
+        </p>
+        <div id="tasks_lists_every" class="tasks_lists_every">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>人物名称</th>
+                    <th>提交时间</th>
+                    <th>任务进度</th>
+                    <th>提交人</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>达尔文</td>
+                    <td>2016.12.2</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="sr-only">100% Complete (success)</span>
+                                <span>100%</span>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>admin</td>
+                    <td>
+                        <span class="task_results" style="text-decoration: underline;cursor: pointer;">感知结果</span>
+                        <span>删除</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>中国女排</td>
+                    <td>2016.8.2</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="sr-only">40% Complete (success)</span>
+                                <span>40%</span>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>admin</td>
+                    <td>
+                        <span>删除</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker();
+        $("#datetimepicker6").on("dp.change",function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change",function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+    $('.task_results').on('click',function () {
+        window.open('/social_sensing/perceived_results/');
+    })
+</script>
+<!--<script src="/static/js/event_perception_1.js"></script>-->
+{% endblock %}

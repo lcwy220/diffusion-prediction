@@ -12,6 +12,17 @@ from diffusion_prediction.global_config import profile_index_name,profile_index_
 
 mod = Blueprint('manage', __name__, url_prefix='/manage')
 
+#页面链接
+@mod.route('/purview/')
+def purview():
+
+    return render_template('manage/purview.html')
+
+@mod.route('/sensitive_words/')
+def sensitive_words():
+
+    return render_template('manage/sensitive_words.html')
+
 
 # user authority
 

@@ -4,14 +4,22 @@ import os
 import time
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
-from diffusion_prediction.global_config import type_manage_interfere_task, index_manage_interfere_task
-from diffusion_prediction.global_utils import es_prediction
-from diffusion_prediction.time_utils import ts2datetime, datetime2ts, datehour2ts, ts2datehour
-import pinyin
+
+#from diffusion-prediction.time_utils import ts2datetime, datetime2ts
+
 
 mod = Blueprint('interfere', __name__, url_prefix='/interfere')
 
-es = es_prediction
+#页面链接
+@mod.route('/intervention_decision/')
+def intervention_decision():
+
+    return render_template('interfere/un_decision.html')
+
+@mod.route('/strategy_results/')
+def strategy_results():
+
+    return render_template('interfere/strategy_results.html')
 
 # create task
 @mod.route('/create_interfere_task/')

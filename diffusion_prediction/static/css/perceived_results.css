@@ -1,0 +1,100 @@
+/*内容样式*/
+body {
+    background: url("/static/images/result1.jpg") no-repeat;
+    background-size: 100% 100%;
+}
+#container {
+    width: 70%;
+    margin: 0 auto;
+}
+#container .res_top {
+    width: 100%;
+    margin: 20px auto;
+}
+#container .res_top .res_title {
+    color: white;
+}
+/*时间走势*/
+#container .res_timeTrend #timeTrend_figure {
+    width: 100%;
+    height: 500px;
+}
+#container .res_timeTrend #timeTrend_weibo {
+    width: 100%;
+    height: 600px;
+    background-color: rgba(0, 0, 0, 0.82)
+}
+#container .res_timeTrend #timeTrend_weibo .weibo_time {
+    font-size: 16px;
+    color: white;
+}
+#container .res_timeTrend #timeTrend_weibo .words_left,
+#container .res_timeTrend #timeTrend_weibo .words_right {
+    float:left;
+    width: 50%;
+    height: 550px;
+}
+#container .res_timeTrend #timeTrend_weibo .words_left #weibo_key_words {
+    width: 100%;
+    height: 550px;
+}
+#container #timeTrend_weibo .weibo_right #weibo_content .weibo_words {
+    color: white;
+}
+#container #timeTrend_weibo .weibo_right #weibo_content .weibo_source span {
+    color: #f4ed92;
+}
+/*情绪走势*/
+#container .res_emotional #emotional_figure {
+    width: 100%;
+    height: 500px;
+}
+#container .res_emotional #emotional_weibo {
+    width: 100%;
+    height: 600px;
+    background-color: rgba(0, 0, 0, 0.82)
+}
+#container .res_emotional #emotional_weibo .weibo_time {
+    font-size: 16px;
+    color: white;
+}
+#container .res_emotional #emotional_weibo .emotional_left,
+#container .res_emotional #emotional_weibo .emotional_right {
+    float:left;
+    width: 50%;
+    height: 550px;
+}
+#container .res_emotional #emotional_weibo .emotional_left #emotional_key_words {
+    width: 100%;
+    height: 550px;
+}
+#container #emotional_weibo #emotional_weibo_content .emotional_weibo_words {
+    color: white;
+}
+#container #emotional_weibo #emotional_weibo_content .emotional_weibo_source span {
+    color: #f4ed92;
+}
+/*地域分布*/
+#container .res_geo .geo_type {
+    text-align: center;
+}
+#container .res_geo .geo_type span {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid darkgray;
+    margin-right: 20px;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#container .res_geo #geo_1_map,#container .res_geo #geo_2_map,#container .res_geo #geo_3_map {
+    width: 100%;
+    height: 600px;
+}
+#container .community #com_layout {
+    width: 100%;
+    height: 600px;
+}
