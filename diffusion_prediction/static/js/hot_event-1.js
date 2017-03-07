@@ -1,3 +1,14 @@
+var topic_name='毛泽东诞辰纪念日';
+
+var line_url='/topic_time_analyze/mtype_count/?topic='+topic_name+'&start_ts=1482681600&end_ts=1483113600&pointInterval=900';
+$.ajax({
+    url: line_url,
+    type: 'GET',
+    dataType: 'json',
+    async: true,
+    success:hot_line
+});
+
 function hot_line() {
     var myChart = echarts.init(document.getElementById('hot_list'));
     var option = {
