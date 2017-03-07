@@ -1,0 +1,93 @@
+body {
+    background: url("/static/images/setting.png") no-repeat;
+    background-size: 100% 100%;
+}
+#container {
+    width: 70%;
+    margin: 20px auto;
+}
+#container .authority .author_type {
+    text-align: center;
+}
+#container .authority .author_type span,
+#container .authority #author_list .operate span{
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid darkgray;
+    margin-right: 20px;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#container .authority #author_list .operate span {
+    font-size: 12px;
+}
+#container .authority #author_list{
+    width: 100%;
+    height: 500px;
+    border: 1px solid #607d8b;
+    padding: 20px 40px;
+}
+#container .authority #author_list .operate_2_depict {
+    width: 100%;
+    padding: 50px;
+}
+#container .authority #author_list .operate_2_depict .new_admin {
+    width: 35%;
+    margin: 0 auto;
+}
+#container .authority #author_list .operate_2_depict .new_admin .ad_creat {
+    margin-bottom: 20px;
+    color: black;
+    font-weight: 700;
+}
+#container .authority #author_list .operate_2_depict .new_admin input {
+    float: right;
+    padding: 2px 5px;
+}
+#container .authority #author_list .operate_2_depict .new_admin .a_sure {
+    float: right;
+    padding: 3px 8px;
+    color: white;
+    font-weight: 800;
+    background-color: #6f6f6f;
+    border-radius: 5px;
+}
+#container .authority #author_list .operate_2_depict .new_admin .a_sure:hover {
+    background-color: black;
+}
+/*-------------*/
+#container .authority #author_list .operate_4_setting {
+    width: 100%;
+    padding: 50px;
+}
+#container .authority #author_list .operate_4_setting .new_setting {
+    width: 35%;
+    margin: 0 auto;
+}
+#container .authority #author_list .operate_4_setting .new_setting .ns_1 {
+    margin-bottom: 20px;
+    color: black;
+    font-weight: 700;
+}
+#container .authority #author_list .operate_4_setting .new_setting input {
+    float: right;
+    padding: 2px 5px;
+}
+#container .authority #author_list .operate_4_setting .new_setting .a_sure,
+#container .authority #author_list .operate_4_setting .change_sure{
+    float: right;
+    padding: 3px 8px;
+    color: white;
+    font-weight: 800;
+    background-color: #6f6f6f;
+    border-radius: 5px;
+}
+#container .authority #author_list .operate_4_setting .new_setting .a_sure:hover,
+#container .authority #author_list .operate_4_setting .change_sure:hover{
+    background-color: black;
+}
+

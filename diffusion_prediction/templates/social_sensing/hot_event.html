@@ -1,0 +1,147 @@
+{% extends "public_nav.html" %}
+{% block title %}<title>热点事件</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/hot_event.css">
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <p class="type-list">
+        <span class="time"><b class="icon icon-time"></b>&nbsp;&nbsp;时间</span>
+        <span class="place"><b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</span>
+        <span class="net"><b class="icon icon-rss"></b>&nbsp;&nbsp;网络</span>
+        <span class="emtion"><b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</span>
+        <span class="meaning"><b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
+    </p>
+    <div id="hot_list" style="width: 60%;height: 400px;margin: 0 auto">
+        
+    </div>
+    <div class="hot_event">
+        <p style="width: 60%;margin: 0 auto">
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">热点微博</span>
+        </p>
+        <div class="event_list">
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    $("#container .type-list span").hover(function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1.2)',
+            '-moz-transform': 'scale(1,1.2)',
+            '-ms-transform': 'scale(1,1.2)',
+            '-o-transform': 'scale(1,1.2)',
+            'transform': 'scale(1,1.2)',
+            'width':'24%',
+            'background-color': '#00c1de',
+            'border':'1px solid #00c1de',
+            'color':'#fff',
+            'box-shadow': '0 0 20px rgba(0, 198, 226, 0.5)',
+        });
+        $(this).siblings('span').css({
+            'width':'19%'
+        });
+    },function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1)',
+            '-moz-transform': 'scale(1,1)',
+            '-ms-transform': 'scale(1,1)',
+            '-o-transform': 'scale(1,1)',
+            'transform': 'scale(1,1)',
+            'width':'20%',
+            'background-color': '',
+            'border':'1px solid #E5E6E6',
+            'color':'#373D41',
+            'box-shadow': '',
+        });
+        $(this).siblings('span').css({
+            'width':'20%'
+        })
+    })
+</script>
+<script src="/static/js/hot_event-1.js"></script>
+{% endblock %}

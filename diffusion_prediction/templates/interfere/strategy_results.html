@@ -1,0 +1,335 @@
+{% extends "public_nav.html" %}
+{% block title %}<title>策略结果</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/strategy_results.css">
+<style>
+    .table>thead:first-child>tr:first-child>th,.table-bordered>tbody>tr>td {
+        text-align: center;
+        color: white;
+    }
+    .progress {
+        margin-bottom: 0;
+    }
+    .fixed-table-container tbody tr:first-child td {
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <!--关键微博-->
+    <div class="hot_event">
+        <p>
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">关键微博</span>
+        </p>
+        <div class="event_list">
+            <p style="color: white;font-size: 14px">去除关键微博可使规模缩减<b style="color: red;">60%</b></p>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="weibo_explain">
+                <div class="weibo_detail_left">
+                    <img class="user_photo" src="/static/images/picture.png" alt="">
+                </div>
+                <div class="weibo_detail_right">
+                    <a class="weibo_name" href="###"></a>
+                    <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                    <div class="weibo_source">
+                        <span>2天前-新浪微博</span>
+                        <p class="weibo_operating" style="float: right">
+                            <span class="weibo_forwarding">转发数（213）</span>
+                            <span>|</span>
+                            <span class="weibo_comment">评论数（542）</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--关键用户-->
+    <div class="key_users">
+        <p>
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">关键用户</span>
+        </p>
+        <div class="user_list">
+            <p style="color: white;font-size: 14px">去除关键用户可使规模缩减<b style="color: red;">70%</b></p>
+            <div id="user_table">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>昵称</th>
+                        <th>注册地</th>
+                        <th>粉丝数</th>
+                        <th>微博数</th>
+                        <th>重要度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="/static/images/test.png" alt="">
+                        </td>
+                        <td>央视新闻</td>
+                        <td>北京</td>
+                        <td>100万</td>
+                        <td>937</td>
+                        <td>92</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--关键路径-->
+    <div class="critical_path">
+        <p>
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">关键路径</span>
+        </p>
+        <div class="path_list">
+            <p style="color: white;font-size: 14px">去除关键路径可使规模缩减<b style="color: red;">70%</b></p>
+            <div id="path_table">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>昵称</th>
+                        <th>注册地</th>
+                        <th>粉丝数</th>
+                        <th>微博数</th>
+                        <th>重要度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="/static/images/test.png" alt="">
+                        </td>
+                        <td>央视新闻</td>
+                        <td>北京</td>
+                        <td>100万</td>
+                        <td>937</td>
+                        <td>92</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--引导用户-->
+    <div class="guide_user">
+        <p>
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">关键路径</span>
+        </p>
+        <div class="guide_list">
+            <p style="color: white;font-size: 14px">引导用户进行引导可使规模缩减<b style="color: red;">70%</b></p>
+            <div id="guide_table">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>昵称</th>
+                        <th>注册地</th>
+                        <th>粉丝数</th>
+                        <th>微博数</th>
+                        <th>重要度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="/static/images/test.png" alt="">
+                        </td>
+                        <td>央视新闻</td>
+                        <td>北京</td>
+                        <td>100万</td>
+                        <td>937</td>
+                        <td>92</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--综合策略-->
+    <div class="integrat">
+        <p>
+            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">综合策略</span>
+        </p>
+        <div class="integrat_list">
+            <p style="color: white;font-size: 14px">采用综合策略进行引导可使规模缩减<b style="color: red;">70%</b></p>
+            <div class="inter_weibo">
+                <div class="weibo_explain">
+                    <div class="weibo_detail_left">
+                        <img class="user_photo" src="/static/images/picture.png" alt="">
+                    </div>
+                    <div class="weibo_detail_right">
+                        <a class="weibo_name" href="###"></a>
+                        <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                        <div class="weibo_source">
+                            <span>2天前-新浪微博</span>
+                            <p class="weibo_operating" style="float: right">
+                                <span class="weibo_forwarding">转发数（213）</span>
+                                <span>|</span>
+                                <span class="weibo_comment">评论数（542）</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="weibo_explain">
+                    <div class="weibo_detail_left">
+                        <img class="user_photo" src="/static/images/picture.png" alt="">
+                    </div>
+                    <div class="weibo_detail_right">
+                        <a class="weibo_name" href="###"></a>
+                        <span class="weibo_words">
+                        话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
+                        激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
+                    </span>
+                        <div class="weibo_source">
+                            <span>2天前-新浪微博</span>
+                            <p class="weibo_operating" style="float: right">
+                                <span class="weibo_forwarding">转发数（213）</span>
+                                <span>|</span>
+                                <span class="weibo_comment">评论数（542）</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="color: white;font-size: 14px">关键用户</p>
+            <div id="admin_table">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>昵称</th>
+                        <th>注册地</th>
+                        <th>粉丝数</th>
+                        <th>微博数</th>
+                        <th>重要度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="/static/images/test.png" alt="">
+                        </td>
+                        <td>央视新闻</td>
+                        <td>北京</td>
+                        <td>100万</td>
+                        <td>937</td>
+                        <td>92</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="color: white;font-size: 14px">关键路径</p>
+            <div id="route_table">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>昵称</th>
+                        <th>注册地</th>
+                        <th>粉丝数</th>
+                        <th>微博数</th>
+                        <th>重要度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="/static/images/test.png" alt="">
+                        </td>
+                        <td>央视新闻</td>
+                        <td>北京</td>
+                        <td>100万</td>
+                        <td>937</td>
+                        <td>92</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    $('.decision_results').on('click',function () {
+        window.open('/interfere/strategy_results/');
+    })
+</script>
+<script src="/static/js/strategy_results-1.js"></script>
+{% endblock %}
