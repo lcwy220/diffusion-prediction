@@ -45,7 +45,7 @@
     </div>
     <h1 class="title-1" style='width: 60%;margin: 10px auto;color: #919191;font-size: 30px'>
         时间热度图
-        <div class="btn-group" role="group" style="float: right;margin-right: 30px;">
+        <div class="btn-group unit_time" role="group" style="float: right;margin-right: 30px;">
             <button type="button" class="btn btn-default t-15">15 min</button>
             <button type="button" class="btn btn-default t-30">30 min</button>
             <button type="button" class="btn btn-default t-60">1 hour</button>
@@ -156,24 +156,7 @@
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
         });
     });
-    function ckdate() {
-        var starttime = $('.start').val();
-        var endtime = $('.end').val();
-        var start = new Date(starttime.replace(/\-/g, "\/"));
-        var end = new Date(endtime.replace(/\-/g, "\/"));
-//        var start = Date.parse(new Date(starttime))/1000;
-//        var end = Date.parse(new Date(endtime))/1000;
-        if (starttime==''||endtime==''){
-            alert('日期不能为空！');
-        }else {
-            if (end < start) {
-                alert('结束日期不能小于开始日期！');
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
+
 
     $("#container .type-list span").hover(function () {
         $(this).css({

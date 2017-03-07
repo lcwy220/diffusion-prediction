@@ -1,15 +1,38 @@
-var topic_name='毛泽东诞辰纪念日';
+var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
 
 var line_url='/topic_time_analyze/mtype_count/?topic='+topic_name+'&start_ts=1482681600&end_ts=1483113600&pointInterval=900';
-$.ajax({
-    url: line_url,
-    type: 'GET',
-    dataType: 'json',
-    async: true,
-    success:hot_line
-});
+var unit_time='900';
 
-function hot_line() {
+function ckdate() {
+    var starttime = $('.start').val();
+    var endtime = $('.end').val();
+    // var start = new Date(starttime.replace(/\-/g, "\/"));
+    // var end = new Date(endtime.replace(/\-/g, "\/"));
+    var start = Date.parse(new Date(starttime))/1000;
+    var end = Date.parse(new Date(endtime))/1000;
+    if (starttime==''||endtime==''){
+        alert('日期不能为空！');
+    }else {
+        if (end < start) {
+            alert('结束日期不能小于开始日期！');
+            return false;
+        } else {
+            //正常情况下执行操作
+            // line_url='/topic_time_analyze/mtype_count/?topic='+topic_name+
+            //     '&start_ts='+start+'&end_ts='+end+'&pointInterval='+unit_time;
+            $.ajax({
+                url: line_url,
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                success:hot_line
+            });
+        }
+    }
+}
+function hot_line(data) {
+    var data=eval(data);
+    console.log(data)
     var myChart = echarts.init(document.getElementById('hot_list'));
     var option = {
         title: {
@@ -75,4 +98,3 @@ function hot_line() {
     };
     myChart.setOption(option);
 }
-hot_line();
