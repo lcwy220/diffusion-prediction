@@ -1,7 +1,14 @@
 # -*-coding:utf-8-*-
+import sys
 
 from diffusion_prediction.global_utils import es_prediction
 from diffusion_prediction.global_config import minimal_time_interval
+
+reload(sys)
+sys.path.append('../')
+from global_config import index_macro_feature_result,type_macro_feature_result,\
+                            index_macro_feature_result,type_macro_feature_result
+
 
 def get_predict_count(task_name, start_ts, end_ts):
     query_body = {
@@ -43,5 +50,23 @@ def get_predict_count(task_name, start_ts, end_ts):
     return_list.append([ts_list[-1]+minimal_time_interval, 0, prediction_value_list[-1]])
 
     return json.dumps(return_list)
+
+
+def get_macro_prediction_count(task_name):
+    query_body = {
+        'query':{
+            'term':{'event':task_name}
+        }
+    }
+
+    es_results = es_prediction.search(index=index_macro_feature_result,doc_type=type_macro_feature_result,\
+                body=query_body)['hits']['hits']
+
+    for es_result in es_results:
+        weibo_count = es_result['_source']['predict_weibo_value']
+        user_count = es_result['_source']['predict_user_value']
+        rank = es_result['_source']['predict_rank']
+
+    return weibo_count,user_count,rank
 
 

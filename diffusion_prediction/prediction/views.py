@@ -118,8 +118,7 @@ def ajax_get_micro_prediction():
 # macro value prediction
 @mod.route('/get_macro_prediction/')
 def ajax_get_macro_prediction():
-    weibo_number = 0
-    user_number = 0
-
-
-    return json.dumps([weibo_number, user_number])
+    task_name = request.args.get('task_name','')
+    weibo_count,user_count,rank = get_macro_prediction_count(task_name)
+ 
+    return json.dumps([weibo_count,user_count,rank])
