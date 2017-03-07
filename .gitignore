@@ -1,0 +1,16 @@
+# ignore
+.pyc
+diffusion_prediction/cron/event_analysis/python-Levenshtein-0.12.0.tar.gz
+diffusion_prediction/cron/macro_prediction/0305_macro-prediction-uids-value.pkl
+diffusion_prediction/cron/macro_prediction/macro-prediction-uids-value.pkl
+diffusion_prediction/cron/macro_prediction/macro-prediction-value.pkl
+diffusion_prediction/cron/macro_prediction/0305_macro-prediction-weibos-value.pkl
+diffusion_prediction/cron/macro_prediction/macro-prediction-weibos-value.pkl
+diffusion_prediction/cron/macro_prediction/topic_classify/
+diffusion_prediction/cron/micro_prediction/1_8-down.pkl
+diffusion_prediction/cron/micro_prediction/1_8-up.pkl
+diffusion_prediction/cron/micro_prediction/3_8-down.pkl
+diffusion_prediction/cron/micro_prediction/3_8-up.pkl
+diffusion_prediction/cron/trendline_prediction/series_data/
+diffusion_prediction/libsvm-3.17/
+graph/
