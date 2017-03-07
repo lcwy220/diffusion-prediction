@@ -13,13 +13,49 @@
         <span class="emtion"><b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</span>
         <span class="meaning"><b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
     </p>
-    <div id="hot_list" style="width: 60%;height: 400px;margin: 0 auto">
-        
+    <div class="choose_date">
+        <div class="date-1"
+             style="display: inline-block;width: 100%!important;padding: 0;">
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">日期：从</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker6'>
+                        <input type='text' class="form-control start" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">到</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker7'>
+                        <input type='text' class="form-control end" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <button class="opt_sure" onclick="ckdate()">确定</button>
+        </div>
     </div>
+    <h1 class="title-1" style='width: 60%;margin: 10px auto;color: #919191;font-size: 30px'>
+        时间热度图
+        <div class="btn-group" role="group" style="float: right;margin-right: 30px;">
+            <button type="button" class="btn btn-default t-15">15 min</button>
+            <button type="button" class="btn btn-default t-30">30 min</button>
+            <button type="button" class="btn btn-default t-60">1 hour</button>
+        </div>
+        <p style="float: right;font-size: 18px;margin-top: 6px">单位时间&nbsp;&nbsp;&nbsp;</p>
+    </h1>
+    <div id="hot_list" style="width: 60%;height: 400px;margin: 0 auto">
+    </div>
+    <h1 class="title-2" style='width: 60%;margin: 15px auto;color: #919191;font-size: 30px'>微博浏览区</h1>
     <div class="hot_event">
-        <p style="width: 60%;margin: 0 auto">
-            <span style="display: block;font-size:16px;color: white;font-weight: 900;padding: 5px;">热点微博</span>
-        </p>
         <div class="event_list">
             <div class="weibo_explain">
                 <div class="weibo_detail_left">
@@ -109,6 +145,36 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
+    //---------时间控件
+    $(function () {
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker();
+        $("#datetimepicker6").on("dp.change",function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change",function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+    function ckdate() {
+        var starttime = $('.start').val();
+        var endtime = $('.end').val();
+        var start = new Date(starttime.replace(/\-/g, "\/"));
+        var end = new Date(endtime.replace(/\-/g, "\/"));
+//        var start = Date.parse(new Date(starttime))/1000;
+//        var end = Date.parse(new Date(endtime))/1000;
+        if (starttime==''||endtime==''){
+            alert('日期不能为空！');
+        }else {
+            if (end < start) {
+                alert('结束日期不能小于开始日期！');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     $("#container .type-list span").hover(function () {
         $(this).css({
             '-webkit-transform': 'scale(1,1.2)',
@@ -141,7 +207,7 @@
         $(this).siblings('span').css({
             'width':'20%'
         })
-    })
+    });
 </script>
 <script src="/static/js/hot_event-1.js"></script>
 {% endblock %}
