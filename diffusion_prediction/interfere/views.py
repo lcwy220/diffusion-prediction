@@ -4,18 +4,35 @@ import os
 import time
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
-from diffusion_prediction.global_config import type_manage_interfere_task, index_manage_interfere_task
-from diffusion_prediction.global_utils import es_prediction
-from diffusion_prediction.time_utils import ts2datetime, datetime2ts, datehour2ts, ts2datehour
-import pinyin
+
+#from diffusion-prediction.time_utils import ts2datetime, datetime2ts
+
 
 mod = Blueprint('interfere', __name__, url_prefix='/interfere')
 
+<<<<<<< HEAD
+#页面链接
+@mod.route('/intervention_decision/')
+def intervention_decision():
+
+    return render_template('interfere/un_decision.html')
+
+@mod.route('/strategy_results/')
+def strategy_results():
+
+    return render_template('interfere/strategy_results.html')
+=======
 es = es_prediction
+>>>>>>> 925fc2aea9f4aafb31c7d50c97e0e4d673c18d94
 
 # create task
 @mod.route('/create_interfere_task/')
 def ajax_create_interfere_task():
+<<<<<<< HEAD
+    finish = 0
+
+    return finish
+=======
     finish = ["0"]
     task_name = request.args.get('task_name','')
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
@@ -56,6 +73,7 @@ def ajax_create_interfere_task():
         finish = ["1"]
 
     return json.dumps(finish)
+>>>>>>> 925fc2aea9f4aafb31c7d50c97e0e4d673c18d94
 
 
 # show all task

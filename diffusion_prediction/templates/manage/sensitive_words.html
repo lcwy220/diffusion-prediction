@@ -1,0 +1,82 @@
+{% extends "public_nav.html" %}
+{% block title %}<title>系统管理 - 权限管理</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/sensitive_words.css">
+<style>
+    .table>thead:first-child>tr:first-child>th,.table-bordered>tbody>tr>td {
+        text-align: center;
+        /*color: white;*/
+    }
+    .progress {
+        margin-bottom: 0;
+    }
+    .bootstrap-table {
+        width: 60%;
+        margin: 0 auto 30px;
+    }
+    .fixed-table-container tbody tr:first-child td {
+        /*color: white;*/
+    }
+    .table>thead:first-child>tr:first-child>th {
+        /*width: 1%;*/
+    }
+    .bootstrap-table .table:not(.table-condensed)>tbody>tr>td:hover {
+        background-color: #2a2a2a;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <div class="sen_words_list" style="margin: 10px 0">
+        <h3 style="color: white;margin-bottom:10px;">敏感词管理</h3>
+        <div id="words_content">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>编辑</th>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>是否活跃</th>
+                    <th>更新时间</th>
+                    <th>感知分析任务最大值</th>
+                    <th>态势预测任务最大值</th>
+                    <th>干预决策任务最大值</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="###">删除</a>&nbsp;&nbsp;<a href="###">修改</a></td>
+                    <td>北京</td>
+                    <td>100万</td>
+                    <td>937</td>
+                    <td>92</td>
+                    <td>1</td>
+                    <td>92</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><a href="###">删除</a>&nbsp;&nbsp;<a href="###">修改</a></td>
+                    <td>网</td>
+                    <td>100万</td>
+                    <td>937</td>
+                    <td>撒</td>
+                    <td>公司</td>
+                    <td>仨</td>
+                    <td>㔿</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+
+</script>
+<!--<script src="/static/js/perceived_results_1.js"></script>-->
+{% endblock %}

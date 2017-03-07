@@ -15,6 +15,21 @@ from get_task_detail import get_task_detail_2
 
 mod = Blueprint('social_sensing', __name__, url_prefix='/social_sensing')
 
+#页面链接
+@mod.route('/hot_event/')
+def hot_event():
+
+    return render_template('social_sensing/hot_event.html')
+
+@mod.route('/event_perception/')
+def event_perception():
+
+    return render_template('social_sensing/event_perception.html')
+
+@mod.route('/perceived_results/')
+def perceived_results():
+
+        return render_template('social_sensing/perceived_results.html')
 
 @mod.route('/create_task/')
 def ajax_create_task():
@@ -111,6 +126,3 @@ def ajax_get_sensitive_text_detail():
     results = get_sensitive_text_detail(task_name, ts, user, order)
 
     return json.dumps(results)
-
-
-
