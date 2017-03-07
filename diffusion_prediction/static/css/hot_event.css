@@ -17,6 +17,31 @@
     cursor: pointer;
     transition: all linear 0.3s;
 }
+#container .choose_date {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0;
+    border-bottom: 1px solid silver;
+    text-align: center;
+}
+#container .choose_date .opt_sure {
+    position: relative;
+    top: -9px;
+    left: 20px;
+    padding: 5px 10px;
+    border: 1px solid darkgray;
+    background-color: transparent;
+    border-radius: 10px;
+    color: #919191;
+}
+#container .choose_date .opt_sure:hover {
+    background-color: #999999;
+    color: white;
+}
+
+
+
+
 #container .hot_event .event_list {
     width: 60%;
     padding: 20px 30px;
