@@ -3,9 +3,11 @@
 import os
 import time
 import json
+import pinyin
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
-
-#from diffusion-prediction.time_utils import ts2datetime, datetime2ts
+from diffusion_prediction.global_utils import es_prediction
+from diffusion_prediction.global_config import index_manage_interfere_task, type_manage_interfere_task
+from diffusion_prediction.time_utils import ts2datetime, datetime2ts,datehour2ts,ts2datehour
 
 
 mod = Blueprint('interfere', __name__, url_prefix='/interfere')
@@ -57,13 +59,30 @@ def ajax_create_interfere_task():
     task_detail["stimulation_finish"] = "0"
     task_detail["scan_text_finish"] = "0"
 
-
+    #print '62:::::::::'
     exist_task = es_prediction.exists(index=index_manage_interfere_task, doc_type=type_manage_interfere_task, id=pinyin_task_name)
+    #print '64:::::',exist_task
     if not exist_task:
         es_prediction.index(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,id=pinyin_task_name, body=task_detail)
         finish = ["1"]
+    # finish  0 已经存在  1  提交成功
 
     return json.dumps(finish)
+
+
+@mod.route('/delete_task/')
+def ajax_delete_task():
+
+    task_name = request.args.get(task_name)
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+
+    try:
+        result = es.delete(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,\
+            id=pinyin_task_name)['found']
+        return result  #True
+
+    except:
+        return 'False'
 
 
 # show all task
@@ -77,8 +96,9 @@ def ajax_show_all_task():
         "size": 1000
     }
 
-    es_results = es.search(index=index_manage_interfere_task, doc_type=type_manage_interfere_task, \
+    es_results = es_prediction.search(index=index_manage_interfere_task, doc_type=type_manage_interfere_task, \
             body=query_body)["hits"]["hits"]
+    #print '84::::::::',es_results
     task_list = []
     for item in es_results:
         tmp = []
@@ -164,7 +184,9 @@ def ajax_get_diffusion_path():
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
     es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
-    results = es_results["diffusion"]
+    #print 'keys::::::::',es_results.keys()
+    #results = es_results["diffusion"]
+    results = es_results["diffusion_path"]
 
     return results
 

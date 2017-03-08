@@ -12,7 +12,7 @@ from diffusion_prediction.global_utils import es_prediction, r_trendline
 from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
 from diffusion_prediction.time_utils import ts2datehour, datehour2ts
 
-from utils import get_predict_count
+from utils import get_predict_count,get_macro_prediction_count
 
 mod = Blueprint('prediction', __name__, url_prefix='/prediction')
 
@@ -28,14 +28,15 @@ def forecast_result():
         return render_template('perleption/forecast_result.html')
 
 # create task
-@mod.route('/create_task/')
-def ajax_create_task():
+@mod.route('/create_prediction_task/')
+def ajax_create_prediction_task():
     finish = ["0"]
     task_name = request.args.get('task_name','')
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     submit_user = request.args.get('submit_user', 'admin@qq.com')
     current_ts = int(time.time())
     submit_time = request.args.get('submit_time', current_ts)
+    start_time = request.args.get('start_time', "")
     stop_time = request.args.get('stop_time', "")
     remark = request.args.get('remark', '')
     macro_during = request.args.get('macro_during', 3600)
@@ -128,8 +129,8 @@ def ajax_get_micro_prediction():
 # macro value prediction
 @mod.route('/get_macro_prediction/')
 def ajax_get_macro_prediction():
-    weibo_number = 0
-    user_number = 0
+    task_name = request.args.get('task_name','')
 
-
-    return json.dumps([weibo_number, user_number])
+    weibo_count,user_count,rank = get_macro_prediction_count(task_name)
+ 
+    return json.dumps([weibo_count,user_count,rank])

@@ -291,7 +291,7 @@ def get_weibo_content(topic,start_ts,end_ts,province,sort_item='timestamp',unit=
 
 
 if __name__ == '__main__':
-	#all_weibo_count('aoyunhui',1468166400,1468170900)
+    #all_weibo_count('aoyunhui',1468166400,1468170900)
     #get_weibo_content('aoyunhui',1468167300,1468167300,u'陕西')
     print get_weibo_content_es('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600,u'北京',sort_item='timestamp',unit=Fifteenminutes)
 

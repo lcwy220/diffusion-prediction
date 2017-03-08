@@ -38,6 +38,7 @@ def ajax_create_task():
     return json.dumps(["1"])
 
 
+"""
 @mod.route('/delete_task/')
 def ajax_delete_task():
     # delete task based on task_name
@@ -57,8 +58,9 @@ def ajax_show_task():
     # show all working task
     # "0": unfinish working task
     # "1": finish working task
-    user = request.args.get('user', '')
-    length = len(status)
+    #user = request.args.get('user', '')
+    #length = len(status)
+
     query_body = {
         "query":{
             "filtered":{
@@ -85,7 +87,7 @@ def ajax_show_task():
 
 
     return json.dumps(results)
-
+"""
 
 
 

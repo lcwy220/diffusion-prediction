@@ -93,6 +93,8 @@ def mappings_micro_task(task_name):
 
 
 if __name__ == "__main__":
-    es.indices.create(index="micro_prediction_task", ignore=400)
+    #es.indices.create(index="micro_prediction_task", ignore=400)
+    es.update(index="manage_prediction_task", doc_type="prediction_task", id="mao_ze_dong_dan_chen_ji_nian_ri",\
+            body={"doc":{"finish":"0"}})
 
 

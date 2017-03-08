@@ -31,7 +31,7 @@ def create_task():
                     id=task_name, body={"doc":{"finish":"1"}})
         during = item["_source"]["micro_during"]
         if current_ts - update_time>= during:
-            r_micro.lpush(task_micro_prediction, json.dumps([task_name, item["_source"]["scan_text_time"], current_ts])
+            r_micro.lpush(task_micro_prediction, json.dumps([task_name, item["_source"]["scan_text_time"], current_ts, during])
 
 
 def task_list():
@@ -45,6 +45,7 @@ def task_list():
         task_name = task_detail[0]
         start_ts = task_detail[1]
         end_ts = task_detail[2]
+        during = task_detail[3]
 
         mappings_micro_task("micro_prediction_"+task_name)
 

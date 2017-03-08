@@ -306,7 +306,7 @@ def judge(oo,al):
 
 if __name__=='__main__':
     path = os.getcwd()
-    file = io.open(path+'/data/event_data.txt',mode='r',encoding="utf-8")
+    file = io.open(path+'/series_data/event_data.txt',mode='r',encoding="utf-8")
     c = 0
     map = {}
     temp = ''
@@ -321,10 +321,12 @@ if __name__=='__main__':
         c+=1
     k = 5
     h =0.5
+    all_dict = dict()
     for key,value in map.items():
         lenth = len(value)
         print key, value.index(max(value))
-        value = value[:40]
+        true_index = value.index(max(value))
+        #value = value[:30]
         peak = spd(value,h,k)
         flag = judge(peak,value)
         if len(flag) == 2:
@@ -336,4 +338,13 @@ if __name__=='__main__':
             paras[-1] = lenth
             series = bassOnePeak(paras)
         print series.index(max(series))
+        prediction_index = series.index(max(series))
 
+        diff = abs(prediction_index-true_index)
+        try:
+            all_dict[diff] += 1
+        except:
+            all_dict[diff] = 1
+    print all_dict
+    print sorted(all_dict.iteritems(), key=lambda x:x[0], reverse=False)
+    print sum(all_dict.values())

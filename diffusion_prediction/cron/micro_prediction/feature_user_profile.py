@@ -62,6 +62,7 @@ def user_fansnum(event, start_ts, end_ts):
         try:
             es_re = es_scan.next()
             item = es_re
+            """
             if item["_source"]["user_fansnum"] >= 100000: # 重要参与者
                 if int(item["_source"]["message_type"]) == 1:
                     origin_important_user.append(item["_source"]["uid"])
@@ -71,19 +72,19 @@ def user_fansnum(event, start_ts, end_ts):
                     retweet_important_user.append(item["_source"]["uid"])
                     tmp_ts = item["_source"]["timestamp"]
                     retweet_important_hour.append(ts2hour(tmp_ts))
+            """
 
 
             if int(item["_source"]["message_type"]) == 1:
                 total_origin += 1 # origin ratio
-                total_origin_ts += ts2hour(item["_source"]["timestamp"])
                 total_fans += item["_source"]["user_fansnum"] #
             elif int(item["_source"]["message_type"]) == 3:
                 total_retweet += 1 # retweet ratio
-                total_retweet_ts += ts2hour(item["_source"]["timestamp"])
                 total_fans += item["_source"]["user_fansnum"] #
             else:
                 total_comment += 1
 
+            """
             # 情绪统计
             if int(item["_source"]["sentiment"]) == 1:
                 positive_count += 1
@@ -91,10 +92,12 @@ def user_fansnum(event, start_ts, end_ts):
                 neutral_count += 1
             else:
                 negetive_count += 1
+            """
 
         except StopIteration:
             break
 
+    """
     try:
         average_origin_imp_hour = sum(origin_important_hour)/float(len(origin_important_hour))
     except:
@@ -126,9 +129,38 @@ def user_fansnum(event, start_ts, end_ts):
                     tmp_result += int(i)
                 retweet_important_user_retweet += tmp_result   
     retweet_important_user_count = len(retweet_important_user)
+    """
+
     total_count = total_origin+total_retweet+total_comment
 
-    return [total_fans,total_origin,total_retweet,total_comment, positive_count,neutral_count,negetive_count, origin_important_user_count, origin_important_user_retweet, retweet_important_user_count, retweet_important_user_retweet,total_count,average_origin_imp_hour,average_retweet_imp_hour]
+    query_uid = {
+        "query":{
+            "filtered":{
+                "filter":{
+                    "bool":{
+                        "must":[
+                            {"range":{
+                                "timestamp":{
+                                    "gte": start_ts,
+                                    "lt":end_ts
+                                }
+                            }}
+                        ]
+                    }
+                }
+            }
+        },
+        "aggs":{
+            "uid_count":{
+                "cardinality":{"field": "uid"}
+            }
+        }
+    }
+
+    total_uid_count = es.search(index=event, doc_type="text", body=query_uid)["aggregations"]["uid_count"]["value"]
+
+
+    return [total_fans,total_origin,total_retweet,total_comment,total_count,total_uid_count]
 
 
 if __name__ == "__main__":

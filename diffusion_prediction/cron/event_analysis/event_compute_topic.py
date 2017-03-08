@@ -105,7 +105,8 @@ def compute_topic_task():
     en_name = "mao_ze_dong_dan_chen_ji_nian_ri"
     start_ts = 1482681600
     end_ts = 1483113600
-
+    must_keywords = ['毛泽东']
+    should_keywords = ['诞辰'，'纪念日']
     #start compute
     
 
@@ -118,7 +119,7 @@ def compute_topic_task():
     weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-1,'weibo_counts':weibo_counts,'uid_counts':uid_counts}})
     print 'finish change status'
 
-    '''
+    
     item = {}
     item['topic'] = topic
     item['en_name'] = en_name
@@ -128,8 +129,8 @@ def compute_topic_task():
     item['uid_counts'] = uid_counts
     
     weibo_es.index(index=index_name_results,doc_type=index_type_results,id=en_name,body=item)
-    '''
-    '''
+    
+    
     #time
     time_results = propagateCronTopic(en_name, start_ts, end_ts)
     #{'during': ,'count':{},'kcount':{},'weibo':{}}
@@ -137,7 +138,7 @@ def compute_topic_task():
 
     weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-2}})
     print 'finish time analyze'
-    '''
+    
     #geo
     sort_ts_attr, repost_list = repost_search(en_name, start_ts, end_ts)
     #对每条微博得到转微博、mid、话题、时间、原地理位置、转发地理位置
@@ -160,7 +161,7 @@ def compute_topic_task():
 
     weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-3}})
     print 'finish geo analyze'
-    '''
+    
     #network
     network_results = compute_network(en_name, start_ts, end_ts)
     #
@@ -185,7 +186,7 @@ def compute_topic_task():
 
     #save_to_es(task_id,start_ts,end_ts,submit_ts,weibo_counts,uid_counts)
     print 'finish change status done'
-    '''
+    
     
     t2=time.time()-t1
     print en_name,t2
