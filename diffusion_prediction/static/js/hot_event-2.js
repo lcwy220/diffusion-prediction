@@ -1,9 +1,21 @@
-var place_url_map='/topic_geo_analyze/geo_weibo_count/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
-    '&start_ts=1482681600&end_ts=1483113600';
-var place_url_text='/topic_geo_analyze/geo_weibo_content/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
-    '&start_ts=1482681600&end_ts=1483113600&province=%E5%8C%97%E4%BA%AC&sort_item=timestamp';
-var starttime,endtime,province;
+var place_url_map='/topic_time_analyze/mtype_count/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
+    '&start_ts=1482681600&end_ts=1483113600&pointInterval=900';
+var place_url_text='/topic_time_analyze/time_order_weibos/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
+    '&start_ts=1482681600&end_ts=1483113600&sort_item=timestamp';
+var starttime,endtime,unit_time='900';
 
+$('.unit_time button').on('click',function () {
+    if ($(this).text()=='15 min'){
+        unit_time='900';
+        request();
+    }else if ($(this).text()=='30 min'){
+        unit_time='1800';
+        request();
+    }else {
+        unit_time='3600';
+        request();
+    }
+});
 function ckdate() {
     starttime = $('.start').val();
     endtime = $('.end').val();
@@ -19,10 +31,10 @@ function ckdate() {
             return false;
         } else {
             //正常情况下执行操作
-            place_url_map='/topic_geo_analyze/geo_weibo_count/?topic='+topic_name+
-                '&start_ts='+start+'&end_ts='+end;
-            place_url_text='/topic_geo_analyze/geo_weibo_content/?topic='+topic_name+
-                '&start_ts='+start+'&end_ts='+end+'&province='+province+'&sort_item='
+            place_url_map='/topic_time_analyze/mtype_count/?topic='+topic_name+
+                '&start_ts='+start+'&end_ts='+end+'&pointInterval='+unit_time;
+            place_url_text='/topic_time_analyze/time_order_weibos/?topic='+topic_name+
+                '&start_ts='+start+'&end_ts='+end+'&sort_item='+unit_time;
             request();
         }
     }

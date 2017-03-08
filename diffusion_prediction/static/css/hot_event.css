@@ -1,70 +1,38 @@
 /*内容样式*/
-#container .type-list {
-    width: 60%;
-    margin: 0 auto;
-    padding-top: 100px;
-    text-align: center;
-    font-size: 0;
-}
-#container .type-list span {
-    display: inline-block;
-    width: 20%;
-    color: #373D41;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-    border: 1px solid #E5E6E6;
-    cursor: pointer;
-    transition: all linear 0.3s;
-}
-#container .choose_date {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px 0;
-    border-bottom: 1px solid silver;
-    text-align: center;
-}
-#container .choose_date .opt_sure {
-    position: relative;
-    top: -9px;
-    left: 20px;
-    padding: 5px 10px;
-    border: 1px solid darkgray;
-    background-color: transparent;
-    border-radius: 10px;
-    color: #919191;
-}
-#container .choose_date .opt_sure:hover {
-    background-color: #999999;
-    color: white;
-}
-
-
-
-
 #container .hot_event .event_list {
     width: 60%;
     padding: 20px 30px;
     margin: 0 auto 20px;
-    border: 1px solid darkgray;
     border-radius: 10px;
+    background-color: rgba(228, 228, 228, 0.61);
 }
 #container .hot_event .event_list .weibo_explain{
+    width: 90%;
+    padding: 10px 0;
     margin: 10px auto;
+    background-color: white;
 }
 #container .hot_event .event_list .weibo_explain .weibo_detail_left,
 #container .hot_event .event_list .weibo_explain .weibo_detail_right{
     display: inline-block;
 }
+#container .hot_event .event_list .weibo_explain .weibo_detail_left {
+    float: left;
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
 #container .hot_event .event_list .weibo_explain .weibo_detail_right {
     width: 80%;
-    float: right;
+    height: auto;
+    padding: 10px;
+    margin-left: 40px;
 }
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_words,
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source{
-    color: white;
+    color: black;
     font-size: 10px;
 }
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source {
-    margin-top: 5px;
+    margin-top: 15px;
 }
