@@ -105,7 +105,8 @@ def compute_topic_task():
     en_name = "mao_ze_dong_dan_chen_ji_nian_ri"
     start_ts = 1482681600
     end_ts = 1483113600
-
+    must_keywords = ['毛泽东']
+    should_keywords = ['诞辰'，'纪念日']
     #start compute
     
 
