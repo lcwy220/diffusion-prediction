@@ -28,14 +28,15 @@ def forecast_result():
         return render_template('perleption/forecast_result.html')
 
 # create task
-@mod.route('/create_task/')
-def ajax_create_task():
+@mod.route('/create_prediction_task/')
+def ajax_create_prediction_task():
     finish = ["0"]
     task_name = request.args.get('task_name','')
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     submit_user = request.args.get('submit_user', 'admin@qq.com')
     current_ts = int(time.time())
     submit_time = request.args.get('submit_time', current_ts)
+    start_time = request.args.get('start_time', "")
     stop_time = request.args.get('stop_time', "")
     remark = request.args.get('remark', '')
     macro_during = request.args.get('macro_during', 3600)

@@ -56,7 +56,7 @@ def mappings_event_analysis_task():
                     "scan_text_finish":{ #事件文本是否从流文本扫描完 0 未扫描 1 正在扫描 2 扫描完成
                         "type":"long"  
                     },
-                    "event_value_finish":{
+                    "event_value_finish":{  # 时间分析状态
                         "type":"long",     
                         "index":"not_analyzed"
                     },
