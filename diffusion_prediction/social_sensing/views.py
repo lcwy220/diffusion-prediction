@@ -38,6 +38,7 @@ def ajax_create_task():
     return json.dumps(["1"])
 
 
+"""
 @mod.route('/delete_task/')
 def ajax_delete_task():
     # delete task based on task_name
@@ -85,7 +86,7 @@ def ajax_show_task():
 
 
     return json.dumps(results)
-
+"""
 
 
 
