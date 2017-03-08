@@ -12,7 +12,7 @@ from diffusion_prediction.global_utils import es_prediction, r_trendline
 from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
 from diffusion_prediction.time_utils import ts2datehour, datehour2ts
 
-from utils import get_predict_count
+from utils import get_predict_count,get_macro_prediction_count
 
 mod = Blueprint('prediction', __name__, url_prefix='/prediction')
 
@@ -129,6 +129,7 @@ def ajax_get_micro_prediction():
 @mod.route('/get_macro_prediction/')
 def ajax_get_macro_prediction():
     task_name = request.args.get('task_name','')
+
     weibo_count,user_count,rank = get_macro_prediction_count(task_name)
  
     return json.dumps([weibo_count,user_count,rank])
