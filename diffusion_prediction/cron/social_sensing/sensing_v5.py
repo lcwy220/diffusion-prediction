@@ -247,6 +247,13 @@ def query_hot_weibo(ts, origin_mid_list, time_segment):
                 temp_dict['retweeted'] = detail_dict.get(3, 0)
                 temp_dict['comment'] = detail_dict.get(2, 0)
                 return_results[item['key']] = temp_dict
+        else:
+            for item in origin_mid_list:
+                temp_dict = dict()
+                temp_dict[item] = 0
+                temp_dict['retweeted'] = 0
+                temp_dict['comment'] = 0
+                return_results[item] = temp_dict
 
     return return_results
 

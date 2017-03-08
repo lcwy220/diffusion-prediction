@@ -41,7 +41,7 @@ def dispose_data(task_name, current_ts):
         total_list.append(item["_source"]["total_count"])
     # 每个时间段内的微博量
 
-    total_len = (end_ts-start_ts)/macro_during+1
+    total_len = (end_ts-start_ts)/macro_during
     times = int(macro_during)/3600
     lenth = len(total_list)/times
     adjust_list = []
@@ -51,7 +51,6 @@ def dispose_data(task_name, current_ts):
     for item in total_list:
         count += item
         i += 1
-        start_ts += 3600
         if i % times == 0:
             if start_ts <= current_ts:
                 adjust_list.append(count)
@@ -59,6 +58,7 @@ def dispose_data(task_name, current_ts):
                 time_list.append(start_ts)
             else:
                 break
+        start_ts += 3600
 
     # 总得时间走势图
     total_time_list = []
