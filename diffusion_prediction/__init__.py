@@ -12,6 +12,7 @@ from diffusion_prediction.interfere.views import mod as interfereModule
 #import sys
 #reload(sys)
 #sys.setdefaultencoding('utf-8')
+from diffusion_prediction.event_analysis.manage_task.views import mod as topicManageModule
 from diffusion_prediction.event_analysis.topic_time_analyze.views import mod as topicTimeModule
 from diffusion_prediction.event_analysis.topic_geo_analyze.views import mod as topicGeoModule
 from diffusion_prediction.event_analysis.topic_network_analyze.views import mod as topicNetworkModule
@@ -30,6 +31,7 @@ def create_app():
     app.register_blueprint(predictionModule)
     app.register_blueprint(manageModule)
     app.register_blueprint(interfereModule)
+    app.register_blueprint(topicManageModule)
     app.register_blueprint(topicTimeModule)
     app.register_blueprint(topicGeoModule)
     app.register_blueprint(topicNetworkModule)

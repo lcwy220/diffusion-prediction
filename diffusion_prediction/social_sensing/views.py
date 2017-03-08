@@ -57,8 +57,9 @@ def ajax_show_task():
     # show all working task
     # "0": unfinish working task
     # "1": finish working task
-    user = request.args.get('user', '')
-    length = len(status)
+    #user = request.args.get('user', '')
+    #length = len(status)
+
     query_body = {
         "query":{
             "filtered":{
