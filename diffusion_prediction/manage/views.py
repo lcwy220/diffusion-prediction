@@ -8,6 +8,7 @@ from flask import Blueprint, url_for, render_template, request, abort, flash, se
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts
 from diffusion_prediction.global_utils import es_prediction, es_user_profile
 from diffusion_prediction.global_utils import R_SOCIAL_SENSING as r
+from diffusion_prediction.global_utils import r_stimulation
 from diffusion_prediction.global_config import profile_index_name,profile_index_type,RUN_TYPE, zh_data,name_list
 
 mod = Blueprint('manage', __name__, url_prefix='/manage')
@@ -118,3 +119,33 @@ def ajax_revise_order():
         r.set("topic_value_dict", json.dumps(topic_value_dict))
 
     return json.dumps([])
+
+
+# 修改仿真参数
+@mod.route('/revise_interfer_parameter/')
+def ajax_revise_parameter():
+    key = request.args.get("parameter_name", "")
+    value = request.args.get("parameter_value", "")
+    if key and value:
+        r_stimulation.set(key, value)
+
+    return json.dumps(["1"])
+
+# 获取仿真参数
+@mod.route('/get_interfer_parameter/')
+def ajax_get_parameter():
+    extend_retweet_threshold = float(r_stimulation.get("extend_retweet_threshold"))
+    in_user_threshold = float(r_stimulation.get("in_user_threshold"))
+    potential_threshold = float(r_stimulation.get("potential_threshold"))
+
+    results = dict()
+    # 未来参与用户最近被转发的次数阈值
+    results["extend_retweet_threshold"] = extend_retweet_threshold
+    # 重要参与用户至少被转发的次数阈值
+    results["in_user_threshold"] = in_user_threshold
+    # 重要潜在用户参与事件后可能被转发的次数阈值
+    results["potential_threshold"] = potential_threshold
+
+    return json.dumps(results)
+
+

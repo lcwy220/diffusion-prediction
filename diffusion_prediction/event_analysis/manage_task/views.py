@@ -29,8 +29,10 @@ def ajax_submit_event_task():
     task_detail["task_name"] = task_name
     task_detail['pinyin_task_name'] = pinyin_task_name
     task_detail["submit_user"] = submit_user
-    task_detail["start_ts"] = int(start_ts)
-    task_detail["end_ts"] = int(end_ts)
+    task_detail["start_ts"] = long(start_ts)
+    print '36::::',task_detail["start_ts"]
+    print '36::::',type(task_detail["start_ts"])
+    task_detail["end_ts"] = long(end_ts)
     task_detail["submit_time"] = int(submit_time)
     task_detail["must_keywords"] = must_keywords
     task_detail["should_keywords"] = should_keywords
@@ -88,11 +90,12 @@ def ajax_show_all_task():
         "size": 1000
     }
 
-    es_results = es_prediction.search(index=index_manage_event_analysis, doc_type=type_manage_event_analysis, \
+    es_results = es.search(index=index_manage_event_analysis, doc_type=type_manage_event_analysis, \
             body=query_body)["hits"]["hits"]
     #print '84::::::::',es_results
     task_list = []
     for item in es_results:
+        #print '96::::::::',item
         tmp = []
         item_detail = item["_source"]
         tmp.append(item_detail["task_name"])

@@ -38,7 +38,7 @@
                 <p class="line"></p>
             </li>
             <li class="main_li">
-                <a class="list_one li_a" href="/social_sensing/event_perception/">事件感知</a>
+                <a class="list_one li_a" href="/social_sensing/event_perception/">事件分析</a>
                 <p class="line"></p>
             </li>
             <li class="main_li">
@@ -110,10 +110,12 @@
     window.onscroll=function () {
         $('#nav').css({backgroundColor:'#777'});
         $('#nav .nav_top').css({color:'white'});
+        $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#fff'});
         $('#nav .nav_bottom .list .main_li .li_a').css({color:'white'});
         if ($(document).scrollTop()==0){
             $('#nav').css({backgroundColor:'#fff'});
             $('#nav .nav_top').css({color:'black'});
+            $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#2e90e6'});
             $('#nav .nav_bottom .list .main_li .li_a').css({color:'black'});
         }
     };
