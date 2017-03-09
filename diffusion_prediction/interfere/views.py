@@ -26,17 +26,20 @@ def strategy_results():
 # create task
 @mod.route('/create_interfere_task/')
 def ajax_create_interfere_task():
+    # 创建成功返回["1"]
+    # 创建失败返回["0"]:提示有重复任务存在
+
     finish = ["0"]
-    task_name = request.args.get('task_name','')
+    task_name = request.args.get('task_name','')#
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     submit_user = request.args.get('submit_user', 'admin@qq.com')
     current_ts = int(time.time())
-    submit_time = request.args.get('submit_time', current_ts)
-    start_time = request.args.get('start_time', "")
-    stop_time = request.args.get('stop_time', "")
+    submit_time = request.args.get('submit_time', current_ts)#
+    start_time = request.args.get('start_time', "")#
+    stop_time = request.args.get('stop_time', "")#
     remark = request.args.get('remark', '')
     must_keywords = request.args.get('must_keywords', '') # &&&
-    should_keywords = request.args.get('should_keywords', '')
+    should_keywords = request.args.get('should_keywords', '') #
     sti_during = request.args.get("interfer_during", 3600)
 
     task_detail = dict()
@@ -87,6 +90,7 @@ def ajax_delete_task():
 
 # show all task
 @mod.route('/show_all_task/')
+# 展示内容：任务名 提交人 起始时间 终止时间 进度 上一次更新时间 备注
 def ajax_show_all_task():
     query_body = {
         "query": {
@@ -104,10 +108,11 @@ def ajax_show_all_task():
         tmp = []
         item_detail = item["_source"]
         tmp.append(item_detail["task_name"])
-        tmp.append(item_detail["submit_user"])
+        tmp.append(item_detail["submit_user"]) # 可忽略
         tmp.append(item_detail["submit_time"])
         tmp.append(item_detail["stop_time"])
         tmp.append(item_detail["update_time"])
+        tmp.append(item_detail["remark"])
         task_list.append(tmp)
 
     return json.dumps(task_list)
@@ -191,6 +196,7 @@ def ajax_get_diffusion_path():
     return results
 
 
+    
 
 
 

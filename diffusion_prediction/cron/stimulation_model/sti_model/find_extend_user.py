@@ -10,7 +10,7 @@ import sys
 reload(sys)
 sys.path.append('../../../')
 
-from global_utils import es_prediction,es_retweet
+from global_utils import es_prediction,es_retweet, r_stimulation
 from global_config import index_be_retweet, index_type_be_retweet,index_manage_interfere_task, type_manage_interfere_task
 from time_utils import ts2datehour, datehour2ts
 
@@ -39,6 +39,11 @@ def extend_network(task_name, ts):
     uid_count = es_prediction.search(index=index_name, doc_type="text", \
             body=query_uid)["aggregations"]["uid_count"]["value"]
 
+    try:
+        extend_retweet_threshold = float(r_stimulation.get("extend_retweet_threshold"))
+    except:
+        r_stimulation.set("extend_retweet_threshold", 10000)
+        extend_retweet_threshold = 10000
 
     user_list = organize_network(task_name, ts)
     exist_user_set = set(user_list)
@@ -58,7 +63,7 @@ def extend_network(task_name, ts):
                     print "extend network: ", count
                 uid_be_retweet = json.loads(item["_source"]["uid_be_retweet"])
                 retweet_count = len(uid_be_retweet)
-                if retweet_count < 10000:
+                if retweet_count < extend_retweet_threshold: # 对外扩展的阈值
                     continue
                 uid_retweet_list = uid_be_retweet.keys()
                 uid_retweet_list = list(set(uid_retweet_list)-exist_user_set)
@@ -77,11 +82,19 @@ def predict_user_influence(task_name, stop_time, ts):
     with open("gbdt.pkl", "r") as f:
         gbdt = pickle.load(f)
 
+    # 已出现的重要用户阈值
+    try:
+        in_user_threshold = float(r_stimulation.get("in_user_threshold"))
+    except:
+        r_stimulation.set("in_user_threshold", 1000)
+        in_user_threshold = 1000
+
+
     in_results = gbdt.predict(in_user_info)
     print "len(in_user_list): ", len(in_user_list)
     prediction_in = dict()
     for i in range(len(in_user_list)):
-        if math.exp(in_results[i]) > 1000:
+        if math.exp(in_results[i]) > in_user_threshold: # 1000
             prediction_in[in_user_list[i]] = math.exp(in_results[i])
 
 
@@ -107,7 +120,7 @@ def predict_user_influence(task_name, stop_time, ts):
                         count += 1
                         uid_be_retweet = json.loads(item["_source"]["uid_be_retweet"])
                         retweet_count = len(uid_be_retweet)
-                        if retweet_count < 500:
+                        if retweet_count < 1000:
                             continue
                         tmp = []
                         tmp.append(math.log(retweet_count+1))
@@ -155,11 +168,18 @@ def save_results(task_name, ts, prediction_in, future_dict):
     return True
 
 def prediction_model(uid, gbdt, tmp_prediction_list, tmp_uid_list, future_dict):
+    # 潜在用户阈值
+    try:
+        potential_threshold = float(r_stimulation.get("potential_threshold"))
+    except:
+        r_stimulation.set("potential_threshold", 1000)
+        potential_threshold = 1000
+
     tmp_value_list = list(gbdt.predict(tmp_prediction_list))
     for tmp_each in tmp_value_list:
         index = tmp_value_list.index(tmp_each)
         tmp_prediction = math.exp(tmp_each)
-        if tmp_prediction >= 1000:
+        if tmp_prediction >= potential_threshold:
             try:
                 future_dict[uid][tmp_uid_list[index]] = tmp_prediction
             except:
