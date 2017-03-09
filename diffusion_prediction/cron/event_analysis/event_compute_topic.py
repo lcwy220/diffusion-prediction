@@ -101,12 +101,12 @@ def compute_topic_task():
             t1=time.time()
     '''
     t1=time.time()
-    topic = '毛泽东诞辰纪念日'
-    en_name = "mao_ze_dong_dan_chen_ji_nian_ri"
-    start_ts = 1482681600
-    end_ts = 1483113600
-    must_keywords = ['毛泽东']
-    should_keywords = ['诞辰'，'纪念日']
+    topic = '天津老太摆射击摊被判刑' #'毛泽东诞辰纪念日'
+    en_name = 'tian_jin_lao_tai_she_ji_qiang_bei_pan_xing' #"mao_ze_dong_dan_chen_ji_nian_ri"
+    start_ts = 1482768502 #1482681600
+    end_ts = 1483455435 #1483113600
+    must_keywords = ["射击","判刑"] #['毛泽东']
+    should_keywords = ["天津","老太"] #['诞辰'，'纪念日']
     #start compute
     
 

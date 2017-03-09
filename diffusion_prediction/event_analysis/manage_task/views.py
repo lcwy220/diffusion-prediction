@@ -100,6 +100,7 @@ def ajax_show_all_task():
         tmp.append(item_detail["submit_time"])
         tmp.append(item_detail["start_ts"])
         tmp.append(item_detail["end_ts"])
+        tmp.append(item_detail["event_value_finish"])
         
         task_list.append(tmp)
 
