@@ -43,7 +43,7 @@ function getLocalTime(nS) {
 
 function task(data) {
     var data=eval(data);
-    // console.log(data)
+    // console.log(data);
     $('#tasks_lists_every').bootstrapTable('load',data);
     $('#tasks_lists_every').bootstrapTable({
         // data:data,
