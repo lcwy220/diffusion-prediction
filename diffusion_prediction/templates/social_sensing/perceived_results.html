@@ -1,255 +1,112 @@
-
 {% extends "public_nav.html" %}
 {% block title %}<title>感知结果</title>{% endblock %}
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/perceived_results.css">
+<style>
+    .fanye #div-button input {
+        display: inline-block;
+        padding: 5px 14px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        color: #337ab7;
+    }
+    .fanye #div-button input:hover{
+        background-color:#eee;
+    }
+</style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
-    <div class="res_top">
-        <h1 class="res_title">中国女排</h1>
-        <hr/>
-    </div>
-    <!--时间走势-->
-    <div class="res_timeTrend" style="margin: 10px 0">
-        <h3 style="margin-bottom:10px;color: white;text-align: center;">时间走势</h3>
-        <div id="timeTrend_figure"></div>
-        <div id="timeTrend_weibo">
-            <p class="weibo_time">当前选择时间：<span style="color: red;">2017-2-20</span></p>
-            <div class="words_and_weibo">
-                <div class="words_left">
-                    <span style="font-size: 14px;color: white;">关键词</span>
-                    <div id="weibo_key_words"></div>
-                </div>
-                <div class="weibo_right">
-                    <span style="font-size: 14px;color: white;">相关微博</span>
-                    <div id="weibo_content">
-                        <div class="weibo_detail" style="margin: 5px 0">
-                            <a class="weibo_name" href="###">头条新闻</a>
-                            <span class="weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="weibo_operating" style="float: right">
-                                    <span class="weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="weibo_detail" style="margin: 5px 0">
-                            <a class="weibo_name" href="###">头条新闻</a>
-                            <span class="weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="weibo_operating" style="float: right">
-                                    <span class="weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="weibo_detail" style="margin: 5px 0">
-                            <a class="weibo_name" href="###">头条新闻</a>
-                            <span class="weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="weibo_operating" style="float: right">
-                                    <span class="weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="weibo_detail" style="margin: 5px 0">
-                            <a class="weibo_name" href="###">头条新闻</a>
-                            <span class="weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="weibo_operating" style="float: right">
-                                    <span class="weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
+    <p class="type-list">
+        <span class="time"><b class="icon icon-time"></b>&nbsp;&nbsp;时间</span>
+        <span class="place"><b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</span>
+        <span class="net"><b class="icon icon-rss"></b>&nbsp;&nbsp;网络</span>
+        <span class="emtion"><b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</span>
+        <span class="meaning"><b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
+    </p>
+    <div class="choose_date">
+        <div class="date-1"
+             style="display: inline-block;width: 100%!important;padding: 0;">
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">日期：从</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker6'>
+                        <input type='text' class="form-control start" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!--情绪走势-->
-    <div class="res_emotional" style="margin: 10px 0">
-        <h3 style="color: white;text-align: center;margin-bottom:10px;">情绪走势</h3>
-        <div id="emotional_figure"></div>
-        <div id="emotional_weibo">
-            <p class="weibo_time">当前选择时间：<span style="color: red;">2017-2-20</span></p>
-            <div class="emotional_words_and_weibo">
-                <div class="emotional_left">
-                    <span style="font-size: 14px;color: white;">关键词</span>
-                    <div id="emotional_key_words"></div>
-                </div>
-                <div class="emotional_right">
-                    <span style="font-size: 14px;color: white;">相关微博</span>
-                    <div id="emotional_weibo_content">
-                        <div class="emotional_weibo_detail" style="margin: 5px 0">
-                            <a class="emotional_weibo_name" href="###">头条新闻</a>
-                            <span class="emotional_weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="emotional_weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="emotional_weibo_operating" style="float: right">
-                                    <span class="emotional_weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="emotional_weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="emotional_weibo_detail" style="margin: 5px 0">
-                            <a class="emotional_weibo_name" href="###">头条新闻</a>
-                            <span class="emotional_weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="emotional_weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="emotional_weibo_operating" style="float: right">
-                                    <span class="emotional_weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="emotional_weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="emotional_weibo_detail" style="margin: 5px 0">
-                            <a class="emotional_weibo_name" href="###">头条新闻</a>
-                            <span class="emotional_weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="emotional_weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="emotional_weibo_operating" style="float: right">
-                                    <span class="emotional_weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="emotional_weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="emotional_weibo_detail" style="margin: 5px 0">
-                            <a class="emotional_weibo_name" href="###">头条新闻</a>
-                            <span class="emotional_weibo_words">
-                                话说沙尘暴吹到台湾。许多老人走上街头，张开双手，45度仰望天空，泪流满面，深呼吸，
-                                激动地说道：60年了，60年了，终于闻到家乡的泥土味了。
-                            </span>
-                            <div class="emotional_weibo_source">
-                                <span>2017-2-2</span>
-                                <p class="emotional_weibo_operating" style="float: right">
-                                    <span class="emotional_weibo_forwarding">转发数（213）</span>
-                                    <span>|</span>
-                                    <span class="emotional_weibo_comment">评论数（542）</span>
-                                </p>
-                            </div>
-                        </div>
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">到</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker7'>
+                        <input type='text' class="form-control end" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
                     </div>
                 </div>
             </div>
+            <button class="opt_sure" onclick="ckdate()">确定</button>
         </div>
     </div>
+    <h1 class="title-1" style='width: 60%;margin: 10px auto;color: #919191;font-size: 30px'>
+        <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+        <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+        时间热度图
+        <div class="btn-group unit_time" role="group" style="float: right;margin-right: 30px;">
+            <button type="button" class="btn btn-default t-15">15 min</button>
+            <button type="button" class="btn btn-default t-30">30 min</button>
+            <button type="button" class="btn btn-default t-60">1 hour</button>
+        </div>
+        <p style="float: right;font-size: 18px;margin-top: 6px">单位时间&nbsp;&nbsp;&nbsp;</p>
+    </h1>
+    <div id="hot_list" style="width: 60%;height: 400px;margin: 0 auto">
+    </div>
+    <h1 class="title-2" style='width: 60%;margin: 15px auto;color: #919191;font-size: 30px'>
+        <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+        <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left:-6px"></span>
+        微博浏览区
+    </h1>
+    <div class="hot_event">
+        <div class="event_list">
+            <div style="padding-left: 30px">
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#a73cff;
+                position: relative;top: 9px;"></span>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c;
+                position: relative;top: 9px;"></span>
+                <span style="display: inline-block;font-size: 20px;color:#868686;
+                position: relative;top: 5px;">排序方式：</span>
+                <div class="btn-group sorting" role="group" style="display: inline-block;">
+                    <button type="button" class="btn btn-default s-1">按时间</button>
+                    <button type="button" class="btn btn-default s-2">按热度</button>
+                </div>
+            </div>
+            <div id="group_emotion_loading" style="display:block;text-align:center;">正在加载，请稍后...</div>
+            <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                <table id="input-table" class="In-table" style="display: block;">
+                    <tbody class="In-table" style='width:100%!important;'>
+                    </tbody>
+                </table>
+            </div>
+            <div class='fanye' style="width:100%;text-align:center;margin-top: 30px">
+                <span style="display:none;">每页显示<input type="text" id="PageNo" size="4" value="4" style='text-align:center;border:1px solid #ccc;'/>组</span>
+                <div id="div-button" style="display:inline-block;margin-left:5px;">
+                    <input type="button" value="首页" id="F-page">
+                    <input type="button" value="上一页" id="Pre-page">
+                    <input type="button" value="下一页" id="Nex-page">
+                    <input type="button" value="尾页" id="L-page">
+                </div>
 
-    <!--地域分布-->
-    <div class="res_geo" style="margin: 10px 0">
-        <h3 style="color: white;text-align: center;margin-bottom:10px;">地域分布</h3>
-        <div class="geo_type">
-            <span class="geo_type_1" style="background-color:#4caf50;">区域分布</span>
-            <span class="geo_type_2">热度对比</span>
-            <span class="geo_type_3">舆情传导</span>
-        </div>
-        <div id="geo_1_map"></div>
-        <div id="geo_2_map" style="display: none"></div>
-        <div id="geo_3_map" style="display: none"></div>
-    </div>
-    <!--关键用户-->
-    <div class="res_admin">
-        <h3 style="color: white;text-align: center;margin-bottom:10px;">关键用户</h3>
-        <div id="admin_user">
-            <table class="table table-bordered table-responsive">
-                <thead>
-                <tr>
-                    <th>头像</th>
-                    <th>昵称</th>
-                    <th>注册地</th>
-                    <th>粉丝数</th>
-                    <th>微博数</th>
-                    <th>重要度</th>
-                    <th>PageRank排名</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <img src="/static/images/test.png" alt="">
-                    </td>
-                    <td>央视新闻</td>
-                    <td>北京</td>
-                    <td>100万</td>
-                    <td>937</td>
-                    <td>92</td>
-                    <td>1</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!--传播社区-->
-    <div class="community">
-        <h3 style="color: white;text-align: center;margin-bottom:10px;">传播社区</h3>
-        <div id="com_layout"></div>
-    </div>
-    <div class="com_current">
-        <h3 style="color: white;text-align: center;margin-bottom:10px;">当前社区</h3>
-        <div id="com_group">
-            <table class="table table-bordered table-responsive">
-                <thead>
-                <tr>
-                    <th>头像</th>
-                    <th>昵称</th>
-                    <th>注册地</th>
-                    <th>粉丝数</th>
-                    <th>微博数</th>
-                    <th>重要度</th>
-                    <th>PageRank排名</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <img src="/static/images/test.png" alt="">
-                    </td>
-                    <td>央视新闻</td>
-                    <td>北京</td>
-                    <td>100万</td>
-                    <td>937</td>
-                    <td>92</td>
-                    <td>1</td>
-                </tr>
-                </tbody>
-            </table>
+                <span style="display:inline-block;">&nbsp;当前第<span id="s2"></span>页</span>
+                <span style="display:inline-block;">总共<span id="s1"></span>页</span>
+            </div>
         </div>
     </div>
 </div>
@@ -258,30 +115,53 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-    var ospan=$('#container .res_geo .geo_type span');
-    $.each(ospan,function (index,item) {
-        $(item).on('click',function () {
-            $(this).css({backgroundColor:'#4caf50'});
-            $(this).siblings('span').css({backgroundColor:'cornflowerblue'});
-            if (index==0){
-                $('#geo_1_map').css({display:'block'});
-                $('#geo_2_map').css({display:'none'});
-                $('#geo_3_map').css({display:'none'});
-            }else if (index==1){
-                $('#geo_2_map').css({display:'block'});
-                $('#geo_1_map').css({display:'none'});
-                $('#geo_3_map').css({display:'none'});
-            }else {
-                $('#geo_3_map').css({display:'block'});
-                $('#geo_1_map').css({display:'none'});
-                $('#geo_2_map').css({display:'none'});
-            }
+    var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
+    //---------时间控件
+    $(function () {
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker();
+        $("#datetimepicker6").on("dp.change",function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
         });
+        $("#datetimepicker7").on("dp.change",function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+    $("#container .type-list span").hover(function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1.2)',
+            '-moz-transform': 'scale(1,1.2)',
+            '-ms-transform': 'scale(1,1.2)',
+            '-o-transform': 'scale(1,1.2)',
+            'transform': 'scale(1,1.2)',
+            'width':'24%',
+            'background-color': '#00c1de',
+            'border':'1px solid #00c1de',
+            'color':'#fff',
+            'box-shadow': '0 0 20px rgba(0, 198, 226, 0.5)',
+        });
+        $(this).siblings('span').css({
+            'width':'19%'
+        });
+    },function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1)',
+            '-moz-transform': 'scale(1,1)',
+            '-ms-transform': 'scale(1,1)',
+            '-o-transform': 'scale(1,1)',
+            'transform': 'scale(1,1)',
+            'width':'20%',
+            'background-color': '',
+            'border':'1px solid #E5E6E6',
+            'color':'#373D41',
+            'box-shadow': '',
+        });
+        $(this).siblings('span').css({
+            'width':'20%'
+        })
     });
 </script>
 <script src="/static/js/perceived_results_1.js"></script>
-<script src="/static/js/perceived_results_2.js"></script>
-<script src="/static/js/perceived_results_3.js"></script>
-<script src="/static/js/perceived_results_4.js"></script>
-<script src="/static/js/perceived_results_6.js"></script>
+<!--<script src="/static/js/perceived_results_2.js"></script>-->
+
 {% endblock %}

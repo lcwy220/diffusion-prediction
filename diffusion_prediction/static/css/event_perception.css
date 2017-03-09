@@ -1,9 +1,5 @@
-body {
-    background: url("/static/images/home.jpg") no-repeat;
-    /*background-size: cover;*/
-}
-#container {
-    width: 100%;
+#container .new_perception_task {
+    padding-top: 100px;
 }
 #container .new_perception_task .new_task_menu {
     width: 60%;
@@ -21,35 +17,41 @@ body {
     width: 150px;
 }
 #container .new_perception_task .new_task_menu .menu_m input {
-    padding: 2px 5px;
-    width: 150px;
-    margin-left: 30px;
-    border-radius: 15px;
+    padding: 5px 8px;
+    width: 180px;
+    margin-left: 20px;
+    border-radius: 5px;
+    border: 1px solid #6f6f6f;
 }
+/*#container .new_perception_task .new_task_menu #key-1,*/
+/*#container .new_perception_task .new_task_menu #key-2 {*/
+    /*width: 250px;*/
+/*}*/
 #container .new_perception_task .new_task_menu .menu_m .task_time_cor input {
     border-radius: 0;
 }
 #container .new_perception_task .new_task_menu span {
-    color: white;
+    color: #919191;
     font-weight: 800;
     font-size: 16px;
 }
 #container .new_perception_task .new_task_menu .new_build button {
-    color: white;
+    color: #464646;
     font-weight: 800;
     font-size: 16px;
-    background-color: #5e5e5e;
+    background-color: #bcbcbc;
     padding: 5px 10px;
     border-radius: 10px;
 }
 #container .new_perception_task .new_task_menu .new_build button:hover {
-    background-color: black;
+    background-color: #464646;
+    color: white;
 }
 /*任务列表*/
 #container .tasks_lists .tasks_lists_every {
-    width: 60%;
+    /*width: 60%;*/
     /*padding: 20px 30px;*/
-    margin: 0 auto 40px;
+    /*margin: 0 auto 40px;*/
     /*border: 1px solid darkgray;*/
     /*border-radius: 10px;*/
 }
