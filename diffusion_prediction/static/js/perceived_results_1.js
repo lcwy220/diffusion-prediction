@@ -7,13 +7,23 @@ var starttime,endtime,unit_time='900',order='timestamp';
 $('.unit_time button').on('click',function () {
     if ($(this).text()=='15 min'){
         unit_time='900';
-        request();
+        line_request();
     }else if ($(this).text()=='30 min'){
         unit_time='1800';
-        request();
+        line_request();
     }else {
         unit_time='3600';
-        request();
+        line_request();
+    }
+});
+
+$('.sorting button').on('click',function () {
+    if ($(this).text()=='按时间'){
+        order='timestamp';
+        weibo_request();
+    }else if ($(this).text()=='按热度'){
+        order='1800';
+        weibo_request('');
     }
 });
 function ckdate() {
@@ -33,12 +43,13 @@ function ckdate() {
                 '&start_ts='+start+'&end_ts='+end+'&pointInterval='+unit_time;
             weibo_url='/topic_time_analyze/time_order_weibos/?topic='+topic_name+
                 '&start_ts='+start+'&end_ts='+end+'&sort_item='+unit_time;
-            request();
+            line_request();
+            weibo_request();
         }
     }
 }
 //---请求--
-function request() {
+function line_request() {
     $.ajax({
         url: line_url,
         type: 'GET',
@@ -46,6 +57,9 @@ function request() {
         async: true,
         success:hot_line
     });
+};
+line_request();
+function weibo_request() {
     $.ajax({
         url: weibo_url,
         type: 'GET',
@@ -53,8 +67,8 @@ function request() {
         async: true,
         success:weibo
     });
-};
-request();
+}
+weibo_request();
 
 
 //时间戳转换
