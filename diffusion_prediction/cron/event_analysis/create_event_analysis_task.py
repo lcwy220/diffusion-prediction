@@ -71,10 +71,12 @@ def task_list():
 
 def test():
     item = {}
-    item['task_name'] = '毛泽东诞辰纪念日'
-    item['pinyin_task_name'] = "mao_ze_dong_dan_chen_ji_nian_ri"
-    item['start_ts'] = 1482681600
-    item['end_ts'] = 1483113600
+    item['task_name'] = '天津老太摆射击摊被判刑' #'毛泽东诞辰纪念日'
+    item['pinyin_task_name'] = 'tian_jin_lao_tai_she_ji_qiang_bei_pan_xing' #"mao_ze_dong_dan_chen_ji_nian_ri"
+    item['start_ts'] = 1482768502 #1482681600
+    item['end_ts'] = 1483455435 #1483113600
+    item['submit_user'] = 'admin@qq.com' 
+    item['submit_time'] = 1489027704 
     item['event_value_finish'] = 0
     item['scan_text_finish'] = 0
 
