@@ -255,9 +255,12 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 		var data1=[],data2=[],data3=[];
 		for (var key in data){
 			if (key==1){
-				data.push({data[key]})
-			}
+				for (var key_1 in data[key]) {
+					data1.push([key1,data[key][key_1]])
+				}
 
+			}
+			console.log(data1)
 		}
 	 	$('#main_place').empty();
 	 	$('#top15_content_place').empty();
