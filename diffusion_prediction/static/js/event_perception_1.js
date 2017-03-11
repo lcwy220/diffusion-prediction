@@ -14,7 +14,6 @@ $('#build').on('click',function () {
         st_finish(start,end);
         new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&end_ts=' +
             end+'&must_keywords=['+must_val+']&should_keywords=['+should_val+']&submit_user=admin@qq.com';
-        console.log(new_task_url)
         $.ajax({
             url: new_task_url,
             type: 'GET',
@@ -23,10 +22,11 @@ $('#build').on('click',function () {
             success:build_task
         });
     }
-})
+});
 function build_task(data) {
     if (data[0]==1){
         alert('创建成功。');
+        taskList();
     }else {
         alert('创建失败。');
     }
@@ -35,7 +35,7 @@ function build_task(data) {
 
 //时间戳转换
 function getLocalTime(nS) {
-    return new Date(parseInt(nS) * 1000).toLocaleString().substr(0,10);
+    return new Date(parseInt(nS) * 1000).toLocaleString().substr(0,8);
 }
 
 //展示所有任务
@@ -43,10 +43,9 @@ function getLocalTime(nS) {
 
 function task(data) {
     var data=eval(data);
-    // console.log(data);
     $('#tasks_lists_every').bootstrapTable('load',data);
     $('#tasks_lists_every').bootstrapTable({
-        // data:data,
+        data:data,
         search: true,//是否搜索
         pagination: true,//是否分页
         pageSize: 5,//单页记录数
@@ -54,7 +53,7 @@ function task(data) {
         sidePagination: "client",//服务端分页
         searchAlign: "left",
         searchOnEnterKey: false,//回车搜索
-        showRefresh: true,//刷新按钮
+        // showRefresh: true,//刷新按钮
         showColumns: true,//列选择按钮
         buttonsAlign: "right",//按钮对齐方式
         locale: "zh-CN",//中文支持
@@ -63,17 +62,17 @@ function task(data) {
         sortName:'bci',
         sortOrder:"desc",
         columns: [
-            // {
-            //     title: "序号",//标题
-            //     field: "",//键名
-            //     sortable: true,//是否可排序
-            //     order: "desc",//默认排序方式
-            //     align: "center",//水平
-            //     valign: "middle",//垂直
-            //     formatter: function (value, row, index) {
-            //         return index+1;
-            //     }
-            // },
+            {
+                title: "序号",//标题
+                field: "",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    return index+1;
+                }
+            },
             {
                 title: "任务名称",//标题
                 field: "",//键名
@@ -82,7 +81,6 @@ function task(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    console.log(row)
                     return row[0];
                 },
             },
@@ -105,9 +103,13 @@ function task(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    var str='<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">'+
-                        '<span class="sr-only">40% Complete (success)</span><span>40</span></div> </div>';
-                    return str;
+                    if (row[5]==0){
+                        return '尚未计算';
+                    }else if (row[5]==2){
+                        return '计算完成';
+                    }else {
+                        return '正在计算';
+                    }
                 },
             },
             {
@@ -129,22 +131,48 @@ function task(data) {
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    var look='<span style="cursor: pointer;text-decoration: underline">感知结果</span>';
                     var delt='<span>删除</span>';
-                    return look,delt;
+                    return delt;
                 },
             },
         ],
         onClickRow: function (row, tr) {
-
+            if (tr[0].childNodes[5].innerText=='删除') {
+                var task_name=tr[0].childNodes[1].innerText;
+                var del_url='/manage_event/delete_event_task/?task_name='+task_name;
+                $.ajax({
+                    url: del_url,
+                    type: 'GET',
+                    dataType: 'json',
+                    async: true,
+                    success:del_task
+                });
+            };
+            if (tr[0].childNodes[3].innerText=='计算完成') {
+                window.open('/social_sensing/perceived_results/');
+            }
         }
     });
 }
-var task_list_url='/manage_event/show_event_task/';
-$.ajax({
-    url: task_list_url,
-    type: 'GET',
-    dataType: 'json',
-    async: true,
-    success:task
-});
+function taskList() {
+    var task_list_url='/manage_event/show_event_task/';
+    $.ajax({
+        url: task_list_url,
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success:task
+    });
+}
+taskList();
+
+
+
+//删除
+function del_task(data) {
+    if (data=='True'){
+        alert('删除成功');
+    }else {
+        alert('删除失败');
+    }
+}

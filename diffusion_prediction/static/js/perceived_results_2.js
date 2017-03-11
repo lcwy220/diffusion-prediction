@@ -1,3 +1,9 @@
+
+function perceived_results_2() {
+    $('#hot_pic').html('地域热力图');
+    $('')
+}
+
 var place_url_map='/topic_geo_analyze/geo_weibo_count/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
     '&start_ts=1482681600&end_ts=1483113600';
 var place_url_text='/topic_geo_analyze/geo_weibo_content/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
@@ -44,81 +50,21 @@ function request() {
         success:place_weibo
     });
 };
-request();
+// request();
 
 
 //时间戳转换
 function getLocalTime(nS) {
     return new Date(parseInt(nS) * 1000).toLocaleString().substr(0,10);
 }
-//-----画折线图------
-function place_map(data) {
-    $('#hot_list').empty();
-    var line=eval(data);
-    var date=[],num_1=[],num_2=[],num_3=[];
-    for (var key in line){
-        date.push(getLocalTime(key));
-        num_1.push(line[key][0]);
-        num_2.push(line[key][1]);
-        num_3.push(line[key][2]);
-    }
-    var myChart = echarts.init(document.getElementById('hot_list'));
-    var option = {
-        title: {
-            // text: '折线图堆叠'
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['原创','转发','评论']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: date
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                name:'原创',
-                type:'line',
-                stack: '总量',
-                data:num_1
-            },
-            {
-                name:'转发',
-                type:'line',
-                stack: '总量',
-                data:num_2
-            },
-            {
-                name:'评论',
-                type:'line',
-                stack: '总量',
-                data:num_3
-            },
-        ]
-    };
-    myChart.setOption(option);
-}
+//-----画地图------
+
+
+
 //-----微博---
 function place_weibo(data) {
     var data=eval(data);
-    weibo_text(data);
+    // weibo_text(data);
 }
 
 function weibo_text(data){

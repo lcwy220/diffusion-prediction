@@ -1,5 +1,5 @@
 {% extends "public_nav.html" %}
-{% block title %}<title>态势预测</title>{% endblock %}
+{% block title %}<title>预测结果</title>{% endblock %}
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/forecast_result.css">
 <style>
@@ -10,28 +10,34 @@
 {% block main %}
 <div id="container">
     <div class="res_top">
-        <h1 class="res_title">中国女排</h1>
+        <h1 class="res_title" style="text-align: center;font-size: 32px">中国女排</h1>
         <hr/>
     </div>
     <!--宏观预测-->
-    <div class="macro_big" style="margin: 10px 0">
-        <h3 style="margin-bottom:10px;color: black;text-align: center;">宏观预测</h3>
+    <div class="macro_big">
+        <h1 class="title-1">
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            宏观预测
+        </h1>
         <div class="big_content">
-            <p style="color: black">该话题将在<b>12月22日12:12</b>达到<b>200</b>条，<b>需要</b>干预</p>
+            <!--<p style="color: black">该话题将在<b>12月22日12:12</b>达到<b>200</b>条，<b>需要</b>干预</p>-->
             <div id="big_img_weibo"></div>
-            <div id="big_img_person"></div>
+            <div id="big_img_person" style="margin-left: 20px"></div>
+            <div id="big_img_line"></div>
         </div>
     </div>
 
     <!--微观预测-->
-    <div class="micro_small" style="margin: 10px 0">
-        <h3 style="color: black;text-align: center;margin-bottom:10px;">微观预测</h3>
+    <div class="micro_small">
+        <h1 class="title-1">
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            微观预测
+        </h1>
         <div class="small_content">
-            <div class="small_left">
-                <div id="left"></div>
-            </div>
-            <div class="small_right">
-                <div id="right"></div>
+            <div class="small_line">
+                <div id="small_trend"></div>
             </div>
         </div>
     </div>

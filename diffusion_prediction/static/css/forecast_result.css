@@ -1,39 +1,49 @@
-body {
-    background: url("/static/images/ressss.jpg") no-repeat;
-    background-size: 100% 120%;
-}
 #container {
-    width: 70%;
-    margin: 0 auto;
+    padding-top: 100px;
 }
 #container .res_top {
     width: 100%;
-    margin: 20px auto;
 }
-#container .res_top .res_title {
-    /*color: white;*/
+#container .macro_big,
+#container .micro_small{
+    width:80%;
+    margin: 20px auto 0;
+    text-align: center;
 }
-#container .macro_big .big_content,#container .micro_small .small_content {
+#container .macro_big .title-1,
+#container .micro_small .title-1 {
+    /*width: 60%;*/
+    margin: 10px auto;
+    color: #919191;
+    font-size: 30px;
+    text-align: left;
+}
+#container .macro_big .big_content,
+#container .micro_small .small_content {
     width: 100%;
-    height: 800px;
-    border: 1px solid black;
+    /*height: 800px;*/
+    border: 1px solid #919191;
     border-radius: 5px;
     padding: 20px 40px;
     margin: 20px 0;
 }
-#container .micro_small .small_content {
-    height: 350px;
-    text-align: center;
-}
-#container .macro_big .big_content b {
-    color: red;
-}
-#container .macro_big .big_content #big_img_weibo,#container .macro_big .big_content #big_img_person {
+/*#container .macro_big .big_content b {*/
+    /*color: red;*/
+/*}*/
+
+#container .micro_small .small_content .small_line #small_trend {
     width: 100%;
+    height: 330px;
+}
+
+#container .macro_big .big_content #big_img_weibo,
+#container .macro_big .big_content #big_img_person {
+    display: inline-block;
+    width: 45%;
     height: 350px;
 }
-#container .micro_small .small_content .small_left #left,#container .micro_small .small_content .small_right #right {
-    float: left;
-    width: 45%;
-    height: 330px;
+#container .macro_big .big_content #big_img_line {
+    width: 92%;
+    height: 350px;
+    margin: 10px auto;
 }

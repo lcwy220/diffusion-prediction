@@ -68,7 +68,7 @@ def ajax_submit_event_task():
 @mod.route('/delete_event_task/')
 def ajax_delete_event_task():
 
-	task_name = request.args.get(task_name)
+	task_name = request.args.get('task_name','')
 	pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
 
 	try:
