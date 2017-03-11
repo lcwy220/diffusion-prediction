@@ -256,9 +256,8 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 		for (var key in data){
 			if (key==1){
 				for (var key_1 in data[key]) {
-					data1.push([key1,data[key][key_1]])
+					data1.push([key_1,data[key][key_1]])
 				}
-
 			}
 			console.log(data1)
 		}
@@ -547,7 +546,6 @@ function Draw_blog_scan_area_place_result(){
 	var end_ts = 1483113600;
 
     url = "/topic_geo_analyze/geo_weibo_content/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&province='+province+'&sort_item='+sort_item;
- 	console.log(url);
  	topic_analysis_place.call_sync_ajax_request(url,topic_analysis_place.Draw_blog_scan_area_place);
 }
 
