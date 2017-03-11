@@ -12,6 +12,13 @@ from diffusion_prediction.global_utils import es_prediction as es
 mod = Blueprint('manage_event',__name__,url_prefix='/manage_event')
 
 
+@mod.route('/event_analysis/')
+def hot_event():
+
+    return render_template('event_analysis/date_base.html')
+
+
+
 @mod.route('/submit_event_task/')
 def ajax_submit_event_task():
 

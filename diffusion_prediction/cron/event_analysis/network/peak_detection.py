@@ -58,10 +58,12 @@ def filter_continuous(peaks):
 
 def min_variation(lis,dur=3,form=0):
 	vs = []
+	print 'lis::::::::::::::',lis
 	for cursor in range(len(lis)):
 		begin,end = scope(len(lis),cursor,dur=dur)
 		seg = lis[begin:end+1]
 		min_num = min(seg)
+
 		if form == 0:
 			vs.append((lis[cursor]-min_num))
 		else:

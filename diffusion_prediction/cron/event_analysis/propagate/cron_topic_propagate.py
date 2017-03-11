@@ -109,7 +109,7 @@ def compute_mtype_keywords(topic, begin_ts, end_ts ,during,k_limit):
 
 		show_keywords_dict = weibo_es.search(index=topic,doc_type=weibo_index_type,body=query_body)\
 						['aggregations']['all_interests']['buckets']
-		print 'show_keywords_dict::::::::::::::::::::',show_keywords_dict
+		#print 'show_keywords_dict::::::::::::::::::::',show_keywords_dict
 
 		keyword_dict = {}
 		for keyword in show_keywords_dict:
@@ -297,13 +297,13 @@ def propagateCronTopic(topic, start_ts, over_ts, sort_field=SORT_FIELD, \
 
 			begin_ts = over_ts - during * i
 			end_ts = begin_ts + during
-			#print begin_ts,end_ts
+			print 'begin_ts,end_ts:::::::::::::::;',begin_ts,end_ts
 			#print begin_ts, end_ts, 'topic %s starts calculate' % topic.encode('utf-8')
 			mtype_count = compute_mtype_count(topic, begin_ts, end_ts,during)
 			mtype_kcount = compute_mtype_keywords(topic, begin_ts, end_ts ,during,k_limit)
 			#mtype_weibo = compute_mtype_weibo(topic,begin_ts,end_ts,during,w_limit)
 
-			
+		
 			time_results['count'][end_ts] = mtype_count
 		
 			time_results['kcount'][end_ts] = mtype_kcount
@@ -424,23 +424,26 @@ if __name__ == '__main__':
 	start_date = '2016-08-03'
 	end_date = '2016-08-10'
 
-	topic = topic.decode('utf-8')
+	#topic = topic.decode('utf-8')
 	#topic_id = getTopicByName(topic)
 	#topic_index_name = getEsIndexName(topic)
-	topic_index_name = 'aoyunhui'
+	#topic_index_name = 'aoyunhui'
 	'''
 	#话题id异常处理
 	if topic_id == -1:
 		print 'Topic Error'
 		exit(-1)
 	'''
-	start_ts = datetime2ts(start_date)
-	end_ts = datetime2ts(end_date)
+	#start_ts = datetime2ts(start_date)
+	#end_ts = datetime2ts(end_date)
 	#得到es中相关微博
 	#es_search_weibo = getEsWeiboByTopic(topic_index_name)
 
 	print 'topic: ', topic.encode('utf-8'), 'from %s to %s' % (start_ts, end_ts)
 	duration = Fifteenminutes
+	topic_index_name = 'tian_jin_lao_tai_she_ji_qiang_bei_pan_xing'
+	start_ts = 1482768502
+	end_ts = 1483455435
 	propagateCronTopic(topic_index_name, start_ts, end_ts, during=duration)
 
 	#print topic,start_date,end_date,start_ts,end_ts

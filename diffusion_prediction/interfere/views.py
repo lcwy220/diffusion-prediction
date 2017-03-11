@@ -6,7 +6,8 @@ import json
 import pinyin
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 from diffusion_prediction.global_utils import es_prediction
-from diffusion_prediction.global_config import index_manage_interfere_task, type_manage_interfere_task
+from diffusion_prediction.global_config import index_manage_interfere_task, type_manage_interfere_task,\
+        index_manage_event_analysis,type_manage_event_analysis,index_manage_prediction_task,type_manage_prediction_task
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts,datehour2ts,ts2datehour
 
 
@@ -196,9 +197,49 @@ def ajax_get_diffusion_path():
     return results
 
 
-    
+# 展示先前的事件分析和态势预测任务
+# 展示字段顺序: task_name, submit_user, submit_time, end_ts, remark, 来源
+# 点击查看详情: 展示任务的细节信息
+
+@mod.route('/show_former_task/')
+def ajax_show_analysis_task():
+    query_body = {
+        "query":{
+            "range":{
+                "submit_time":{
+                    "gte": time.time()-20*24*3600
+                }
+            }
+        },
+        "size": 1000,
+        "sort":{"submit_time":{"order":"desc"}}
+    }
+
+    task_set = set()
+    es_results = es_prediction.search(index=index_manage_event_analysis,doc_type=\
+            type_manage_event_analysis, body=query_body)["hits"]["hits"]
+
+    analysis_results = []
+    for item in es_results:
+        task_set.add(item["_source"]["pinyin_task_name"])
+        analysis_results.append(item["_source"])
 
 
+    prediction_results = []
+    es_results = es_prediction.search(index=index_manage_prediction_task, doc_type=\
+            type_manage_prediction_task,body=query_body)["hits"]["hits"]
+
+    for item in es_results:
+        task_name = item["_source"]["pinyin_task_name"]
+        if task_name not in task_set:
+            prediction_results.append(item["_source"])
+            task_set.add(task_name)
+
+    return_dict = dict()
+    return_dict["event_analysis_task"] = analysis_results
+    return_dict["event_prediction_task"] = prediction_results
+
+    return json.dumps(return_dict)
 
 
 

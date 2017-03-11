@@ -419,7 +419,7 @@ def compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during):
                         province_dict[province][city] += 1  
                     except:
                         province_dict[province][city] = 1
-            geo_count[sentiment] = [end_ts,province_dict]
+            #geo_count[sentiment] = [end_ts,province_dict]
 
         else:
         	continue
@@ -434,6 +434,7 @@ def compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during):
     #save_rt_results_es('geo_count',topic,geo_count,during)
     #print geo_count
     #return results,geo_count   #{'时间戳'：{'情绪1'：[{微博字段},{微博字段}],'情绪2'：[]}}
+        geo_count[sentiment] = province_dict
     return geo_count   #{'时间戳'：{'情绪1'：[{微博字段},{微博字段}],'情绪2'：[]}}
 
 

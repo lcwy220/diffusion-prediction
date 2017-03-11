@@ -1,0 +1,186 @@
+{% extends "public_nav.html" %}
+{% block title %}<title>感知结果</title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/perceived_results.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/jqcloud.css" />
+<link rel="stylesheet" type="text/css" href="../../static/css/date_time.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/jquery.eeyellow.Timeline.css" />
+
+<style>
+    .fanye #div-button input {
+        display: inline-block;
+        padding: 5px 14px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        color: #337ab7;
+    }
+    .fanye #div-button input:hover{
+        background-color:#eee;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <p class="type-list nav nav-tabs" id="myTab">
+        <a class="time" href="#time" data-toggle="tab" onclick="time_load()">
+            <b class="icon icon-time"></b>&nbsp;&nbsp;时间
+        </a>
+        <a class="place" href="#place" data-toggle="tab" onclick="place_load()">
+            <b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</a>
+        <a class="net" href="#network" data-toggle="tab" onclick="network_load()">
+            <b class="icon icon-rss"></b>&nbsp;&nbsp;网络</a>
+        <a class="eomtion" href="#emotion" data-toggle="tab" onclick="emotion_load()">
+            <b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</a>
+        <a class="meaning" href="#meaning" data-toggle="tab" onclick="emotion_load()">
+            <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</a>
+    </p>
+    <div class="choose_date">
+        <div class="date-1"
+             style="display: inline-block;width: 100%!important;padding: 0;">
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">日期：从</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker6'>
+                        <input type='text' class="form-control start" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <span style="display: inline-block;color: #919191;
+                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">到</span>
+            <div style="display: inline-block;width: 200px;">
+                <div class="form-group" style="margin: 0">
+                    <div class='input-group date' id='datetimepicker7'>
+                        <input type='text' class="form-control end" style="height: 28px"/>
+                        <span class="input-group-addon" style="height: 28px">
+                                        <span class="icon icon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <button class="opt_sure" onclick="ckdate()">确定</button>
+        </div>
+    </div>
+
+    <div class="tab-pane fade in active event_analysis" id="time">
+        {% include "event_analysis/date_time.html"%}
+    </div>
+
+    <div id='place' class="tab-pane fade event_analysis" style="display: none">
+
+        {% include "event_analysis/date_place.html"%}
+
+    </div>
+
+    <div id='network' class="tab-pane fade event_analysis" style="display: none">
+
+        {% include "event_analysis/date_network.html"%}
+
+    </div>
+
+    <div id='emotion' class="tab-pane fade event_analysis" style="display: none">
+
+        {% include "event_analysis/date_emotion.html"%}
+
+    </div>
+
+    <div id='meaning' class="tab-pane fade event_analysis" style="display: none">
+
+        {% include "event_analysis/date_meaning.html"%}
+
+    </div>
+
+   
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
+    //---------时间控件
+    $(function () {
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker();
+        $("#datetimepicker6").on("dp.change",function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change",function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+    $("#container .type-list a").hover(function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1.2)',
+            '-moz-transform': 'scale(1,1.2)',
+            '-ms-transform': 'scale(1,1.2)',
+            '-o-transform': 'scale(1,1.2)',
+            'transform': 'scale(1,1.2)',
+            'width':'24%',
+            'background-color': '#00c1de',
+            'border':'1px solid #00c1de',
+            'color':'#fff',
+            'box-shadow': '0 0 20px rgba(0, 198, 226, 0.5)',
+        });
+        $(this).siblings('a').css({
+            'width':'19%'
+        });
+    },function () {
+        $(this).css({
+            '-webkit-transform': 'scale(1,1)',
+            '-moz-transform': 'scale(1,1)',
+            '-ms-transform': 'scale(1,1)',
+            '-o-transform': 'scale(1,1)',
+            'transform': 'scale(1,1)',
+            'width':'20%',
+            'background-color': '',
+            'border':'1px solid #E5E6E6',
+            'color':'#373D41',
+            'box-shadow': '',
+        });
+        $(this).siblings('a').css({
+            'width':'20%'
+        })
+    });
+
+    $('#myTab a').on('click',function () {
+        var class_name=$(this).attr('class');
+        if (class_name=='time'){
+            $('#time').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
+        }else if(class_name=='place'){
+            $('#place').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
+        }else if(class_name=='network'){
+            $('#network').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
+        }else if(class_name=='emotion'){
+            $('#emotion').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
+        }else if(class_name=='meaning'){
+            $('#meaning').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
+        }
+    })
+</script>
+
+<!-- <script type="text/javascript" src='../../static/js/echarts/src/chart/graph/graph.js'></script> -->
+
+<!-- <script type="text/javascript" src="../../static/js/require.js"></script>
+<script type="text/javascript" src="../../static/js/require.min.js"></script> -->
+<!-- <script type="text/javascript" src="../../static/js/esl.js"></script> -->
+<script type="text/javascript" src='../../static/js/map.js'></script>
+<script type="text/javascript" src='../../static/js/echarts-map.js'></script>
+<script src="../../static/js/jqcloud-1.0.4.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src='../../static/js/dataTool.js'></script>
+<script type="text/javascript" src="../../static/js/jquery.eeyellow.Timeline.js"></script>
+
+ <script type="text/javascript" src="../../static/js/date_time.js"></script>
+ <script type="text/javascript" src="../../static/js/date_place.js"></script>
+ <script type="text/javascript" src="../../static/js/date_network.js"></script>
+<script type="text/javascript" src="../../static/js/date_meaning.js"></script>
+ <script type="text/javascript" src="../../static/js/date_emotion.js"></script>
+
+
+
+{% endblock %}

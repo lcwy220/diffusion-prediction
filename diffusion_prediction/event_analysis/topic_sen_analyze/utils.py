@@ -156,8 +156,9 @@ def get_sen_province_count_es(en_name,start_ts,end_ts,unit=MinInterval):
 
     for end_ts,sen_geo_dict in geo_counts.iteritems():
         for sen,geo_list in sen_geo_dict.iteritems():
-            if geo_list[1]:
-                for province,city_dict in geo_list[1].iteritems():
+            print 'type:::::geo_list',geo_list
+            if geo_list:
+                for province,city_dict in geo_list.iteritems():
                     for k,v in city_dict.iteritems():
                         
                         if k == 'total':

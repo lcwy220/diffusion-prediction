@@ -106,13 +106,15 @@ def get_interval_count(topic, date, windowsize):
     interval = (end_ts - start_ts) / during
     print 'interval:', interval
     print topic
+    '''
     if MYSQL_TOPIC_LEN == 0:
     	topic0 = topic[:20]
     else:
         topic0=topic
+    '''
     for i in range(interval, 0, -1):
         #print 'i:', i
-        begin_ts = end_ts - during * i
+        begin_ts = long(end_ts) - during * i
         over_ts = begin_ts + during
         #print 'begin_ts:', begin_ts#ts2date(begin_ts)
         #print 'over_ts:', over_ts#ts2date(over_ts)
@@ -145,21 +147,32 @@ def get_interval_count(topic, date, windowsize):
             'query':{
                 'bool':{
                     'must':[
-                        {'term':{'pinyin_task_name':topic0}}
+                        {'term':{'en_name':topic}}
                     ]
                 }
-            }
+            },
+            'size':1000000
         }
 
-        results = weibo_es.search(index=index_name,doc_type=index_type,body=query_body)['hits']['hits']
+        es_results = weibo_es.search(index=index_name,doc_type=index_type,body=query_body)['hits']['hits']
+        #print 'results::::::::::',results
+        print 'len_results:::::::::::',len(es_results)
         count = 0
-        for result in results:
+        for result in es_results:
             result = result['_source']
             time_results = json.loads(result['time_results'])
+            count_results = time_results['count']
+            print 'type_time_results:::::::',type(time_results)
+            time_time = time_results.keys()
+            print 'time_results.keys:::::',time_time.sort()
+            #print 'time_results.keys:::::',len(time_time.sort())
+
             if time_results['during'] == unit :
-                end_ts = time_results['end_ts']
-                if end_ts > begin_ts and end_ts <= over_ts:
-                    count +=1
+                print 'count_results.keys()::::;',count_results.keys()
+                for end_ts_count in count_results.keys():
+            
+                    if end_ts_count > begin_ts and end_ts_count <= over_ts:
+                        count +=1
         '''
         if items:
             result = len(items)
@@ -167,17 +180,21 @@ def get_interval_count(topic, date, windowsize):
             result = 0
         results.append(float(result))
         '''
+        '''
         if count:
             result = count
         else:
             result = 0
-        results.append(float(result))
-
+        '''
+        results.append(float(count))
+        print 'results::::::::::',results
+        #print abababa
     print 'detect_peak_bottom_line::::::', results
     new_zeros = detect_peaks(results) # 返回峰值出现的时间区间的序号
     new_bottom  = detect_bottom(results)  # get the first bottom
-    print 'new_peaks:', new_zeros
-    print 'new_bottom:', new_bottom
+    print 'new_zeros:::::::::::::::::', new_zeros
+    print 'new_bottom::::::::::::::::', new_bottom
+    print 'ts_list:::::::::::::::::::',ts_list
     # 存趋势时间范围
     # save_peak_bottom(new_zeros, new_bottom)
     #trend_maker = get_makers(topic, new_zeros, new_bottom, ts_list, topic_xapian_id)
@@ -208,6 +225,10 @@ def save_trend_keyuser(topic, date, windowsize, trend_maker, trend_pusher):
 
 def save_trend_maker_es(topic, date, windowsize, trend_maker):
     #xapian_search_weibo = getXapianWeiboByTopic(topic_xapian_id) # topic id 要做一下处理
+    print 'topic::::::::::::::::',topic
+    print 'date:::::::::::::::::',date
+    print 'windowsize:::::::::::',windowsize
+    print 'trend_maker::::::::::',trend_maker
     makers = trend_maker
     rank = 0
     user_exist_list = []
@@ -225,6 +246,8 @@ def save_trend_maker_es(topic, date, windowsize, trend_maker):
         mid = maker[1]
         value = maker[2] #内容相关度---关键词命中个数
         key_item = maker[3] # 命中的关键词 
+        print 'maker::::::::::::::::::::::',maker
+        break 
         user_info = get_user_info(uid)
         query_body = {
             'query': {
@@ -495,8 +518,10 @@ def get_keyword(topic, begin_ts, end_ts, top):
     #unit = 900 # PropagateKeywords unit=900
     #limit = 50
     limit = fu_tr_top_keyword
+    '''
     if MYSQL_TOPIC_LEN == 0:
     	topic=topic[:20]
+    '''
     #print 'get_keywords begin_ts:', begin_ts
     #print 'get_keywords end_ts:', end_ts
     print topic,unit,limit
@@ -993,8 +1018,12 @@ if __name__=='__main__':
     get_interval_count(topic, date, windowsize, topic_xapian_id)
     '''
     #topic = '毛泽东诞辰纪念日'
-    topic = "mao_ze_dong_dan_chen_ji_nian_ri"
-    start_ts = 1482681600
-    end_ts = 1483113600
-    test(topic, start_ts, end_ts)
-    
+
+    #topic = "mao_ze_dong_dan_chen_ji_nian_ri"
+    #start_ts = 1482681600
+    #end_ts = 1483113600
+    #test(topic, start_ts, end_ts)
+    topic = 'tian_jin_lao_tai_she_ji_qiang_bei_pan_xing'
+    date = '2017-01-03'
+    windowsize = 7
+    get_interval_count(topic, date, windowsize)
