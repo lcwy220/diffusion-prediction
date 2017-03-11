@@ -8,7 +8,7 @@ import operator
 from gexf import Gexf
 from lxml import etree
 import networkx as nx
-
+import pyspark
 #from gquota import compute_quota
 #from localbridge import GetLocalBridge
 #from snowball1 import SnowballSampling
@@ -17,6 +17,7 @@ from snowball1 import SnowballSampling_es
 from makegexf import make_gexf, make_ds_gexf
 # from config import GRAPH_PATH
 from spam.pagerank import pagerank
+#from pagerank import pagerank
 from pagerank_config import PAGERANK_ITER_MAX # 默认值为1
 #改动 直接上级转发网络不要了
 #from direct_superior_network import get_superior_userid # 获得直接上级转发网络

@@ -122,7 +122,7 @@ def save_ws_results(topic, ts, during, n_limit, province,city,weibos):
     db.session.add(item)
     db.session.commit()
 '''
-
+'''
 def cityTopic(topic,start_ts,over_ts,during=Fifteenminutes, n_limit=TOP_WEIBOS_LIMIT):
     if topic and topic != '':
         start_ts = int(start_ts)
@@ -139,23 +139,28 @@ def cityTopic(topic,start_ts,over_ts,during=Fifteenminutes, n_limit=TOP_WEIBOS_L
         #geo_cityCounts = {}
 
         #topics = topic.strip().split(',')
-        for i in range(interval, 0, -1):
-            mtype_ccount = {}  # mtype为message_type，ccount为{city：count}
-            begin_ts = over_ts - during * i
-            end_ts = begin_ts + during
-            print begin_ts,end_ts,topic
-            weibos = []
-            first_item = {}
-            geo_cityTopic_results['geo_weibos'][end_ts] = {}
-            geo_cityTopic_results['geo_cityCount'][end_ts] = {}
+        
+        province_dict = {}
+        
+        for k,v in mtype_kv.iteritems(): #v代表转发、评论、原创
+
+            for i in range(interval, 0, -1):
+                mtype_ccount = {}  # mtype为message_type，ccount为{city：count}
+                begin_ts = over_ts - during * i
+                end_ts = begin_ts + during
+                print begin_ts,end_ts,topic
+                weibos = []
+                first_item = {}
+                geo_cityTopic_results['geo_weibos'][end_ts] = {}
+                geo_cityTopic_results['geo_cityCount'][end_ts] = {}
             
-            for k,v in mtype_kv.iteritems(): #v代表转发、评论、原创
+            #for k,v in mtype_kv.iteritems(): #v代表转发、评论、原创
 
                 geo_cityTopic_results['geo_weibos'][end_ts][v] = []
                 #geo_cityTopic_results['geo_cityCount'][end_ts][v] = []
 
-                province_dict = {}
-                city_dict = {}
+                #province_dict = {}
+                #city_dict = {}
                 query_body = {   #按message_type得到微博
                     'query':{
                         'bool':{
@@ -195,25 +200,13 @@ def cityTopic(topic,start_ts,over_ts,during=Fifteenminutes, n_limit=TOP_WEIBOS_L
                         try:
                             province_dict[province][city] += 1  
                         except:
-
-                            try:
-                                province_dict[province][city] = 1
-                              
-                            except:
-                                province_dict[province] = {city:1}
+                            province_dict[province][city] = 1
                                
-
                         try:
                             province_dict[province]['total'] += 1
                         except:
-
-                            try:
-                              
-                                province_dict[province]['total'] = 1
-                            except:
+                            [province]['total'] = 1
                             
-                                province_dict[province] = {'total':1}
-
 
                         #save_ws_results(topic, end_ts, during, n_limit,province,city,weibo)
                         
@@ -241,12 +234,95 @@ def cityTopic(topic,start_ts,over_ts,during=Fifteenminutes, n_limit=TOP_WEIBOS_L
                 # ccount['city'] = sorted_city_dict
                 #mtype_ccount[v] = [end_ts,ccount]   #{'message_type':[shijian,{['province':('provice':cishu),()],'city':[(city:cishu)}]}
                 
-                geo_cityTopic_results['geo_cityCount'][end_ts][v] = province_dict
+                #geo_cityTopic_results['geo_cityCount'][end_ts][v] = province_dict
                 #print mtype_ccount
                 #save_rt_results(topic, mtype_ccount, during, first_item)
                 
                 #save_rt_results_es(topic, mtype_ccount, during, first_item)
+            geo_cityTopic_results['geo_cityCount'][v] = province_dict
+               
         return geo_cityTopic_results
+'''
+
+def cityTopic(topic,start_ts,over_ts,during=Fifteenminutes, n_limit=TOP_WEIBOS_LIMIT):
+    if topic and topic != '':
+        #start_ts = int(start_ts)
+        #over_ts = int(over_ts)
+
+        #over_ts = ts2HourlyTime(over_ts, during)
+        #interval = (over_ts - start_ts) / during
+
+        geo_cityTopic_results = {}
+        geo_cityTopic_results['geo_weibos'] = {}
+        geo_cityTopic_results['geo_cityCount'] = {}
+        
+        province_dict = {}
+        
+        for k,v in mtype_kv.iteritems(): #v代表转发、评论、原创
+
+            first_item = {}
+
+            query_body = {   #按message_type得到微博
+                'query':{
+                    'bool':{
+                        'must':[
+                            {'term':{'message_type':v}},  
+                            {'range':{
+                                'timestamp':{'gte': start_ts, 'lt':over_ts} 
+                            }
+                        }]
+                    }
+                },
+                'sort':{SORT_FIELD:{"order":"desc"}},
+                'size':10000000
+                }
+            mtype_weibo = weibo_es.search(index=topic,doc_type=weibo_index_type,body=query_body)['hits']['hits']
+            #save_ws_results(topic, end_ts, during, n_limit, mtype_weibo)    
+            #微博直接保存下来
+            if len(mtype_weibo) == 0:
+                continue
+            first_item = mtype_weibo[0]['_source']
+            #数每个地方的不同类型的数量
+            count_i = 0
+            for weibo in mtype_weibo:  #对于每条微博
+                count_i += 1
+                try:
+                    geo = weibo['_source']['geo'].encode('utf8')
+                except:
+                    continue
+                #print geo,type(geo)
+                province,city = split_city(geo)
+                #print province,city
+                if count_i <= n_limit:
+                    try:
+                        geo_cityTopic_results['geo_weibos'][v].append([province,city,weibo])
+                    except:
+                        geo_cityTopic_results['geo_weibos'][v] = [[province,city,weibo]]
+
+                if province != 'unknown':
+                    try:
+                        province_dict[province][city] += 1  
+                    except:
+                        try:
+
+                            province_dict[province][city] = 1
+                        except:
+                            province_dict[province] = {city:1}
+
+                           
+                    try:
+                        province_dict[province]['total'] += 1
+                    except:
+                        try:
+                            province_dict[province]['total'] = 1
+                        except:
+                            province_dict[province] = {'total': 1}
+                        
+
+            geo_cityTopic_results['geo_cityCount'][v] = province_dict
+               
+        return geo_cityTopic_results
+
 
 
 
