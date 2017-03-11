@@ -104,6 +104,7 @@ def ajax_show_all_task():
     es_results = es_prediction.search(index=index_manage_interfere_task, doc_type=type_manage_interfere_task, \
             body=query_body)["hits"]["hits"]
     #print '84::::::::',es_results
+    '''
     task_list = []
     for item in es_results:
         tmp = []
@@ -115,7 +116,11 @@ def ajax_show_all_task():
         tmp.append(item_detail["update_time"])
         tmp.append(item_detail["remark"])
         task_list.append(tmp)
-
+    '''
+    task_list = []
+    for item in es_results:
+        task_list.append(item["_source"])
+        
     return json.dumps(task_list)
 
 

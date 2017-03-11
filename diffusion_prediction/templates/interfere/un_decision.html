@@ -35,7 +35,7 @@
                     <span style="position: relative;top: -7px;left: 23px;">从</span>
                     <div style="display: inline-block;width: 200px;">
                         <div class="form-group" style="margin: 0">
-                            <div class="input-group date" id="datetimepicker1">
+                            <div class="input-group date" id="datetimepicker3">
                                 <input type="text" class="start form-control" style="height: 31px">
                                 <span class="input-group-addon" style="height: 28px;">
                                     <span class="icon icon-calendar" style="color:black;"></span>
@@ -46,7 +46,7 @@
                     <span style="position: relative;top: -7px;left: 40px;">到</span>
                     <div style="display: inline-block;width: 200px;">
                         <div class="form-group" style="margin: 0">
-                            <div class="input-group date" id="datetimepicker2">
+                            <div class="input-group date" id="datetimepicker4">
                                 <input type="text" class="end form-control" style="height: 31px;margin-left: 45px">
                                 <span class="input-group-addon" style="height: 28px;">
                                     <span class="icon icon-calendar" style="color:black;"></span>
@@ -88,6 +88,17 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
+    $(function () {
+        $('#datetimepicker3').datetimepicker();
+        $('#datetimepicker4').datetimepicker();
+        $("#datetimepicker3").on("dp.change",function (e) {
+            $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker4").on("dp.change",function (e) {
+            $('#datetimepicker3').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+
     $('.decision_results').on('click',function () {
         window.open('/interfere/strategy_results/');
     })
