@@ -50,15 +50,16 @@
                 <p class="line"></p>
             </li>
             <li class="main_li main_4" style="position: relative;z-index: 5">
-                <a class="list_four li_a" href="/interfere/strategy_results/">系统管理</a>
+                <a class="list_four li_a">系统管理</a>
                 <p class="line"></p>
             </li>
         </ul>
     </div>
     <div class="setting" style="width:100%;text-align: center;display: none;padding: 30px 0 20px;
     position:relative;top: -10px;z-index: 10">
-        <a href="/manage/purview/" class="power">权限管理</a>
-        <a href="/manage/sensitive_words/" class="sentive_words">敏感词管理</a>
+        <a href="/manage/purview/" class="power">系统配置</a>
+        <!--<a href="/manage/sensitive_words/" class="sentive_words">敏感词管理</a>-->
+        <a href="###" class="sentive_words">敏感词管理</a>
         <a href="###" class="day_note">日志管理</a>
     </div>
 </div>
@@ -122,11 +123,13 @@
         $('#nav .nav_top').css({color:'white'});
         $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#fff'});
         $('#nav .nav_bottom .list .main_li .li_a').css({color:'white'});
+        $('#nav .setting a').css({color:'white'});
         if ($(document).scrollTop()==0){
             $('#nav').css({backgroundColor:'#fff'});
             $('#nav .nav_top').css({color:'black'});
             $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#2e90e6'});
             $('#nav .nav_bottom .list .main_li .li_a').css({color:'black'});
+            $('#nav .setting a').css({color:'black'});
         }
     };
     </script>
