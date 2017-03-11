@@ -98,7 +98,7 @@ def ajax_delete_task():
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     if pinyin_task_name:
         es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=pinyin_task_name)
-        es_prediction.indices.delete(index="micro_prediction_"+pinyin_task_name)
+        es_prediction.indices.delete(index=pinyin_task_name)
 
     return json.dumps(["1"])
 

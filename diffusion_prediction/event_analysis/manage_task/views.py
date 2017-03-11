@@ -12,6 +12,13 @@ from diffusion_prediction.global_utils import es_prediction as es
 mod = Blueprint('manage_event',__name__,url_prefix='/manage_event')
 
 
+@mod.route('/event_analysis/')
+def hot_event():
+
+    return render_template('event_analysis/date_base.html')
+
+
+
 @mod.route('/submit_event_task/')
 def ajax_submit_event_task():
 
@@ -68,7 +75,7 @@ def ajax_submit_event_task():
 @mod.route('/delete_event_task/')
 def ajax_delete_event_task():
 
-	task_name = request.args.get(task_name)
+	task_name = request.args.get('task_name','')
 	pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
 
 	try:

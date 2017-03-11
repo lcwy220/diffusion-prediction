@@ -7,7 +7,7 @@ from flask import Blueprint,render_template,request
 from utils import get_gexf_es ,get_trend_pusher_es, get_trend_maker_es,\
 get_maker_weibos_sort_es, get_pusher_weibos_sort_es,gexf_process,get_top_pagerank
 import json
-#from user_portrait.time_utils import ts2datetime, datetime2ts
+from diffusion_prediction.time_utils import ts2datetime, datetime2ts
 #from user_portrait.parameter import MYSQL_TOPIC_LEN
 
 mod = Blueprint('topic_network_analyze',__name__,url_prefix='/topic_network_analyze')
@@ -46,8 +46,10 @@ def GetGexf():
 @mod.route('/get_trend_pusher/')
 def GetPusher():
     topic =request.args.get('topic', '')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
@@ -60,8 +62,10 @@ def GetPusher():
 @mod.route('/get_trend_maker/')
 def GetMaker():
     topic =request.args.get('topic', '')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
@@ -74,8 +78,10 @@ def GetMaker():
 @mod.route('/pusher_weibos_sort/')
 def GetPusherWeibosByts():
     topic =request.args.get('topic', '')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
@@ -89,8 +95,10 @@ def GetPusherWeibosByts():
 @mod.route('/maker_weibos_sort/')
 def GetMakerWeibosByts():
     topic =request.args.get('topic', '')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
@@ -166,8 +174,10 @@ def pusher_weibos_byhot():
 @mod.route('/get_pagerank/')
 def get_pagerank():
     topic =request.args.get('topic', '')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')

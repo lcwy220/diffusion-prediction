@@ -20,8 +20,10 @@ MinInterval = Fifteenminutes
 @mod.route('/sen_time_count/')
 def sen_time_count():
     topic = request.args.get('topic','')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     print '24',topic
     during = request.args.get('pointInterval',60*60) # 默认查询时间粒度为3600秒
     during = int(during)
@@ -39,8 +41,10 @@ def sen_time_count():
 @mod.route('/sen_weibo_content/')
 def sen_weibo_content():
     topic = request.args.get('topic','')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
@@ -57,8 +61,10 @@ def sen_weibo_content():
 @mod.route('/sen_province_count/')
 def sen_province_count():   
     topic = request.args.get('topic','')
+    '''
     if MYSQL_TOPIC_LEN == 0:
         topic = topic[:20]
+    '''
     end_ts = request.args.get('end_ts', '')
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
