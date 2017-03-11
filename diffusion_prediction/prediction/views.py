@@ -9,7 +9,8 @@ from flask import Blueprint, url_for, render_template, request, abort, flash, se
 
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts
 from diffusion_prediction.global_utils import es_prediction, r_trendline
-from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task
+from diffusion_prediction.global_config import index_manage_prediction_task, type_manage_prediction_task, \
+            index_manage_event_analysis,type_manage_event_analysis
 from diffusion_prediction.time_utils import ts2datehour, datehour2ts
 
 from utils import get_predict_count,get_macro_prediction_count
@@ -134,3 +135,32 @@ def ajax_get_macro_prediction():
     weibo_count,user_count,rank = get_macro_prediction_count(task_name)
  
     return json.dumps([weibo_count,user_count,rank])
+
+
+# 展示已有的分析任务
+# 展示字段顺序: task_name, submit_user, submit_time, end_ts, remark
+# 点击查看详情: 展示任务的细节信息
+
+@mod.route('/show_analysis_task/')
+def ajax_show_analysis_task():
+    query_body = {
+        "query":{
+            "range":{
+                "submit_time":{
+                    "gte": time.time()-20*24*3600
+                }
+            }
+        },
+        "size": 1000,
+        "sort":{"submit_time":{"order":"desc"}}
+    }
+
+    es_results = es_prediction.search(index=index_manage_event_analysis,doc_type=\
+            type_manage_event_analysis, body=query_body)["hits"]["hits"]
+
+    results = []
+    for item in es_results:
+        results.append(item["_source"])
+
+    return json.dumps(results)
+
