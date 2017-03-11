@@ -252,30 +252,23 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
   },
 	Draw_geo_map:function(data){
 		console.log(data)
+		var data1=[],data2=[],data3=[];
+		for (var key in data){
+			if (key==1){
+				data.push({data[key]})
+			}
+
+		}
 	 	$('#main_place').empty();
 	 	$('#top15_content_place').empty();
-	 	//var item = data;
+	 	var item = data;
 	 	var item_json = [];
 	 	var item_province_json = [];
 	 	var item_city_json = [];
 	 	var item_city_json_new=[];
-	 	var item = [];
 	 	var html = '';
 	 	//console.log(item.length);
 	 	var city_dict = {};
-
-	 	// for(var end_ts in data){
-	 	// 	var province_dict = data[end_ts];
-	 	// 	for(var province in province_dict){
-	 	// 		var city_dict = province_dict[province];
-	 	// 		//item_province_json.push({name:province,value:city_dict.total});
-	 			
-	 	// 		for(var key in city_dict ){
-	 	// 			if(key == 'total')
-	 	// 		}
-	 	// 	}
-
-	 	// }
 
 	 	
 	 	for (i=0;i<item.length;i++){		
@@ -422,8 +415,7 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 					        }
 					    ]
 					};
-			 		
-			 		
+
 			                myChart.setOption(option);     
 						
 		}
@@ -516,12 +508,7 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 
 		
 		}
-		
-		
 		$('#blog_scan_area_place').append(html);
-		
-		
-	
   	},
 
 }
@@ -541,7 +528,6 @@ function Draw_geo_map_result(){
 	var end_ts = 1483113600;
 
     url = "/topic_geo_analyze/geo_weibo_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
- 	console.log(url);
  	topic_analysis_place.call_sync_ajax_request(url,topic_analysis_place.Draw_geo_map);
 }	
 
