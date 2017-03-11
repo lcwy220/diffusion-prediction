@@ -59,7 +59,7 @@
     <h1 class="title-1" style='width: 60%;margin: 10px auto;color: #919191;font-size: 30px'>
         <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
         <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
-        时间热度图
+        <span id="hot_pic" style="font-size: 30px">时间热度图</span>
         <div class="btn-group unit_time" role="group" style="float: right;margin-right: 30px;">
             <button type="button" class="btn btn-default t-15">15 min</button>
             <button type="button" class="btn btn-default t-30">30 min</button>
@@ -160,6 +160,28 @@
             'width':'20%'
         })
     });
+    function loadScript(url,callback){
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        if (script.readyState){//IE
+            script.onreadystatechange = function(){
+                if (script.readyState ==  "loaded" || script.readyState == "complete"){
+                    script.onreadystatechange = null;
+                    eval(callback + '()');
+                }
+            };
+        } else { //Others: Firefox, Safari, Chrome, and Opera
+            script.onload = function(){
+                eval(callback + '()');
+            };
+        }
+        document.body.appendChild(script);
+    };
+
+    $('.place').on('click',function () {
+        loadScript('/static/js/perceived_results_2.js','perceived_results_2');
+    })
 </script>
 <script src="/static/js/perceived_results_1.js"></script>
 <!--<script src="/static/js/perceived_results_2.js"></script>-->

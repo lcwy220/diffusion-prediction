@@ -21,8 +21,8 @@
     .table>thead:first-child>tr:first-child>th {
         width: 1%;
     }
-    .bootstrap-table .table:not(.table-condensed)>tbody>tr>td:hover {
-        background-color: #919191;
+    .bootstrap-table .table:not(.table-condensed)>tbody>tr:hover {
+        background-color: #dbd5be;
     }
 </style>
 {% endblock %}
@@ -103,12 +103,14 @@
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
         });
     });
+    var start_time,end_time;
     function st_finish(start,end) {
-        console.log(start,end);
+        start_time=start;
+        end_time=end;
     }
-    $('.task_results').on('click',function () {
-        window.open('/social_sensing/perceived_results/');
-    })
+//    $('.task_results').on('click',function () {
+//        window.open('/social_sensing/perceived_results/');
+//    })
 </script>
 <script src="/static/js/event_perception_1.js"></script>
 {% endblock %}
