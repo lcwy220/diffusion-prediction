@@ -136,10 +136,11 @@ function sensor(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:100,
                 formatter: function (value, row, index) {
                     var add='<a>添加</a>';
                     
-                    return "添加";
+                    return add;
                 },
             },
             {
@@ -149,10 +150,11 @@ function sensor(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:100,
                 formatter: function (value, row, index) {
                    
                     var sub='<a>删除</a>';
-                    return "删除";
+                    return sub;
                 },
             },
         ],
@@ -246,8 +248,8 @@ function sort(data) {
         data_json['rank'] = data[key];
         data_list.push(data_json);
     }
-    console.log(data_json);
-    $('#sort_quota').bootstrapTable('load',data);
+    console.log(data_list);
+    $('#sort_quota').bootstrapTable('load',data_list);
     $('#sort_quota').bootstrapTable({
         data:data_list,
         search: true,//是否搜索
@@ -280,6 +282,7 @@ function sort(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:300,
                 
             },
             {
@@ -289,6 +292,7 @@ function sort(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:300,
                
             },
             {
@@ -298,6 +302,7 @@ function sort(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:300,
                 formatter: function (value, row,index) {
                     // var del='<a>删除</a>';
                     var modify='<a>修改</a>';
@@ -355,9 +360,10 @@ sort_outter();
 //---------------仿真参数-
 function interfer_parameter(data) {
     var data=eval(data);
-    var data_list = [data];
-
-    $('#emulation').bootstrapTable('load',data);
+    var data_list = [];
+    data_list.push(data);
+    console.log(data_list);
+    $('#emulation').bootstrapTable('load',data_list);
     $('#emulation').bootstrapTable({
         data:data_list,
         search: true,//是否搜索
@@ -390,8 +396,7 @@ function interfer_parameter(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                }
+                
             },
             {
                 title: "重要参与用户至少被转发的次数阈值",//标题
@@ -400,9 +405,7 @@ function interfer_parameter(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                formatter: function (value, row, index) {
-
-                },
+                
             },
             {
                 title: "重要潜在用户参与事件后可能被转发的次数阈值",//标题
@@ -411,9 +414,7 @@ function interfer_parameter(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                formatter: function (value, row, index) {
-
-                },
+                
             },
             {
                 title: "操作",//标题
@@ -422,6 +423,7 @@ function interfer_parameter(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:200,
                 formatter: function (value, row,index) {
                     var modify='<a>修改</a>';
                     return modify;
@@ -434,6 +436,19 @@ function interfer_parameter(data) {
             }
         }
     });
+}
+
+
+function interfer_parameter_outter(){
+    var interfer_parameter_url='/manage/get_interfer_parameter/';
+    $.ajax({
+        url: interfer_parameter_url,
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success:interfer_parameter
+    });
+
 }
 
 function modify_interfer_parameter(data){
@@ -458,20 +473,6 @@ function modify_interfer_parameter_outter(parameter_name,parameter_value){
     });
 
 }
-
-function interfer_parameter_outter(){
-    var interfer_parameter_url='/manage/get_interfer_parameter/';
-    $.ajax({
-        url: interfer_parameter_url,
-        type: 'GET',
-        dataType: 'json',
-        async: true,
-        success:interfer_parameter
-    });
-
-}
-
-
 
 
 interfer_parameter_outter();
