@@ -14,3 +14,4 @@ diffusion_prediction/cron/micro_prediction/3_8-up.pkl
 diffusion_prediction/cron/trendline_prediction/series_data/
 diffusion_prediction/libsvm-3.17/
 graph/
+diffusion_prediction/cron/model_file
