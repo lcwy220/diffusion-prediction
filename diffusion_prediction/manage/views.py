@@ -36,6 +36,7 @@ def ajax_show_social_sensors():
 
     profile_results = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type, body={"ids":uid_list})["docs"]
     for item in profile_results:
+        '''
         tmp = []
         if item["found"]:
             tmp.append(item["_source"]["nick_name"])
@@ -52,6 +53,22 @@ def ajax_show_social_sensors():
             tmp.append('')
             tmp.append('')
         results.append(tmp)
+        '''
+        if item["found"]:
+            results.append(item['_source'])
+        else:
+            item_new = {}
+            item_new['photo_url'] = ''
+            item_new['nick_name'] = ''
+            item_new['uid'] = item['_id']
+            item_new['sex'] = ''
+            item_new['fansnum'] = ''
+            item_new['friendsnum'] = ''
+            item_new['user_location'] = ''
+            item_new['create_at'] = ''
+
+
+            results.append(item_new)
 
     return json.dumps(results)
 
@@ -72,7 +89,8 @@ def ajax_add_social_sensor():
                 es_prediction.index(index="manage_sensing_task", doc_type="task", id="social_sensing_task", body=task_detail)["_source"]
     results = [list(in_set), list(out_set)]
 
-    return json.dumps(results)
+    #return json.dumps(results)
+    return json.dumps(["1"])
 
 
 @mod.route('/delete_social_sensors/')
@@ -118,7 +136,7 @@ def ajax_revise_order():
         topic_value_dict[mapping_dict[key]] = value
         r.set("topic_value_dict", json.dumps(topic_value_dict))
 
-    return json.dumps([])
+    return json.dumps(["1"])
 
 
 # 修改仿真参数
@@ -134,6 +152,9 @@ def ajax_revise_parameter():
 # 获取仿真参数
 @mod.route('/get_interfer_parameter/')
 def ajax_get_parameter():
+    print r_stimulation.get("extend_retweet_threshold")
+    print r_stimulation.get("in_user_threshold")
+    print r_stimulation.get("potential_threshold")
     extend_retweet_threshold = float(r_stimulation.get("extend_retweet_threshold"))
     in_user_threshold = float(r_stimulation.get("in_user_threshold"))
     potential_threshold = float(r_stimulation.get("potential_threshold"))
