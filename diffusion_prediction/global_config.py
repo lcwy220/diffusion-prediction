@@ -112,11 +112,11 @@ task_event_analysis = 'task_event_analysis'
 index_manage_event_analysis = 'manage_event_analysis_task'
 type_manage_event_analysis = 'event_analysis_task'
 
-#index_event_analysis_results = 'event_analysis_results'
-#type_event_analysis_results = 'analysis_results'
+index_event_analysis_results = 'event_analysis_results'
+type_event_analysis_results = 'analysis_results'
 
-index_event_analysis_results = 'event_analysis_results_0311'
-type_event_analysis_results = 'analysis_results_0311'
+#index_event_analysis_results = 'event_analysis_results_0311'
+#type_event_analysis_results = 'analysis_results_0311'
 
 #time
 
@@ -221,8 +221,8 @@ task_event_analysis = 'task_event_analysis'
 index_manage_event_analysis = 'manage_event_analysis_task'
 type_manage_event_analysis = 'event_analysis_task'
 
-index_event_analysis_results = 'event_analysis_results'
-type_event_analysis_results = 'analysis_results'
+#index_event_analysis_results = 'event_analysis_results'
+#type_event_analysis_results = 'analysis_results'
 
 #time
 
