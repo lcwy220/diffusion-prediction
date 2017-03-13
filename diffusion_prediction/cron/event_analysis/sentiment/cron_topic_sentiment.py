@@ -215,7 +215,7 @@ def save_rt_results(calc, query, results, during, klimit=TOP_KEYWORDS_LIMIT, wli
         db.session.commit()
         #print '???????'
 '''
-
+'''
 def sentimentTopic(topic,start_ts, over_ts, sort_field=SORT_FIELD, save_fields=RESP_ITER_KEYS, \
     during=Fifteenminutes, w_limit=TOP_WEIBOS_LIMIT, k_limit=TOP_KEYWORDS_LIMIT ):
     if topic and topic != '':
@@ -259,6 +259,56 @@ def sentimentTopic(topic,start_ts, over_ts, sort_field=SORT_FIELD, save_fields=R
             # save_rt_results('weibos', topic, emotions_weibo, during, k_limit, w_limit) 
         sentiment_results = json.dumps(sentiment_results)
         save_rt_results_es('sentiment_results', topic, sentiment_results, during) 
+'''
+
+def sentimentTopic_new(topic,start_ts, over_ts, sort_field=SORT_FIELD, save_fields=RESP_ITER_KEYS, \
+    during=Fifteenminutes, w_limit=TOP_WEIBOS_LIMIT, k_limit=TOP_KEYWORDS_LIMIT ):
+    if topic and topic != '':
+        start_ts = int(start_ts)
+        over_ts = int(over_ts)
+
+        over_ts = ts2HourlyTime(over_ts, during)
+        interval = (over_ts - start_ts) / during
+
+        sentiment_results = {}
+        sentiment_results['during'] = during
+        sentiment_results['count'] = {}
+        sentiment_results['geo_count'] = {}
+
+        for i in range(interval, 0, -1):    #时间段取每900秒的
+            emotions_kcount = {}  #每类情感的TOPK关键词
+            emotions_count = {}   #每类情感的数量
+            emotions_weibo = {}   #每类情感的微博
+
+            begin_ts = over_ts - during * i
+            end_ts = begin_ts + during
+            #test(topic,begin_ts,end_ts)
+
+
+            print begin_ts, end_ts#, 'topic %s starts calculate' % topic.encode('utf-8')
+            emotions_count = compute_sentiment_count(topic,begin_ts,end_ts,during) 
+
+            # emotions_kcount = compute_sentiment_keywords(topic,begin_ts,end_ts,k_limit,w_limit,during)
+            #emotions_weibo,emotions_geo_count = compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during)
+            
+
+            
+            sentiment_results['count'][end_ts] = emotions_count
+       
+            #sentiment_results['weibo'][end_ts] = emotions_weibo
+       
+            
+            
+            # save_rt_results('count', topic, emotions_count, during)  #  '1':[end_ts,4],
+            # save_rt_results('kcount', topic, emotions_kcount, during, k_limit, w_limit)
+            # save_rt_results('weibos', topic, emotions_weibo, during, k_limit, w_limit)
+        emotions_geo_count = compute_sentiment_weibo(topic,start_ts,over_ts,k_limit,w_limit,during)
+
+        sentiment_results['geo_count'] = emotions_geo_count
+
+        sentiment_results = json.dumps(sentiment_results)
+        save_rt_results_es('sentiment_results', topic, sentiment_results, during) 
+
 
 
 #情绪的数量
@@ -394,9 +444,11 @@ def compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during):
                 }
             },
             'sort':{"retweeted":{"order":"desc"}},
-            'size':w_limit
+            #'size':w_limit
+            'size':1000000
         }    
         sentiment_weibo = weibo_es.search(index=topic,doc_type=weibo_index_type,body=query_body)['hits']['hits']   #字典
+        
         if len(sentiment_weibo) > 0:
             '''
             all_sen_weibo[sentiment] = []
@@ -419,6 +471,7 @@ def compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during):
                         province_dict[province][city] += 1  
                     except:
                         province_dict[province][city] = 1
+
             #geo_count[sentiment] = [end_ts,province_dict]
 
         else:

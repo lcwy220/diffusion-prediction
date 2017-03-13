@@ -25,7 +25,7 @@ def create_task():
 
     results = es.search(index=index_name,doc_type=index_type, body=query_body)["hits"]["hits"]
 
-    item_finish_status = {}
+    #item_finish_status = {}
 
 
     for item in results:
@@ -39,9 +39,9 @@ def create_task():
         r_event_analysis.lpush(task_event_analysis, json.dumps([topic,en_name, start_ts, end_ts]))
 
         #修改状态为已进入队列但尚未计算
-        item_finish_status['event_value_finish'] = 1
+        #item_finish_status['event_value_finish'] = 1
         
-        es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':item_finish_status})
+        #es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':item_finish_status})
     
 
 
