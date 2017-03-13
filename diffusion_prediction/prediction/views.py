@@ -40,10 +40,13 @@ def ajax_create_prediction_task():
     start_time = request.args.get('start_time', "")
     stop_time = request.args.get('stop_time', "")
     remark = request.args.get('remark', '')
-    macro_during = request.args.get('macro_during', 3600)
-    micro_during = request.args.get("micro_during", 3600)
+    #macro_during = request.args.get('macro_during', 3600)
+    micro_during = request.args.get("interfer_during", 3600)
     must_keywords = request.args.get('must_keywords', '') # &&&
     should_keywords = request.args.get('should_keywords', '')
+
+    print 'type::::stop_time',type(stop_time)
+    print stop_time
 
     task_detail = dict()
     task_detail["task_name"] = task_name
@@ -55,10 +58,10 @@ def ajax_create_prediction_task():
     task_detail["must_keywords"] = must_keywords
     task_detail["should_keywords"] = should_keywords
     task_detail["submit_time"] = int(submit_time)
-    task_detail["macro_during"] = macro_during
+    #task_detail["macro_during"] = macro_during
     task_detail["micro_during"] = micro_during
     task_detail["finish"] = "0" # micro prediction finish
-    task_detail["scan_text_time"] = datehour2ts(ts2datehour(float(submit_time)))-micro_during # 上一次复制文本的时间
+    task_detail["scan_text_time"] = datehour2ts(ts2datehour(float(submit_time)))-int(micro_during) # 上一次复制文本的时间
     task_detail["scan_text_processing"] = "0" # 是否正在复制微博文本
 
     task_detail["macro_value_finish"] = '0'
@@ -66,6 +69,7 @@ def ajax_create_prediction_task():
 
 
     exist_task = es_prediction.exists(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=pinyin_task_name)
+    print 'exist_task::::::::;',exist_task
     if not exist_task:
         es_prediction.index(index=index_manage_prediction_task, doc_type=type_manage_prediction_task, id=pinyin_task_name, body=task_detail)
         finish = ["1"]
@@ -94,20 +98,24 @@ def ajax_show_task():
 
 @mod.route('/delete_task/')
 def ajax_delete_task():
+    finish = ["0"]
     task_name = request.args.get("task_name", "") # 中文
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
-    if pinyin_task_name:
-        es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=pinyin_task_name)
-        es_prediction.indices.delete(index="micro_prediction_"+pinyin_task_name)
 
-    return json.dumps(["1"])
+    try:
+        result = es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=pinyin_task_name)['found']
+        return result  #True
+    except:
+        return 'False'
+
 
 # macro trendline prediction
 @mod.route('/get_macro_trendline/')
 def ajax_get_macro_trendline():
     task_name = request.args.get('task_name','')
-    pinyin_task_name = "trendline_"+task_name
-    results = r_trendline.get(pinyin_task_name)
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
+    r_pinyin_task_name = "trendline_"+pinyin_task_name
+    results = r_trendline.get(r_pinyin_task_name)
 
 
     return results
@@ -118,12 +126,13 @@ def ajax_get_macro_trendline():
 @mod.route('/get_micro_prediction/')
 def ajax_get_micro_prediction():
     task_name = request.args.get('task_name','')
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     end_ts = request.args.get('end_ts', '')
     start_ts = request.args.get('start_ts', '')
     end_ts = long(end_ts)
     start_ts = long(start_ts)
     results = []
-    results = get_predict_count(task_name, start_ts, end_ts)
+    results = get_predict_count(pinyin_task_name, start_ts, end_ts)
 
     return results
 
@@ -131,8 +140,8 @@ def ajax_get_micro_prediction():
 @mod.route('/get_macro_prediction/')
 def ajax_get_macro_prediction():
     task_name = request.args.get('task_name','')
-
-    weibo_count,user_count,rank = get_macro_prediction_count(task_name)
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
+    weibo_count,user_count,rank = get_macro_prediction_count(pinyin_task_name)
  
     return json.dumps([weibo_count,user_count,rank])
 

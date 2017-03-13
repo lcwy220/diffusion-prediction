@@ -2,7 +2,7 @@ var line_url='/topic_time_analyze/mtype_count/?topic=mao_ze_dong_dan_chen_ji_nia
     '&start_ts=1482681600&end_ts=1483113600&pointInterval=900';
 var weibo_url='/topic_time_analyze/time_order_weibos/?topic=mao_ze_dong_dan_chen_ji_nian_ri' +
     '&start_ts=1482681600&end_ts=1483113600&sort_item=timestamp';
-var starttime,endtime,unit_time='900',order='timestamp';
+var start,end,unit_time='900',order='timestamp';
 
 $('.unit_time button').on('click',function () {
     if ($(this).text()=='15 min'){
@@ -27,10 +27,10 @@ $('.sorting button').on('click',function () {
     }
 });
 function ckdate() {
-    starttime = $('.start').val();
-    endtime = $('.end').val();
-    var start = Date.parse(new Date(starttime))/1000;
-    var end = Date.parse(new Date(endtime))/1000;
+    var starttime = $('.start').val();
+    var endtime = $('.end').val();
+    start = Date.parse(new Date(starttime))/1000;
+    end = Date.parse(new Date(endtime))/1000;
     if (starttime==''||endtime==''){
         alert('日期不能为空！');
     }else {
@@ -68,7 +68,6 @@ function weibo_request() {
         success:weibo
     });
 }
-weibo_request();
 
 
 //时间戳转换
@@ -143,17 +142,16 @@ function hot_line(data) {
         if ($(this).text()=='按时间'){
             order='timestamp';
             weibo_url='/social_sensing/get_text_detail/?ts='+final_time+'&text_type='+text_type+'&order='+order;
-            request();
+            weibo_request();
         }else if ($(this).text()=='按热度'){
             order='hot';
             weibo_url='/social_sensing/get_text_detail/?ts='+final_time+'&text_type='+text_type+'&order='+order;
-            console.log(weibo_url)
-            request();
+            weibo_request();
         }
     });
     weibo_url='/topic_time_analyze/time_order_weibos/?topic='+topic_name+
         '&start_ts='+start+'&end_ts='+end+'&sort_item='+order;;
-    request();
+    weibo_request();
 }
 //-----微博---
 function weibo(data) {

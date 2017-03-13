@@ -1,10 +1,17 @@
-body {
-    background: url("/static/images/setting.png") no-repeat;
-    background-size: 100% 100%;
-}
 #container {
+    padding-top: 100px;
+}
+#container .authority,#container .sort,#container .simulation {
     width: 70%;
     margin: 20px auto;
+}
+#container .authority .title-1,
+#container .sort .title-1,
+#container .simulation .title-1{
+    /*width: 60%;*/
+    margin: 10px auto;
+    color: #919191;
+    font-size: 30px;
 }
 #container .authority .author_type {
     text-align: center;

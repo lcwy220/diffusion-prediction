@@ -67,7 +67,7 @@ def mappings_event_analysis_results():
 
 	}
 
-
+	print '70:::::::::::::::',index_event_analysis_results
 	if not es.indices.exists(index=index_event_analysis_results):
 
 		es.indices.create(index=index_event_analysis_results,body=index_info,ignore=400)

@@ -3,141 +3,83 @@
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/un_decision.css">
 <style>
-    .table>thead:first-child>tr:first-child>th,.table-bordered>tbody>tr>td {
-        text-align: center;
-        color: white;
-    }
-    .progress {
-        margin-bottom: 0;
-    }
-    .fixed-table-container tbody tr:first-child td {
-        color: white;
-    }
+
 </style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
     <div class="build_decision">
-        <p>
-            <span style="display: block;font-size:14px;color: white;font-weight: 900;padding: 5px;">新建决策任务</span>
-        </p>
+        <h1 class="title-1">
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            新建决策任务
+        </h1>
         <div class="decision_menu">
-            <div class="menu_1">
-                <h3 style="float: left;color: white;font-weight: 900;margin-right: 40px">可选事件</h3>
-                <table class="table table-bordered" style="width: 60%;">
-                    <thead>
-                    <tr>
-                        <th>任务名称</th>
-                        <th>提交时间</th>
-                        <th>提交人</th>
-                        <th>选择</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>马里奥</td>
-                        <td>2016-2-4</td>
-                        <td>小明</td>
-                        <td>
-                            <input type="radio" name="menu" id="one">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="task_name menu_m">
+                <span class="menu_m_s">任务名称</span>
+                <input type="text" placeholder="(必填，仅包含数字、汉字、英文、下划线)" id="new_task">
             </div>
-            <div class="menu_2">
-                <h3 style="float: left;color: white;font-weight: 900;margin-right: 40px">干预策略</h3>
-                <div class="menu_2_detail" style="width: 60%;display: inline-block;color: white">
-                    <div class="detail_1">
-                        <input type="checkbox" id="im_one"> 关键微博
-                        <p>
-                            <span>最大微博数</span>
-                            <input type="text" class="im_one_nums">
-                        </p>
+            <div class="task_remarks menu_m">
+                <span class="menu_m_s">备注</span>
+                <input type="text" id="remarks" placeholder="(选填，仅包含数字、汉字、英文、下划线)"/>
+            </div>
+            <div class="task_words menu_m">
+                <span class="menu_m_s">关键词</span>
+                <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开">
+                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开">
+            </div>
+            <div class="task_time menu_m">
+                <span style="position: relative;top: -7px;" class="menu_m_s">时间选择</span>
+                <div class="task_time_cor" style="width: 450px!important;padding: 0;display: inline-block">
+                    <span style="position: relative;top: -7px;left: 23px;">从</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class="input-group date" id="datetimepicker3">
+                                <input type="text" class="start form-control" style="height: 31px">
+                                <span class="input-group-addon" style="height: 28px;">
+                                    <span class="icon icon-calendar" style="color:black;"></span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail_2">
-                        <input type="checkbox" id="im_two"> 关键用户
-                        <p>
-                            <span>最大用户数</span>
-                            <input type="text" class="im_two_nums">
-                        </p>
+                    <span style="position: relative;top: -7px;left: 40px;">到</span>
+                    <div style="display: inline-block;width: 200px;">
+                        <div class="form-group" style="margin: 0">
+                            <div class="input-group date" id="datetimepicker4">
+                                <input type="text" class="end form-control" style="height: 31px;margin-left: 45px">
+                                <span class="input-group-addon" style="height: 28px;">
+                                    <span class="icon icon-calendar" style="color:black;"></span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail_3">
-                        <input type="checkbox" id="im_three"> 关键路径
-                        <p>
-                            <span>最大路径数</span>
-                            <input type="text" class="im_three_nums">
-                        </p>
-                    </div>
-                    <div class="detail_4">
-                        <input type="checkbox" id="im_four"> 引导用户
-                        <p>
-                            <span>最大用户数</span>
-                            <input type="text" class="im_four_nums">
-                        </p>
-                    </div>
-
                 </div>
             </div>
-            <div class="menu_3">
-                <button style="float: right;margin-right: 70px">新建任务</button>
+            <div class="task_interval menu_m">
+                <span class="menu_m_s">计算间隔</span>
+                <select id="inter_time" style="margin-left: 20px">
+                    <option value="1 hour">1 hour</option>
+                    <option value="3 hour">3 hour</option>
+                </select>
+            </div>
+            <div class="choose menu_m">
+                <span class="menu_m_s">可选任务</span>
+                <div id="optional_task" style="width: 70%;display: inline-block;"></div>
+            </div>
+
+            <div class="new_build menu_m" style="height: 25px">
+                <button id="build" style="float: right;margin-right: 130px">新建任务</button>
             </div>
         </div>
     </div>
     <div class="prediction_task">
-        <p>
-            <span style="display: block;color: white;font-weight: 900;padding: 5px;">任务列表</span>
-        </p>
-        <div class="task_lists">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>人物名称</th>
-                    <th>提交时间</th>
-                    <th>任务进度</th>
-                    <th>提交人</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>达尔文</td>
-                    <td>2016.12.2</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">100% Complete (success)</span>
-                                <span>100%</span>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td>admin</td>
-                    <td>
-                        <span class="decision_results" style="text-decoration: underline;cursor: pointer;">查看策略</span>
-                        <span>删除</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>中国女排</td>
-                    <td>2016.8.2</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">40% Complete (success)</span>
-                                <span>40%</span>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td>admin</td>
-                    <td>
-                        <span>删除</span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <h1 class="title-1">
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            决策任务列表
+        </h1>
+        <div id="role_lists" style="width: 100%">
         </div>
     </div>
 </div>
@@ -146,6 +88,17 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
+    $(function () {
+        $('#datetimepicker3').datetimepicker();
+        $('#datetimepicker4').datetimepicker();
+        $("#datetimepicker3").on("dp.change",function (e) {
+            $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker4").on("dp.change",function (e) {
+            $('#datetimepicker3').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+
     $('.decision_results').on('click',function () {
         window.open('/interfere/strategy_results/');
     })

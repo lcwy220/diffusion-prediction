@@ -6,7 +6,7 @@
     text-align: center;
     font-size: 0;
 }
-#container .type-list span {
+#container .type-list a {
     display: inline-block;
     width: 20%;
     color: #373D41;

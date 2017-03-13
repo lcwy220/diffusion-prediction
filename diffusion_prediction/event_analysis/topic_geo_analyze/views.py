@@ -39,6 +39,7 @@ def weibo_count():
     results = []
     weibo_count = province_weibo_count_es(topic,start_ts,end_ts)
     #weibo_count = province_weibo_count('aoyunhui',1468944000,1471622400)
+    print '42::::::::::::::::::',weibo_count
     return json.dumps(weibo_count)
 
 
@@ -70,9 +71,11 @@ def weibo_content():
     during = request.args.get('pointInterval',60*60) # 默认查询时间粒度为3600秒
     during = int(during)
     end_ts = request.args.get('end_ts', '')
-    end_ts = long(end_ts)
+    end_ts = int(end_ts)
     start_ts = request.args.get('start_ts', '')
-    start_ts = long(start_ts)
+    print 'type::start_ts',type(start_ts)
+    print 'start_ts:::',start_ts
+    start_ts = int(start_ts)
     province = request.args.get('province','')
     sort_item = request.args.get('sort_item','timestamp')
     weibo_content = get_weibo_content_es(topic,start_ts,end_ts,province,sort_item)
