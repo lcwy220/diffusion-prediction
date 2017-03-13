@@ -73,6 +73,8 @@ def weibo_content():
     end_ts = request.args.get('end_ts', '')
     end_ts = int(end_ts)
     start_ts = request.args.get('start_ts', '')
+    print 'type::start_ts',type(start_ts)
+    print 'start_ts:::',start_ts
     start_ts = int(start_ts)
     province = request.args.get('province','')
     sort_item = request.args.get('sort_item','timestamp')

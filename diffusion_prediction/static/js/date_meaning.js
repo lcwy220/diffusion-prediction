@@ -347,19 +347,24 @@ Draw_time_line:function(data){
 Draw_blog_opinion:function(data){
     $('#opinions').empty();
     var item = data;
+    console.log(item)
     // var opinion = [];
     var html = '';
     // console.log(item);
     if (item.length == 0){
-    html += '<div style="color:grey;">暂无数据</div>'
+    html += '<div style="color:grey;text-align: center">暂无数据</div>'
     }else{
       opinion=item[0];
       // console.log();
       for (i=0;i < item.length;i++){
         // console.log('qqqqqq');
         // var opinion = item[i].join("+");
-        html += '<span class="label place_label" style="color: #868686;" onmouseover="set_opinion_type(\''+ item[i] +'\')">'+item[i].join(",")+'</span>';
-        // console.log(item[i].join("+"));
+          console.log(item[i])
+          $.each(item[i],function (index,item2) {
+              html += '<span class="label place_label" style="color: #868686;" onmouseover="set_opinion_type(\''+ item2 +'\')">'+item2+'</span>';
+          })
+
+          // console.log(item[i].join("+"));
       }
 
     }
@@ -375,7 +380,6 @@ Draw_blog_scan_area_meaning:function(data){
     $('#blog_scan_area_meaning').empty();
     var item = data;
     var html = '';
-    console.log(data);
     //var key_datetime = new Date(key*1000).format('yyyy/MM/dd hh:mm');
     //key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     //console.log(data.length);
@@ -456,7 +460,6 @@ function Draw_keywords_cloud_result(){
     var end_ts = 1483113600;
 
     url = "/topic_language_analyze/during_keywords/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-    console.log(url);
 
     topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_keywords_cloud);
 }
@@ -473,7 +476,6 @@ function Draw_event_river_result(){
   var end_ts = 1483113600;
 
   url = "/topic_language_analyze/topics_river/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_event_river);
 }
 function Draw_time_line_result(){
@@ -488,7 +490,6 @@ function Draw_time_line_result(){
   var end_ts = 1483113600;
 
   url = "/topic_language_analyze/symbol_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_time_line);
 }
 function Draw_blog_opinion_result(){
@@ -503,7 +504,6 @@ function Draw_blog_opinion_result(){
   var end_ts = 1483113600;
 
   url = "/topic_language_analyze/subopinion/?topic="+topic;
-  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_blog_opinion);
 }
 function Draw_blog_scan_area_meaning_result(){
@@ -518,7 +518,6 @@ function Draw_blog_scan_area_meaning_result(){
   var end_ts = 1483113600;
 
   url = "/topic_language_analyze/weibo_content/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&opinion='+opinion+'&sort_item='+sort_item;
-  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_blog_scan_area_meaning);
 }
  // Draw_time_line_result();

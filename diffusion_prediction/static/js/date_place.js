@@ -251,198 +251,41 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
     });
   },
 	Draw_geo_map:function(data){
-		console.log(data)
 		var data1=[],data2=[],data3=[];
 		for (var key in data){
-			if (key==1){
+			if (key==1){  //原创
 				for (var key_1 in data[key]) {
 					data1.push([key_1,data[key][key_1]])
 				}
+			}else if (key==2){ //转发
+				for (var key_2 in data[key]) {
+					data2.push([key_2,data[key][key_2]])
+				}
+			}else {  //评论
+				for (var key_3 in data[key]) {
+					data3.push([key_3,data[key][key_3]])
+				}
 			}
-			console.log(data1)
 		}
 	 	$('#main_place').empty();
 	 	$('#top15_content_place').empty();
-	 	var item = data;
-	 	var item_json = [];
-	 	var item_province_json = [];
-	 	var item_city_json = [];
-	 	var item_city_json_new=[];
-	 	var html = '';
-	 	//console.log(item.length);
-	 	var city_dict = {};
+	 	// var item = data1;
+		label_1(data1);
+		$('#label-1').on('click',function () {
+			// item=data1;
+			label_1(data1);
+		});
+		$('#label-2').on('click',function () {
+			// item=data2;
+			label_2(data2);
+		})
+		$('#label-3').on('click',function () {
+			// item=data3;
+			label_3(data3);
+		})
 
-	 	
-	 	for (i=0;i<item.length;i++){		
-	 		item_province_json.push({name:item[i][0],value:item[i][1].total});
-	 		for(key in item[i][1]){
-	 			if(key=='total'){
-	 				continue;
-	 			}
-	 			item_city_json.push({name:key,value:item[i][1][key]});
-	 			
-	 		}
-		}
-		for(k=0;k<item_city_json.length;k++){
-			if(item_city_json[k].name=='unknown'){
-			item_city_json[k].name='未知';
-			}
-			item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
-			// console.log(item_city_json[k].name);
-			// console.log(item_city_json[k].value);
-	 	}
-	 			
-		item_json = item_province_json.concat(item_city_json_new);
-		// console.log(item_province_json);
-		// console.log(item_city_json_new);
 		// console.log(item_json);
-        item_province_json.sort(function(a,b){
-            return b.value-a.value});
-        
-	 	var myChart = echarts.init(document.getElementById('main_place'));
 
-		require(
-				[
-					'echarts',
-					'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
-				],
-				function (ec) {
-					
-					var ecConfig = require('echarts/config'); //放进require里的function{}里面
-					//var ecConfig = echarts.config;
-					var zrEvent = require('zrender/tool/event');
-					//var zrEvent = zrender.src.core.event;
-					
-					// 基于准备好的dom，初始化echarts图表
-					//var myChart = ec.init(document.getElementById('main')); 
-					//var myChart = echarts.init(document.getElementById('main_place'));
-					// 过渡---------------------
-					var curIndx = 0;
-					var mapType = [
-						    'china',
-						    // 23个省
-						    '广东', '青海', '四川', '海南', '陕西', 
-						    '甘肃', '云南', '湖南', '湖北', '黑龙江',
-						    '贵州', '山东', '江西', '河南', '河北',
-						    '山西', '安徽', '福建', '浙江', '江苏', 
-						    '吉林', '辽宁', '台湾',
-						    // 5个自治区
-						    '新疆', '广西', '宁夏', '内蒙古', '西藏', 
-						    // 4个直辖市
-						    '北京', '天津', '上海', '重庆',
-						    // 2个特别行政区
-						    '香港', '澳门'
-						];
-					document.getElementById('main_place').onmousewheel = function (e){
-					    var event = e || window.event;
-					    curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
-					    if (curIndx < 0) {
-					        curIndx = mapType.length - 1;
-					    }
-					    var mt = mapType[curIndx % mapType.length];
-					    if (mt == 'china') {
-					        option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
-					    }
-					    else{
-					        option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
-					    }
-					    option.series[0].mapType = mt;
-					    option.title.subtext = mt + ' （滚轮或点击切换）';
-					    myChart.setOption(option, true);
-					    
-					    zrEvent.stop(event);
-					};
-					myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
-					    var len = mapType.length;
-					    var mt = mapType[curIndx % len];
-					    if (mt == 'china') {
-					        // 全国选择时指定到选中的省份
-					        var selected = param.selected;
-					        for (var i in selected) {
-					            if (selected[i]) {
-					                mt = i;
-					                while (len--) {
-					                    if (mapType[len] == mt) {
-					                        curIndx = len;
-					                    }
-					                }
-					                break;
-					            }
-					        }
-					        option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
-					    }
-					    else {
-					        curIndx = 0;
-					        mt = 'china';
-					        option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}:{c}';
-					    }
-					    option.series[0].mapType = mt;
-					    option.title.subtext = mt + ' （滚轮或点击切换）';
-					    myChart.setOption(option, true);
-					});
-					var option = {
-					    title: {
-					        text : '全国34个省市自治区',
-					        subtext : 'china （滚轮或点击切换）'
-					    },
-					    tooltip : {
-					        trigger: 'item',
-					        formatter: '滚轮切换或点击进入该省<br/>{b}'
-					    },
-					    legend: {
-					        orient: 'vertical',
-					        x:'right',
-					        data:['微博数据']
-					    },
-					    dataRange: {
-					        min: 0,
-					        //max: 100,
-					        max:item_province_json[0].value,
-					        color:['orange','white'],
-					        text:['高','低'],           // 文本，默认为数值文本
-					        calculable : true
-					    },
-					    series : [
-					        {
-					            name: '随机数据',
-					            type: 'map',
-					            mapType: 'china',
-					            selectedMode : 'single',
-					            itemStyle:{
-					                normal:{label:{show:true}},
-					                emphasis:{label:{show:true}}
-					            },
-					            data:item_json
-					
-					        }
-					    ]
-					};
-
-			                myChart.setOption(option);     
-						
-		}
-		)	
-		
-
-		
-		// console.log(item_json);
-		var rank_html = '';
-		rank_html += '<table id="table">';
-        for(var k=0;k<Math.min(15,item_province_json.length);k++){
-			
-    //         if (item_province_json[k].name=='unknown'){
-				// 	item_province_json[k].name='未知'
-				// }
-            		
-
-			rank_html += '<tr>';	
-			rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
-			rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_province_json[k].name+'</td>';
-			rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_province_json[k].value+'</td>';			
-			rank_html += '</tr>';
-			
-            }
-            $('#top15_content_place').append(rank_html);
 	},
 
 	// Draw_geo_map{}
@@ -554,5 +397,545 @@ function place_load(){
 	Draw_blog_scan_area_place_result();
 }
 
+function label_1(la_1) {
+	$('#main_place').empty();
+	$('#top15_content_place').empty();
+	var item=la_1;
+	var item_json = [];
+	var item_province_json = [];
+	var item_city_json = [];
+	var item_city_json_new=[];
+	var html = '';
+	var city_dict = {};
 
+
+	for (i=0;i<item.length;i++){
+		item_province_json.push({name:item[i][0],value:item[i][1].total});
+		for(key in item[i][1]){
+			if(key=='total'){
+				continue;
+			}
+			item_city_json.push({name:key,value:item[i][1][key]});
+
+		}
+	}
+	for(k=0;k<item_city_json.length;k++){
+		if(item_city_json[k].name=='unknown'){
+			item_city_json[k].name='未知';
+		}
+		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
+		// console.log(item_city_json[k].name);
+		// console.log(item_city_json[k].value);
+	}
+
+	item_json = item_province_json.concat(item_city_json_new);
+	// console.log(item_province_json);
+	// console.log(item_city_json_new);
+	// console.log(item_json);
+	item_province_json.sort(function(a,b){
+		return b.value-a.value});
+
+	var myChart = echarts.init(document.getElementById('main_place'));
+
+	require(
+		[
+			'echarts',
+			'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
+		],
+		function (ec) {
+
+			var ecConfig = require('echarts/config'); //放进require里的function{}里面
+			//var ecConfig = echarts.config;
+			var zrEvent = require('zrender/tool/event');
+			//var zrEvent = zrender.src.core.event;
+
+			// 基于准备好的dom，初始化echarts图表
+			//var myChart = ec.init(document.getElementById('main'));
+			//var myChart = echarts.init(document.getElementById('main_place'));
+			// 过渡---------------------
+			var curIndx = 0;
+			var mapType = [
+				'china',
+				// 23个省
+				'广东', '青海', '四川', '海南', '陕西',
+				'甘肃', '云南', '湖南', '湖北', '黑龙江',
+				'贵州', '山东', '江西', '河南', '河北',
+				'山西', '安徽', '福建', '浙江', '江苏',
+				'吉林', '辽宁', '台湾',
+				// 5个自治区
+				'新疆', '广西', '宁夏', '内蒙古', '西藏',
+				// 4个直辖市
+				'北京', '天津', '上海', '重庆',
+				// 2个特别行政区
+				'香港', '澳门'
+			];
+			document.getElementById('main_place').onmousewheel = function (e){
+				var event = e || window.event;
+				curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
+				if (curIndx < 0) {
+					curIndx = mapType.length - 1;
+				}
+				var mt = mapType[curIndx % mapType.length];
+				if (mt == 'china') {
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+				}
+				else{
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+
+				zrEvent.stop(event);
+			};
+			myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
+				var len = mapType.length;
+				var mt = mapType[curIndx % len];
+				if (mt == 'china') {
+					// 全国选择时指定到选中的省份
+					var selected = param.selected;
+					for (var i in selected) {
+						if (selected[i]) {
+							mt = i;
+							while (len--) {
+								if (mapType[len] == mt) {
+									curIndx = len;
+								}
+							}
+							break;
+						}
+					}
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				else {
+					curIndx = 0;
+					mt = 'china';
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}:{c}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+			});
+			var option = {
+				title: {
+					text : '全国34个省市自治区',
+					subtext : 'china （滚轮或点击切换）'
+				},
+				tooltip : {
+					trigger: 'item',
+					formatter: '滚轮切换或点击进入该省<br/>{b}'
+				},
+				legend: {
+					orient: 'vertical',
+					x:'right',
+					data:['微博数据']
+				},
+				dataRange: {
+					min: 0,
+					//max: 100,
+					max:item_province_json[0].value,
+					color:['orange','white'],
+					text:['高','低'],           // 文本，默认为数值文本
+					calculable : true
+				},
+				series : [
+					{
+						name: '随机数据',
+						type: 'map',
+						mapType: 'china',
+						selectedMode : 'single',
+						itemStyle:{
+							normal:{label:{show:true}},
+							emphasis:{label:{show:true}}
+						},
+						data:item_json
+
+					}
+				]
+			};
+
+			myChart.setOption(option);
+
+		}
+	)
+	var rank_html = '';
+	rank_html += '<table id="table">';
+	for(var k=0;k<Math.min(15,item_province_json.length);k++){
+
+		//         if (item_province_json[k].name=='unknown'){
+		// 	item_province_json[k].name='未知'
+		// }
+
+
+		rank_html += '<tr>';
+		rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
+		rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_province_json[k].name+'</td>';
+		rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_province_json[k].value+'</td>';
+		rank_html += '</tr>';
+
+	}
+	$('#top15_content_place').append(rank_html);
+}
+
+function label_2(la_2) {
+	$('#main_place').empty();
+	$('#top15_content_place').empty();
+	var item=la_2;
+	var item_json = [];
+	var item_province_json = [];
+	var item_city_json = [];
+	var item_city_json_new=[];
+	var html = '';
+	var city_dict = {};
+
+
+	for (i=0;i<item.length;i++){
+		item_province_json.push({name:item[i][0],value:item[i][1].total});
+		for(key in item[i][1]){
+			if(key=='total'){
+				continue;
+			}
+			item_city_json.push({name:key,value:item[i][1][key]});
+
+		}
+	}
+	for(k=0;k<item_city_json.length;k++){
+		if(item_city_json[k].name=='unknown'){
+			item_city_json[k].name='未知';
+		}
+		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
+		// console.log(item_city_json[k].name);
+		// console.log(item_city_json[k].value);
+	}
+
+	item_json = item_province_json.concat(item_city_json_new);
+	// console.log(item_province_json);
+	// console.log(item_city_json_new);
+	// console.log(item_json);
+	item_province_json.sort(function(a,b){
+		return b.value-a.value});
+
+	var myChart = echarts.init(document.getElementById('main_place'));
+
+	require(
+		[
+			'echarts',
+			'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
+		],
+		function (ec) {
+
+			var ecConfig = require('echarts/config'); //放进require里的function{}里面
+			//var ecConfig = echarts.config;
+			var zrEvent = require('zrender/tool/event');
+			//var zrEvent = zrender.src.core.event;
+
+			// 基于准备好的dom，初始化echarts图表
+			//var myChart = ec.init(document.getElementById('main'));
+			//var myChart = echarts.init(document.getElementById('main_place'));
+			// 过渡---------------------
+			var curIndx = 0;
+			var mapType = [
+				'china',
+				// 23个省
+				'广东', '青海', '四川', '海南', '陕西',
+				'甘肃', '云南', '湖南', '湖北', '黑龙江',
+				'贵州', '山东', '江西', '河南', '河北',
+				'山西', '安徽', '福建', '浙江', '江苏',
+				'吉林', '辽宁', '台湾',
+				// 5个自治区
+				'新疆', '广西', '宁夏', '内蒙古', '西藏',
+				// 4个直辖市
+				'北京', '天津', '上海', '重庆',
+				// 2个特别行政区
+				'香港', '澳门'
+			];
+			document.getElementById('main_place').onmousewheel = function (e){
+				var event = e || window.event;
+				curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
+				if (curIndx < 0) {
+					curIndx = mapType.length - 1;
+				}
+				var mt = mapType[curIndx % mapType.length];
+				if (mt == 'china') {
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+				}
+				else{
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+
+				zrEvent.stop(event);
+			};
+			myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
+				var len = mapType.length;
+				var mt = mapType[curIndx % len];
+				if (mt == 'china') {
+					// 全国选择时指定到选中的省份
+					var selected = param.selected;
+					for (var i in selected) {
+						if (selected[i]) {
+							mt = i;
+							while (len--) {
+								if (mapType[len] == mt) {
+									curIndx = len;
+								}
+							}
+							break;
+						}
+					}
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				else {
+					curIndx = 0;
+					mt = 'china';
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}:{c}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+			});
+			var option = {
+				title: {
+					text : '全国34个省市自治区',
+					subtext : 'china （滚轮或点击切换）'
+				},
+				tooltip : {
+					trigger: 'item',
+					formatter: '滚轮切换或点击进入该省<br/>{b}'
+				},
+				legend: {
+					orient: 'vertical',
+					x:'right',
+					data:['微博数据']
+				},
+				dataRange: {
+					min: 0,
+					//max: 100,
+					max:item_province_json[0].value,
+					color:['orange','white'],
+					text:['高','低'],           // 文本，默认为数值文本
+					calculable : true
+				},
+				series : [
+					{
+						name: '随机数据',
+						type: 'map',
+						mapType: 'china',
+						selectedMode : 'single',
+						itemStyle:{
+							normal:{label:{show:true}},
+							emphasis:{label:{show:true}}
+						},
+						data:item_json
+
+					}
+				]
+			};
+
+			myChart.setOption(option);
+
+		}
+	)
+
+	var rank_html = '';
+	rank_html += '<table id="table">';
+	for(var k=0;k<Math.min(15,item_province_json.length);k++){
+
+		//         if (item_province_json[k].name=='unknown'){
+		// 	item_province_json[k].name='未知'
+		// }
+
+
+		rank_html += '<tr>';
+		rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
+		rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_province_json[k].name+'</td>';
+		rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_province_json[k].value+'</td>';
+		rank_html += '</tr>';
+
+	}
+	$('#top15_content_place').append(rank_html);
+}
+
+function label_3(la_3) {
+	$('#main_place').empty();
+	$('#top15_content_place').empty();
+	var item=la_3;
+	var item_json = [];
+	var item_province_json = [];
+	var item_city_json = [];
+	var item_city_json_new=[];
+	var html = '';
+	var city_dict = {};
+
+
+	for (i=0;i<item.length;i++){
+		item_province_json.push({name:item[i][0],value:item[i][1].total});
+		for(key in item[i][1]){
+			if(key=='total'){
+				continue;
+			}
+			item_city_json.push({name:key,value:item[i][1][key]});
+
+		}
+	}
+	for(k=0;k<item_city_json.length;k++){
+		if(item_city_json[k].name=='unknown'){
+			item_city_json[k].name='未知';
+		}
+		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
+		// console.log(item_city_json[k].name);
+		// console.log(item_city_json[k].value);
+	}
+
+	item_json = item_province_json.concat(item_city_json_new);
+	// console.log(item_province_json);
+	// console.log(item_city_json_new);
+	// console.log(item_json);
+	item_province_json.sort(function(a,b){
+		return b.value-a.value});
+
+	var myChart = echarts.init(document.getElementById('main_place'));
+
+	require(
+		[
+			'echarts',
+			'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
+		],
+		function (ec) {
+
+			var ecConfig = require('echarts/config'); //放进require里的function{}里面
+			//var ecConfig = echarts.config;
+			var zrEvent = require('zrender/tool/event');
+			//var zrEvent = zrender.src.core.event;
+
+			// 基于准备好的dom，初始化echarts图表
+			//var myChart = ec.init(document.getElementById('main'));
+			//var myChart = echarts.init(document.getElementById('main_place'));
+			// 过渡---------------------
+			var curIndx = 0;
+			var mapType = [
+				'china',
+				// 23个省
+				'广东', '青海', '四川', '海南', '陕西',
+				'甘肃', '云南', '湖南', '湖北', '黑龙江',
+				'贵州', '山东', '江西', '河南', '河北',
+				'山西', '安徽', '福建', '浙江', '江苏',
+				'吉林', '辽宁', '台湾',
+				// 5个自治区
+				'新疆', '广西', '宁夏', '内蒙古', '西藏',
+				// 4个直辖市
+				'北京', '天津', '上海', '重庆',
+				// 2个特别行政区
+				'香港', '澳门'
+			];
+			document.getElementById('main_place').onmousewheel = function (e){
+				var event = e || window.event;
+				curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
+				if (curIndx < 0) {
+					curIndx = mapType.length - 1;
+				}
+				var mt = mapType[curIndx % mapType.length];
+				if (mt == 'china') {
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+				}
+				else{
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+
+				zrEvent.stop(event);
+			};
+			myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
+				var len = mapType.length;
+				var mt = mapType[curIndx % len];
+				if (mt == 'china') {
+					// 全国选择时指定到选中的省份
+					var selected = param.selected;
+					for (var i in selected) {
+						if (selected[i]) {
+							mt = i;
+							while (len--) {
+								if (mapType[len] == mt) {
+									curIndx = len;
+								}
+							}
+							break;
+						}
+					}
+					option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				}
+				else {
+					curIndx = 0;
+					mt = 'china';
+					option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}:{c}';
+				}
+				option.series[0].mapType = mt;
+				option.title.subtext = mt + ' （滚轮或点击切换）';
+				myChart.setOption(option, true);
+			});
+			var option = {
+				title: {
+					text : '全国34个省市自治区',
+					subtext : 'china （滚轮或点击切换）'
+				},
+				tooltip : {
+					trigger: 'item',
+					formatter: '滚轮切换或点击进入该省<br/>{b}'
+				},
+				legend: {
+					orient: 'vertical',
+					x:'right',
+					data:['微博数据']
+				},
+				dataRange: {
+					min: 0,
+					//max: 100,
+					max:item_province_json[0].value,
+					color:['orange','white'],
+					text:['高','低'],           // 文本，默认为数值文本
+					calculable : true
+				},
+				series : [
+					{
+						name: '随机数据',
+						type: 'map',
+						mapType: 'china',
+						selectedMode : 'single',
+						itemStyle:{
+							normal:{label:{show:true}},
+							emphasis:{label:{show:true}}
+						},
+						data:item_json
+
+					}
+				]
+			};
+
+			myChart.setOption(option);
+
+		}
+	)
+
+	var rank_html = '';
+	rank_html += '<table id="table">';
+	for(var k=0;k<Math.min(15,item_province_json.length);k++){
+
+		//         if (item_province_json[k].name=='unknown'){
+		// 	item_province_json[k].name='未知'
+		// }
+
+
+		rank_html += '<tr>';
+		rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
+		rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_province_json[k].name+'</td>';
+		rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_province_json[k].value+'</td>';
+		rank_html += '</tr>';
+
+	}
+	$('#top15_content_place').append(rank_html);
+}
 
