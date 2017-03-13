@@ -244,391 +244,453 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
   },
 
   Draw_emotion_map:function(data){
+  	console.log(data)
+
+	  var emt=[];
+	  for (var key in data){
+	  	emt.push(data[key]);
+	  }
+	  console.log(emt)
+
+	  var data0=[],data1=[],data2=[],data3=[],data4=[],data5=[],data6=[];
+
+	  for (var key in data){
+		  if (key==0){  //中性
+			  for (var key_0 in data[key]) {
+				  data0.push([key_0,data[key][key_0]])
+			  }
+		  }else if (key==1){  //积极
+			  for (var key_1 in data[key]) {
+				  data1.push([key_1,data[key][key_1]])
+			  }
+		  }else if (key==2){ //生气
+			  for (var key_2 in data[key]) {
+				  data2.push([key_2,data[key][key_2]])
+			  }
+		  }else if (key==3){  //焦虑
+			  for (var key_3 in data[key]) {
+				  data3.push([key_3,data[key][key_3]])
+			  }
+		  }else if (key==4){  //悲伤
+			  for (var key_4 in data[key]) {
+				  data4.push([key_4,data[key][key_4]])
+			  }
+		  }else if (key==5){  //厌恶
+			  for (var key_5 in data[key]) {
+				  data5.push([key_5,data[key][key_5]])
+			  }
+		  }else if (key==6){  //消极其他
+			  for (var key_6 in data[key]) {
+				  data6.push([key_6,data[key][key_6]])
+			  }
+		  }
+	  }
+
   		$('#main_emotion_2').empty();
   		$('#top15_content_emotion').empty();
-  		console.log(data)
-		var item = data;
-	 	var item_json = [];
-	 	var item_province_json_pos = [];
-	 	var item_province_json_neu = [];
-	 	var item_province_json_otherneg = [];
-	 	var item_province_json_angry = [];
-	 	var item_province_json_anxiety = [];
-	 	var item_province_json_sad = [];
-	 	var item_province_json_hate = [];
+	  	// emotion_list(data0);
+	  // $('#label-0').on('click',function () {
+		//   emotion_list(data0);
+	  // });
+	  // $('#label-1').on('click',function () {
+		//   emotion_list(data1);
+	  // });
+	  // $('#label-2').on('click',function () {
+		//   emotion_list(data2);
+	  // });
+	  // $('#label-3').on('click',function () {
+		//   emotion_list(data3);
+	  // });
+	  // $('#label-4').on('click',function () {
+		//   emotion_list(data4);
+	  // });
+	  // $('#label-5').on('click',function () {
+		//   emotion_list(data5);
+	  // });
+	  // $('#label-6').on('click',function () {
+		//   emotion_list(data6);
+	  // });
+		var item =data0;
+	  var item_json = [];
+	  var item_province_json_pos = [];
+	  var item_province_json_neu = [];
+	  var item_province_json_otherneg = [];
+	  var item_province_json_angry = [];
+	  var item_province_json_anxiety = [];
+	  var item_province_json_sad = [];
+	  var item_province_json_hate = [];
 
-	 	var item_city_json_pos = [];
-	 	var item_city_json_neu = [];
-	 	var item_city_json_otherneg = [];
-	 	var item_city_json_angry = [];
-	 	var item_city_json_anxiety = [];
-	 	var item_city_json_sad = [];
-	 	var item_city_json_hate = [];
+	  var item_city_json_pos = [];
+	  var item_city_json_neu = [];
+	  var item_city_json_otherneg = [];
+	  var item_city_json_angry = [];
+	  var item_city_json_anxiety = [];
+	  var item_city_json_sad = [];
+	  var item_city_json_hate = [];
 
-	 	var item_city_json_pos_new=[];
-	 	var item_city_json_neu_new=[];
-	 	var item_city_json_otherneg_new = [];
-	 	var item_city_json_angry_new = [];
-	 	var item_city_json_anxiety_new = [];
-	 	var item_city_json_sad_new = [];
-	 	var item_city_json_hate_new = [];
+	  var item_city_json_pos_new=[];
+	  var item_city_json_neu_new=[];
+	  var item_city_json_otherneg_new = [];
+	  var item_city_json_angry_new = [];
+	  var item_city_json_anxiety_new = [];
+	  var item_city_json_sad_new = [];
+	  var item_city_json_hate_new = [];
 
-	 	var item_json_pos = [];
-	 	var item_json_neu = [];
-	 	var item_json_otherneg = [];
-	 	var item_json_angry = [];
-	 	var item_json_anxiety = [];
-	 	var item_json_sad = [];
-	 	var item_json_hate = [];
-	 	var html = '';
-	 	
-
-
-		//正向情绪
-		for(key in item[0]){
-			for(i=0;i<item[0][key].length;i++){
-				item_province_json_pos.push({name:item[0][key][i][0],value:item[0][key][i][1].total});
-
-				for(key_val in item[0][key][i][1]){
-		 			if(key_val=='total'){
-		 				continue;
-		 			}
-		 			item_city_json_pos.push({name:key_val,value:item[0][key][i][1][key_val]});
-		 			
-		 		}
-			}
-
-		}
-		for(k=0;k<item_city_json_pos.length;k++){
-			if(item_city_json_pos[k].name=='unknown'){
-			item_city_json_pos[k].name='未知';
-			}
-			item_city_json_pos_new.push({name:item_city_json_pos[k].name+'市',value:item_city_json_pos[k].value});
-			
-	 	}
-	 			
-		item_json_pos = item_province_json_pos.concat(item_city_json_pos_new);
-		
-
-		//中立情绪
-		for(key in item[1]){
-			for(i=0;i<item[1][key].length;i++){
-				item_province_json_neu.push({name:item[1][key][i][0],value:item[1][key][i][1].total});
-
-				for(key_val in item[1][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_neu.push({name:key_val,value:item[1][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_neu.length;k++){
-			if(item_city_json_neu[k].name=='unknown'){
-			item_city_json_neu[k].name='未知';
-			}
-			item_city_json_neu_new.push({name:item_city_json_neu[k].name+'市',value:item_city_json_neu[k].value});
-		
-	 	}
-	 			
-		item_json_neu = item_province_json_neu.concat(item_city_json_neu_new);
-		
-
-		//焦虑情绪
-		for(key in item[2]){
-			for(i=0;i<item[2][key].length;i++){
-				item_province_json_anxiety.push({name:item[2][key][i][0],value:item[2][key][i][1].total});
-
-				for(key_val in item[2][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_anxiety.push({name:key_val,value:item[2][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_anxiety.length;k++){
-			if(item_city_json_anxiety[k].name=='unknown'){
-			item_city_json_anxiety[k].name='未知';
-			}
-			item_city_json_anxiety_new.push({name:item_city_json_anxiety[k].name+'市',value:item_city_json_anxiety[k].value});
-			
-	 	}
-	 			
-		item_json_anxiety = item_province_json_anxiety.concat(item_city_json_anxiety_new);
-		
-
-		//生气情绪
-		for(key in item[3]){
-			for(i=0;i<item[3][key].length;i++){
-				item_province_json_angry.push({name:item[3][key][i][0],value:item[3][key][i][1].total});
-
-				for(key_val in item[3][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_angry.push({name:key_val,value:item[3][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_angry.length;k++){
-			if(item_city_json_angry[k].name=='unknown'){
-			item_city_json_angry[k].name='未知';
-			}
-			item_city_json_angry_new.push({name:item_city_json_angry[k].name+'市',value:item_city_json_angry[k].value});
-		
-	 	}
-	 			
-		item_json_angry = item_province_json_angry.concat(item_city_json_angry_new);
-		
-
-		//厌恶情绪
-		for(key in item[4]){
-			for(i=0;i<item[4][key].length;i++){
-				item_province_json_hate.push({name:item[4][key][i][0],value:item[4][key][i][1].total});
-
-				for(key_val in item[4][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_hate.push({name:key_val,value:item[4][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_hate.length;k++){
-			if(item_city_json_hate[k].name=='unknown'){
-			item_city_json_hate[k].name='未知';
-			}
-			item_city_json_hate_new.push({name:item_city_json_hate[k].name+'市',value:item_city_json_hate[k].value});
-			
-	 	}
-	 			
-		item_json_hate = item_province_json_hate.concat(item_city_json_hate_new);
-		
-		//悲伤情绪
-		for(key in item[5]){
-			for(i=0;i<item[5][key].length;i++){
-				item_province_json_sad.push({name:item[5][key][i][0],value:item[5][key][i][1].total});
-
-				for(key_val in item[5][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_sad.push({name:key_val,value:item[5][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_sad.length;k++){
-			if(item_city_json_sad[k].name=='unknown'){
-			item_city_json_sad[k].name='未知';
-			}
-			item_city_json_sad_new.push({name:item_city_json_sad[k].name+'市',value:item_city_json_sad[k].value});
-			
-	 	}
-	 			
-		item_json_sad = item_province_json_sad.concat(item_city_json_sad_new);
-		
-
-		//消极其他情绪
-		for(key in item[6]){
-			for(i=0;i<item[6][key].length;i++){
-				item_province_json_otherneg.push({name:item[6][key][i][0],value:item[6][key][i][1].total});
-
-				for(key_val in item[6][key][i][1]){
-			 			if(key_val=='total'){
-			 				continue;
-			 			}
-			 			item_city_json_otherneg.push({name:key_val,value:item[6][key][i][1][key_val]});
-			 			
-		 		}
-			}
-		}
-		for(k=0;k<item_city_json_otherneg.length;k++){
-			if(item_city_json_otherneg[k].name=='unknown'){
-			item_city_json_otherneg[k].name='未知';
-			}
-			item_city_json_otherneg_new.push({name:item_city_json_otherneg[k].name+'市',value:item_city_json_otherneg[k].value});
-			
-	 	}
-	 			
-		item_json_otherneg = item_province_json_otherneg.concat(item_city_json_otherneg_new);
-		
+	  var item_json_pos = [];
+	  var item_json_neu = [];
+	  var item_json_otherneg = [];
+	  var item_json_angry = [];
+	  var item_json_anxiety = [];
+	  var item_json_sad = [];
+	  var item_json_hate = [];
+	  var html = '';
 
 
-		//选择各种情绪
-		if(case_val == 1){
-			item_legend = '正向';
-			item_item = item_json_pos;
-			item_item_rank = item_province_json_pos;
 
-		}else if (case_val == 0){
-			item_legend = '中立';
-			item_item = item_json_neu;
-			item_item_rank = item_province_json_neu;
+	  //正向情绪
+	  for(key in item[0]){
+		  for(i=0;i<item[0][key].length;i++){
+			  item_province_json_pos.push({name:item[0][key][i][0],value:item[0][key][i][1].total});
 
-		}else if(case_val == 2){
-			item_legend = '生气';
-			item_item = item_json_angry;
-			item_item_rank = item_province_json_angry;
+			  for(key_val in item[0][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_pos.push({name:key_val,value:item[0][key][i][1][key_val]});
 
-		}else if (case_val == 3){
-			item_legend = '焦虑';
-			item_item = item_json_anxiety;
-			item_item_rank = item_province_json_anxiety;
+			  }
+		  }
 
-		}else if(case_val == 4){
-			item_legend = '悲伤';
-			item_item = item_json_sad;
-			item_item_rank = item_province_json_sad;
+	  }
+	  for(k=0;k<item_city_json_pos.length;k++){
+		  if(item_city_json_pos[k].name=='unknown'){
+			  item_city_json_pos[k].name='未知';
+		  }
+		  item_city_json_pos_new.push({name:item_city_json_pos[k].name+'市',value:item_city_json_pos[k].value});
 
-		}else if (case_val == 5){
-			item_legend = '厌恶';
-			item_item = item_json_hate;
-			item_item_rank = item_province_json_hate;
+	  }
 
-		}else if(case_val == 6){
-			item_legend = '消极其他';
-			item_item = item_json_otherneg;
-			item_item_rank = item_province_json_otherneg;
+	  item_json_pos = item_province_json_pos.concat(item_city_json_pos_new);
 
-		}
 
-        item_item_rank.sort(function(a,b){
-            return b.value-a.value});
-        console.log(item_item_rank)
-	 	var myChart = echarts.init(document.getElementById('main_emotion_2'));
- 
-		require(
-				[
-					'echarts',
-					'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
-				],
-				function (ec) {
-					var ecConfig = require('echarts/config'); //放进require里的function{}里面
-					var zrEvent = require('zrender/tool/event');
-							
-					// 基于准备好的dom，初始化echarts图表
-					var myChart = echarts.init(document.getElementById('main_emotion_2'));
-					var curIndx = 0;
-					var mapType = [
-						    'china',
-						    // 23个省
-						    '广东', '青海', '四川', '海南', '陕西', 
-						    '甘肃', '云南', '湖南', '湖北', '黑龙江',
-						    '贵州', '山东', '江西', '河南', '河北',
-						    '山西', '安徽', '福建', '浙江', '江苏', 
-						    '吉林', '辽宁', '台湾',
-						    // 5个自治区
-						    '新疆', '广西', '宁夏', '内蒙古', '西藏', 
-						    // 4个直辖市
-						    '北京', '天津', '上海', '重庆',
-						    // 2个特别行政区
-						    '香港', '澳门'
-						];
-					document.getElementById('main_emotion_2').onmousewheel = function (e){
-					    var event = e || window.event;
-					    curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
-					    if (curIndx < 0) {
-					        curIndx = mapType.length - 1;
-					    }
-					    var mt = mapType[curIndx % mapType.length];
-					    if (mt == 'china') {
-					        option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
-					    }
-					    else{
-					        option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
-					    }
-					    option.series[0].mapType = mt;
-					    option.title.subtext = mt + ' （滚轮或点击切换）';
-					    myChart.setOption(option, true);
-					    
-					    zrEvent.stop(event);
-					};
-					myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
-					    var len = mapType.length;
-					    var mt = mapType[curIndx % len];
-					    if (mt == 'china') {
-					        // 全国选择时指定到选中的省份
-					        var selected = param.selected;
-					        for (var i in selected) {
-					            if (selected[i]) {
-					                mt = i;
-					                while (len--) {
-					                    if (mapType[len] == mt) {
-					                        curIndx = len;
-					                    }
-					                }
-					                break;
-					            }
-					        }
-					        option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
-					    }
-					    else {
-					        curIndx = 0;
-					        mt = 'china';
-					        option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
-					    }
-					    option.series[0].mapType = mt;
-					    option.title.subtext = mt + ' （滚轮或点击切换）';
-					    myChart.setOption(option, true);
-					});
-					var option = {
-					    title: {
-					        text : '全国34个省市自治区',
-					        subtext : 'china （滚轮或点击切换）'
-					    },
-					    tooltip : {
-					        trigger: 'item',
-					        formatter: '滚轮切换或点击进入该省<br/>{b}'
-					    },
-					    dataRange: {
-					        min: 0,
-					        //max: 1000,
-					        max:item_item_rank[0].value,
-					        color:['orange','white'],
-					        text:['高','低'],           // 文本，默认为数值文本
-					        calculable : true
-					    },
-					    series : [
-					        {
-					            name: '随机数据',
-					            type: 'map',
-					            mapType: 'china',
-					            selectedMode : 'single',
-					            itemStyle:{
-					                normal:{label:{show:true}},
-					                emphasis:{label:{show:true}}
-					            },
-					            data:item_item
-					
-					        }
-					    ]
-					};
-			 		
-			 		
-			                myChart.setOption(option);     
-						
-		}
-		)	
+	  //中立情绪
+	  for(key in item[1]){
+		  for(i=0;i<item[1][key].length;i++){
+			  item_province_json_neu.push({name:item[1][key][i][0],value:item[1][key][i][1].total});
 
-		// console.log(item_item);
-		
-		var rank_html = '';
-		rank_html += '<table id="table" style="table-layout:fixed">';
-        for(var k=0;k<Math.min(15,item_item_rank.length);k++){
+			  for(key_val in item[1][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_neu.push({name:key_val,value:item[1][key][i][1][key_val]});
 
-			rank_html += '<tr>';	
-			rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
-			rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_item_rank[k].name+'</td>';
-			rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_item_rank[k].value+'</td>';			
-			rank_html += '</tr>';		
-        }
-        $('#top15_content_emotion').append(rank_html);
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_neu.length;k++){
+		  if(item_city_json_neu[k].name=='unknown'){
+			  item_city_json_neu[k].name='未知';
+		  }
+		  item_city_json_neu_new.push({name:item_city_json_neu[k].name+'市',value:item_city_json_neu[k].value});
+
+	  }
+
+	  item_json_neu = item_province_json_neu.concat(item_city_json_neu_new);
+
+
+	  //焦虑情绪
+	  for(key in item[2]){
+		  for(i=0;i<item[2][key].length;i++){
+			  item_province_json_anxiety.push({name:item[2][key][i][0],value:item[2][key][i][1].total});
+
+			  for(key_val in item[2][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_anxiety.push({name:key_val,value:item[2][key][i][1][key_val]});
+
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_anxiety.length;k++){
+		  if(item_city_json_anxiety[k].name=='unknown'){
+			  item_city_json_anxiety[k].name='未知';
+		  }
+		  item_city_json_anxiety_new.push({name:item_city_json_anxiety[k].name+'市',value:item_city_json_anxiety[k].value});
+
+	  }
+
+	  item_json_anxiety = item_province_json_anxiety.concat(item_city_json_anxiety_new);
+
+
+	  //生气情绪
+	  for(key in item[3]){
+		  for(i=0;i<item[3][key].length;i++){
+			  item_province_json_angry.push({name:item[3][key][i][0],value:item[3][key][i][1].total});
+
+			  for(key_val in item[3][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_angry.push({name:key_val,value:item[3][key][i][1][key_val]});
+
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_angry.length;k++){
+		  if(item_city_json_angry[k].name=='unknown'){
+			  item_city_json_angry[k].name='未知';
+		  }
+		  item_city_json_angry_new.push({name:item_city_json_angry[k].name+'市',value:item_city_json_angry[k].value});
+
+	  }
+
+	  item_json_angry = item_province_json_angry.concat(item_city_json_angry_new);
+
+
+	  //厌恶情绪
+	  for(key in item[4]){
+		  for(i=0;i<item[4][key].length;i++){
+			  item_province_json_hate.push({name:item[4][key][i][0],value:item[4][key][i][1].total});
+
+			  for(key_val in item[4][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_hate.push({name:key_val,value:item[4][key][i][1][key_val]});
+
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_hate.length;k++){
+		  if(item_city_json_hate[k].name=='unknown'){
+			  item_city_json_hate[k].name='未知';
+		  }
+		  item_city_json_hate_new.push({name:item_city_json_hate[k].name+'市',value:item_city_json_hate[k].value});
+
+	  }
+
+	  item_json_hate = item_province_json_hate.concat(item_city_json_hate_new);
+
+	  //悲伤情绪
+	  for(key in item[5]){
+		  for(i=0;i<item[5][key].length;i++){
+			  item_province_json_sad.push({name:item[5][key][i][0],value:item[5][key][i][1].total});
+
+			  for(key_val in item[5][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_sad.push({name:key_val,value:item[5][key][i][1][key_val]});
+
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_sad.length;k++){
+		  if(item_city_json_sad[k].name=='unknown'){
+			  item_city_json_sad[k].name='未知';
+		  }
+		  item_city_json_sad_new.push({name:item_city_json_sad[k].name+'市',value:item_city_json_sad[k].value});
+
+	  }
+
+	  item_json_sad = item_province_json_sad.concat(item_city_json_sad_new);
+
+
+	  //消极其他情绪
+	  for(key in item[6]){
+		  for(i=0;i<item[6][key].length;i++){
+			  item_province_json_otherneg.push({name:item[6][key][i][0],value:item[6][key][i][1].total});
+
+			  for(key_val in item[6][key][i][1]){
+				  if(key_val=='total'){
+					  continue;
+				  }
+				  item_city_json_otherneg.push({name:key_val,value:item[6][key][i][1][key_val]});
+
+			  }
+		  }
+	  }
+	  for(k=0;k<item_city_json_otherneg.length;k++){
+		  if(item_city_json_otherneg[k].name=='unknown'){
+			  item_city_json_otherneg[k].name='未知';
+		  }
+		  item_city_json_otherneg_new.push({name:item_city_json_otherneg[k].name+'市',value:item_city_json_otherneg[k].value});
+
+	  }
+
+	  item_json_otherneg = item_province_json_otherneg.concat(item_city_json_otherneg_new);
+
+
+
+	  //选择各种情绪
+	  if(case_val == 1){
+		  item_legend = '正向';
+		  item_item = item_json_pos;
+		  item_item_rank = item_province_json_pos;
+
+	  }else if (case_val == 0){
+		  item_legend = '中立';
+		  item_item = item_json_neu;
+		  item_item_rank = item_province_json_neu;
+
+	  }else if(case_val == 2){
+		  item_legend = '生气';
+		  item_item = item_json_angry;
+		  item_item_rank = item_province_json_angry;
+
+	  }else if (case_val == 3){
+		  item_legend = '焦虑';
+		  item_item = item_json_anxiety;
+		  item_item_rank = item_province_json_anxiety;
+
+	  }else if(case_val == 4){
+		  item_legend = '悲伤';
+		  item_item = item_json_sad;
+		  item_item_rank = item_province_json_sad;
+
+	  }else if (case_val == 5){
+		  item_legend = '厌恶';
+		  item_item = item_json_hate;
+		  item_item_rank = item_province_json_hate;
+
+	  }else if(case_val == 6){
+		  item_legend = '消极其他';
+		  item_item = item_json_otherneg;
+		  item_item_rank = item_province_json_otherneg;
+
+	  }
+
+	  item_item_rank.sort(function(a,b){
+		  return b.value-a.value});
+	  var myChart = echarts.init(document.getElementById('main_emotion_2'));
+
+	  require(
+		  [
+			  'echarts',
+			  'echarts/chart/map' // 使用柱状图就加载bar模块，按需加载
+		  ],
+		  function (ec) {
+			  var ecConfig = require('echarts/config'); //放进require里的function{}里面
+			  var zrEvent = require('zrender/tool/event');
+
+			  // 基于准备好的dom，初始化echarts图表
+			  var myChart = echarts.init(document.getElementById('main_emotion_2'));
+			  var curIndx = 0;
+			  var mapType = [
+				  'china',
+				  // 23个省
+				  '广东', '青海', '四川', '海南', '陕西',
+				  '甘肃', '云南', '湖南', '湖北', '黑龙江',
+				  '贵州', '山东', '江西', '河南', '河北',
+				  '山西', '安徽', '福建', '浙江', '江苏',
+				  '吉林', '辽宁', '台湾',
+				  // 5个自治区
+				  '新疆', '广西', '宁夏', '内蒙古', '西藏',
+				  // 4个直辖市
+				  '北京', '天津', '上海', '重庆',
+				  // 2个特别行政区
+				  '香港', '澳门'
+			  ];
+			  document.getElementById('main_emotion_2').onmousewheel = function (e){
+				  var event = e || window.event;
+				  curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
+				  if (curIndx < 0) {
+					  curIndx = mapType.length - 1;
+				  }
+				  var mt = mapType[curIndx % mapType.length];
+				  if (mt == 'china') {
+					  option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+				  }
+				  else{
+					  option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				  }
+				  option.series[0].mapType = mt;
+				  option.title.subtext = mt + ' （滚轮或点击切换）';
+				  myChart.setOption(option, true);
+
+				  zrEvent.stop(event);
+			  };
+			  myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){
+				  var len = mapType.length;
+				  var mt = mapType[curIndx % len];
+				  if (mt == 'china') {
+					  // 全国选择时指定到选中的省份
+					  var selected = param.selected;
+					  for (var i in selected) {
+						  if (selected[i]) {
+							  mt = i;
+							  while (len--) {
+								  if (mapType[len] == mt) {
+									  curIndx = len;
+								  }
+							  }
+							  break;
+						  }
+					  }
+					  option.tooltip.formatter = '滚轮切换省份或点击返回全国<br/>{b}';
+				  }
+				  else {
+					  curIndx = 0;
+					  mt = 'china';
+					  option.tooltip.formatter = '滚轮切换或点击进入该省<br/>{b}';
+				  }
+				  option.series[0].mapType = mt;
+				  option.title.subtext = mt + ' （滚轮或点击切换）';
+				  myChart.setOption(option, true);
+			  });
+			  var option = {
+				  title: {
+					  text : '全国34个省市自治区',
+					  subtext : 'china （滚轮或点击切换）'
+				  },
+				  tooltip : {
+					  trigger: 'item',
+					  formatter: '滚轮切换或点击进入该省<br/>{b}'
+				  },
+				  dataRange: {
+					  min: 0,
+					  //max: 1000,
+					  max:item_item_rank[0].value,
+					  color:['orange','white'],
+					  text:['高','低'],           // 文本，默认为数值文本
+					  calculable : true
+				  },
+				  series : [
+					  {
+						  name: '随机数据',
+						  type: 'map',
+						  mapType: 'china',
+						  selectedMode : 'single',
+						  itemStyle:{
+							  normal:{label:{show:true}},
+							  emphasis:{label:{show:true}}
+						  },
+						  data:item_item
+
+					  }
+				  ]
+			  };
+
+
+			  myChart.setOption(option);
+
+		  }
+	  )
+
+
+	  var rank_html = '';
+	  rank_html += '<table id="table" style="table-layout:fixed">';
+	  for(var k=0;k<Math.min(15,item_item_rank.length);k++){
+
+		  rank_html += '<tr>';
+		  rank_html += '<td class="td" align="center" style="width:80px;height:32px;">'+(k+1)+'</td>';
+		  rank_html += '<td class="autocut" align="center" style="width:80px;height:32px;overflow:hidden;text-overflow:ellipsis;word-break:keep-all">'+item_item_rank[k].name+'</td>';
+		  rank_html += '<td class="td" align="right" style="width:60px;height:32px;">'+item_item_rank[k].value+'</td>';
+		  rank_html += '</tr>';
+	  }
+	  $('#top15_content_emotion').append(rank_html);
+
 
   },
 
@@ -726,7 +788,6 @@ function Draw_emotion_trend_line_result(){
 	var end_ts = 1483113600;
 
 	url = "/topic_sen_analyze/sen_time_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&pointInterval='+pointInterval;
- 	console.log(url);
  	topic_analysis_emotion.call_sync_ajax_request(url,topic_analysis_emotion.Draw_emotion_trend_line);
 }
 
@@ -744,7 +805,6 @@ function Draw_emotion_map_result(){
 	var end_ts = 1483113600;
 
     url = "/topic_sen_analyze/sen_province_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
- 	console.log(url);
  	topic_analysis_emotion.call_sync_ajax_request(url,topic_analysis_emotion.Draw_emotion_map);
 }
 
@@ -761,16 +821,11 @@ function Draw_blog_scan_area_emotion_result(){
 
 
     url = "/topic_sen_analyze/sen_weibo_content/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item_emotion+'&sen='+sen;
- 	console.log(url);
  	topic_analysis_emotion.call_sync_ajax_request(url,topic_analysis_emotion.Draw_blog_scan_area_emotion);
 }		
 
 function emotion_load(){
-	Draw_emotion_trend_line_result();
-	Draw_emotion_map_result();
-	Draw_blog_scan_area_emotion_result();
+	// Draw_emotion_trend_line_result();
+	// Draw_emotion_map_result();
+	// Draw_blog_scan_area_emotion_result();
 }
-//
-// Draw_emotion_trend_line_result();
-// Draw_emotion_map_result();
-// Draw_blog_scan_area_emotion_result();

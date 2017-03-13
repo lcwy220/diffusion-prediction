@@ -1,8 +1,5 @@
-body {
-    background: url("/static/images/results.png") no-repeat;
-    background-size: 100% 110%;
-}
 #container {
+    padding-top: 100px;
     width: 70%;
     margin: 20px auto;
 }
@@ -27,7 +24,7 @@ body {
 }
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_words,
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source{
-    color: white;
+    color: black;
     font-size: 10px;
 }
 #container .hot_event .event_list .weibo_explain .weibo_detail_right .weibo_source {
@@ -48,7 +45,7 @@ body {
 }
 #container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_words,
 #container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_source{
-    color: white;
+    color: black;
     font-size: 10px;
 }
 #container .integrat .integrat_list .inter_weibo .weibo_explain .weibo_detail_right .weibo_source {

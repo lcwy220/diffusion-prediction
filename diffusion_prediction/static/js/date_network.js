@@ -128,18 +128,12 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
   Draw_network_pic:function(data){
     $('#main_network').empty();
     var item = data;
-     // console.log(data)
-    //console.log(item);
     var nodes_new = [];
     var nodes_label = [];
-    console.log(item['nodes'].length);
-    console.log(item['links'].length);
     item_links=[];
     for (k=0;k<Math.min(item['links'].length,2000);k++){
-      console.log()
       item_links.push(item['links'][k]);
     }
-    //console.log(item_links.length);
 
     for(i=0;i<Math.min(item['nodes'].length,2000);i++){
       nodes_new.push({name:item['nodes'][i]['label'],symbolSize:item['nodes'][i]['symbolSize'],label:''});
@@ -284,7 +278,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
       html += '<tr>';
     
         if (item[i].photo=='no'){
-          item[i].photo='../../static/images/photo_unknown.png';
+          item[i].photo='/static/images/photo_unknown.png';
         }
         var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         // html += '<td><img title=用户昵称：' +item[k].name+'<br/>粉丝数：'+item[k].fans+'<br/>发布时间：'+item[k].+'style="width:40px;height:40px" class="photo_user" src='+item[k].photo+'/><td>';
@@ -316,22 +310,20 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
 
   Draw_trend_pusher:function(data){
     $('#right_col_title_2_network').empty();
-    //var item = data;
+    var data = eval(data);
     var item = [];
-
-    var html = '';
     console.log(data)
+    var html = '';
     for(var uid_data in data){
       item.push(data[uid_data]);
     }
-    console.log(item)
     html += '<table id="table_photo">';
     for(i=0;i<Math.min(7,item.length);i=i+1){
       
       html += '<tr>';
       
         if (item[i].user_info.profile_image_url=='no'){
-          item[i].user_info.profile_image_url='../../static/images/photo_unknown.png';
+          item[i].user_info.profile_image_url='/static/images/photo_unknown.png';
         }
         if (item[i].user_info.name=='未知'){
           item[i].user_info.name='未知';
@@ -372,7 +364,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
 
   
         if (item[i]._source.photo_url=='no'){
-          item[i]._source.photo_url='../../static/images/photo_unknown.png'
+          item[i]._source.photo_url='/static/images/photo_unknown.png'
         }
         if (item[i]._source.uname=='未知'){
           item[i]._source.uname=item[i]._source.uid;
@@ -442,7 +434,6 @@ function Draw_network_pic_result(){
   var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_gexf/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-  //console.log(url);
 
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_network_pic);
 
@@ -461,7 +452,6 @@ function Draw_trend_maker_result(){
   var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_trend_maker/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-  console.log(url);
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_trend_maker);
 }
 
@@ -477,7 +467,6 @@ function Draw_trend_pusher_result(){
   var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_trend_pusher/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
-  console.log(url);
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_trend_pusher);
 }
  
@@ -499,7 +488,6 @@ function Draw_blog_scan_area_network_result(){
 
   }
   
-  //console.log(url);
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_blog_scan_area_network);
 }   
 

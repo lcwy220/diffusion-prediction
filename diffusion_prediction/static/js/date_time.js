@@ -318,7 +318,6 @@ function Draw_time_trend_line_result(){
 	//console.log(end_ts);
 	//console.log(pointInterval);
     url = "/topic_time_analyze/mtype_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&pointInterval='+pointInterval;
- 	console.log(url);
  	topic_analysis_time.call_sync_ajax_request(url,topic_analysis_time.Draw_time_trend_line);
 }		
 
@@ -330,7 +329,6 @@ function Draw_blog_scan_area_order_result(){
 	var start_ts = 1482681600;
 	var end_ts = 1483113600;
     url_order = "/topic_time_analyze/time_order_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item;
- 	console.log(url_order);
  	topic_analysis_time.call_sync_ajax_request(url_order,topic_analysis_time.Draw_blog_scan_area);
 
 }

@@ -205,32 +205,32 @@ def get_weibo_content_es(topic,start_ts,end_ts,province,sort_item='timestamp',un
         geo_weibos = geo_cityTopic_results['geo_weibos']
 
         #geo_weibos = _json_loads(geo_weibos)
-    for end_ts,type_dict in geo_weibos.iteritems():
-        for weibo_type,geo_weibo_list in type_dict.iteritems():
-            for geo_weibo in geo_weibo_list:
-                end_ts = geo_weibo[0]
-                province_weibo = geo_weibo[1]
-                city = geo_weibo[2]
-                weibo = geo_weibo[3]
-                #print 'weibo::::::::::::::::::',weibo
-                if province_weibo == province:
-                    weibo_content = {}
-                    weibo_content['text'] = weibo['_source']['text'] 
-                    weibo_content['uid'] = weibo['_source']['uid']
-                    weibo_content['timestamp'] = weibo['_source']['timestamp']
-                    weibo_content['sentiment'] = weibo['_source']['sentiment'] 
-                    weibo_content['comment'] = weibo['_source']['comment']
-                    weibo_content['retweeted'] = weibo['_source']['retweeted']
-                    weibo_content['keywords'] = weibo['_source']['keywords_dict']
-                    weibo_content['mid'] = weibo['_source']['mid']
-                    try:
-                        user = es_user_portrait.get(index=profile_index_name,doc_type=profile_index_type,id=weibo_content['uid'])['_source']
-                        weibo_content['uname'] = user['nick_name']
-                        weibo_content['photo_url'] = user['photo_url']
-                    except:
-                        weibo_content['uname'] = 'unknown'
-                        weibo_content['photo_url'] = 'unknown'
-                    weibo_dict[weibo_content['mid']] = weibo_content
+    
+    for weibo_type,geo_weibo_list in geo_weibos.iteritems():
+        for geo_weibo in geo_weibo_list:
+            province_weibo = geo_weibo[0]
+            city = geo_weibo[1]
+            weibo = geo_weibo[2]
+        
+            #print 'weibo::::::::::::::::::',weibo
+            if province_weibo == province:
+                weibo_content = {}
+                weibo_content['text'] = weibo['_source']['text'] 
+                weibo_content['uid'] = weibo['_source']['uid']
+                weibo_content['timestamp'] = weibo['_source']['timestamp']
+                weibo_content['sentiment'] = weibo['_source']['sentiment'] 
+                weibo_content['comment'] = weibo['_source']['comment']
+                weibo_content['retweeted'] = weibo['_source']['retweeted']
+                weibo_content['keywords'] = weibo['_source']['keywords_dict']
+                weibo_content['mid'] = weibo['_source']['mid']
+                try:
+                    user = es_user_portrait.get(index=profile_index_name,doc_type=profile_index_type,id=weibo_content['uid'])['_source']
+                    weibo_content['uname'] = user['nick_name']
+                    weibo_content['photo_url'] = user['photo_url']
+                except:
+                    weibo_content['uname'] = 'unknown'
+                    weibo_content['photo_url'] = 'unknown'
+                weibo_dict[weibo_content['mid']] = weibo_content
     try:
         results = sorted(weibo_dict.items(),key=lambda x:x[1][sort_item],reverse=True)
     except:
