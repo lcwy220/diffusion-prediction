@@ -125,6 +125,8 @@ def getTwoBeauties(al,idx1,idx2):
         smax2 = 0
         smax1 = 0
         for i in range(len(al)-1,idx2):#(int i = al.size() - 1; i > idx2; i--) {
+            if float(f2-ce) == float(0):
+                f2 = ce +1
             dt = abs((f2 - ce) * (idxe - i) - (idxe - idx2)	* al[i] + (idxe - idx2) * ce) / math.sqrt(math.pow(f2 - ce, 2) + math.pow(idxe - idx2, 2))
             y = (f2 - ce)*(i-idxe)/(idx2-idxe)+ce
             if (smax2 < dt and y>al[i]):
@@ -137,7 +139,11 @@ def getTwoBeauties(al,idx1,idx2):
                 idxe = i
                 ce = al[i]
         for i in range(idxe-1,idx1):#(int i = idxe-1; i > idx1; i--) {
+            if float(f1-ce) == float(0):
+                f1 = ce + 1
             dt = abs((f1 - ce) * (idxe - i) - (idxe - idx1)	* al[i] + (idxe - idx1) * ce) / math.sqrt(math.pow(f1 - ce, 2) + math.pow(idxe - idx1, 2))
+            if float(idx1-idxe) == float(0):
+                idx1 = idxe+1
             y = (f1 - ce)*(i-idxe)/(idx1-idxe)+ce
             if smax1 < dt and y>al[i]:
                 idxs1 = i

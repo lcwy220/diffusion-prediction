@@ -15,3 +15,5 @@ diffusion_prediction/cron/trendline_prediction/series_data/
 diffusion_prediction/libsvm-3.17/
 graph/
 diffusion_prediction/cron/model_file
+diffusion_prediction/cron/stimulation_model/sti_model/prediction_uid.pkl
+diffusion_prediction/cron/stimulation_model/sti_model/prediction_weibo.pkl

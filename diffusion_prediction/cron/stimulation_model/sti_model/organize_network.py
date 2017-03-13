@@ -19,11 +19,20 @@ def organize_network(task_name, ts):
     user_set = set()
     query_body = {
         "query":{
-            "range":{
-                "timestamp":{
-                    "gte": start_time,
-                    "lt": ts
-                }
+            "bool":{
+                "must":[
+                    {"range":{
+                        "timestamp":{
+                            "gte": start_time,
+                            "lt": ts
+                        }
+                    }},
+                    {"range":{
+                        "user_fansnum":{
+                            "gte":10000
+                        }
+                    }}
+                ]
             }
         }
     }
@@ -47,7 +56,7 @@ def organize_network(task_name, ts):
             print "finish"
             break
 
-    print len(user_set)
+    print "current participators: ",len(user_set)
     return list(user_set)
 
 
