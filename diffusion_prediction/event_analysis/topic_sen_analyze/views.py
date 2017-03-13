@@ -3,7 +3,7 @@
 from flask import Blueprint,render_template,request
 #from user_portrait.global_config import db
 #from utils import get_sen_time_count,get_weibo_content,get_sen_province_count
-from utils import get_sen_time_count_es,get_weibo_content_es,get_sen_province_count_es
+from utils import get_sen_time_count_es,get_weibo_content_es,get_sen_province_count_es_final
 #from user_portrait.parameter import MYSQL_TOPIC_LEN
 import json
 
@@ -70,7 +70,7 @@ def sen_province_count():
     start_ts = request.args.get('start_ts', '')
     start_ts = long(start_ts)
     #weibo_count = all_weibo_count(topic,start_ts,end_ts)
-    results = get_sen_province_count_es(topic,start_ts,end_ts)
+    results = get_sen_province_count_es_final(topic,start_ts,end_ts)
     #print results
     return json.dumps(results)
     

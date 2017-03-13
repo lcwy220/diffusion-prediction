@@ -1,5 +1,6 @@
 # ignore
 *.pyc
+diffusion_prediction/cron/event_analysis/language/fix/log/
 diffusion_prediction/cron/event_analysis/python-Levenshtein-0.12.0.tar.gz
 diffusion_prediction/cron/macro_prediction/0305_macro-prediction-uids-value.pkl
 diffusion_prediction/cron/macro_prediction/macro-prediction-uids-value.pkl

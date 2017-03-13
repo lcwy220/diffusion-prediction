@@ -100,6 +100,7 @@ def MtypeCount():      #每类微博的数量
 def TimeOrderWeibos():
     topic =request.args.get('topic', '')
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
+    print '103:::::::::::::',end_ts
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
     start_ts = long(start_ts)
