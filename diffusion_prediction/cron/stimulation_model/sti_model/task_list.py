@@ -32,7 +32,7 @@ def create_task():
     if int(RUN_TYPE) == 1:
         current_ts = datehour2ts(ts2datehour(time.time()))
     else:
-        current_ts = 1482681600 + 16*3600
+        current_ts = 1482681600 + 18*3600
     for item in es_results:
         tmp = []
         task_detail = item["_source"]

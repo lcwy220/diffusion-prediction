@@ -26,12 +26,14 @@ def extend_network(task_name, ts):
         "query":{
             "filtered":{
                 "filter":{
-            "range":{
-                "timestamp":{
-                    "lt": ts
+                    "range":{
+                        "timestamp":{
+                            "lt": ts
+                        }
+                    }
                 }
             }
-        }}},
+        },
         "aggs":{
             "uid_count":{"cardinality":{"field": "uid"}}
         }
@@ -191,8 +193,4 @@ def prediction_model(uid, gbdt, tmp_prediction_list, tmp_uid_list, future_dict):
 
 
 if __name__ == "__main__":
-    #print predict_user_influence("mao_ze_dong_dan_chen_ji_nian_ri")
-    task_name = "mao_ze_dong_dan_chen_ji_nian_ri"
-    ts = 1482732000
-    es_prediction.update(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,\
-            id=task_name, body={"doc":{"stimulation_processing_status":"0", "update_time": ts, "scan_text_finish":"0"}})
+    print predict_user_influence("mao_ze_dong_dan_chen_ji_nian_ri")

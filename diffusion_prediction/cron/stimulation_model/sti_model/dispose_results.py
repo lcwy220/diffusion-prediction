@@ -1,8 +1,9 @@
 # -*-coding:utf-8-*-
 
 import json
-
+import pickle
 import sys
+from extract_feature_0312 import organize_feature
 reload(sys)
 sys.path.append('../../../')
 from global_utils import es_prediction as es
@@ -27,6 +28,7 @@ def dispose_results(task_name, ts):
         diffusion_value.update(end_dict)
 
     # 未来传播者信息
+    # uid nick_name, photo_url, fans_num, weibo_num, prediction_value
     future_list = list(set(future_list))
     future_user_info = get_future_user(future_list)
     #print future_user_info
@@ -98,7 +100,8 @@ def search_hot_mid(task_name, ts):
     uid_list = []
     es_results = es.search(index=task_name, doc_type="text", body=query_body)["aggregations"]["hot_mid"]["buckets"]
     for item in es_results:
-        mid_list.append(item["key"])
+        if item["doc_count"] >= 500:
+            mid_list.append(item["key"])
 
     if mid_list:
         weibo_results = es.mget(index=task_name, doc_type="text", body={"ids":mid_list})["docs"]
@@ -125,7 +128,7 @@ def search_hot_mid(task_name, ts):
                     return_list[i]["photo_url"] = ""
                     return_list[i]["fansnum"] = ""
                     return_list[i]["statusnum"] = ""
-    return return_list[:10]
+    return return_list
 
 
 def search_retweet_comment(task_name, mid):
@@ -164,65 +167,92 @@ def search_retweet_comment(task_name, mid):
 def potential_user(task_name, ts):
     index_name = "stimulation_"+task_name
     index_type = "stimulation_results"
-    es_results = es.get(index=index_name, doc_type=index_type, id=ts)["_source"]
-    in_results = json.loads(es_results["in_results"])
 
-    in_potential_list = []
-    tmp_in_list = []
-    for uid, value in in_results.iteritems():
-        uid_count = search_times(task_name, uid, ts)
-        if value - uid_count >= 500:
-            tmp = []
-            tmp.append(uid)
-            tmp.append(uid_count)
-            tmp.append(int(value))
-            in_potential_list.append(tmp)
-            tmp_in_list.append(uid)
-
-    # query this mids
+    #查询当前root_mid
     query_body = {
-        "query":{
-            "terms":{"uid": tmp_in_list}
+        "query": {
+            "bool":{
+                "must":[
+                    {"range":{
+                        "timestamp":{
+                            "lt": ts
+                        }
+                    }},
+                    {"term":{"message_type":1}},
+                    {"range":{
+                        "user_fansnum":{
+                            "gte": 10000
+                        }
+                    }}
+                ]
+            }
         },
         "size": 10000
     }
 
-    # weibo content
-    mid_results = es.search(index=task_name, doc_type="text", body=query_body)["hits"]["hits"]
-    mid_dict = dict()
-    for item in mid_results:
-        uid = item["_source"]["uid"]
-        mid = item["_source"]["mid"]
-        retweet, comment = search_retweet_comment(task_name, mid)
-        item["_source"]["retweet"] = retweet
-        item["_source"]["comment"] = comment
-        try:
-            mid_dict[uid].append(item["_source"])
-        except:
-            mid_dict[uid] = item["_source"]
+    es_results = es.search(index=task_name, doc_type="text", body=query_body)["hits"]["hits"]
+
+    mid_list = []
+    uid_list = []
+    feature_list = []
+    prediction_uid = []
+    prediction_weibo = []
+    with open("prediction_uid.pkl", "r") as f:
+        uid_model = pickle.load(f)
+    with open("prediction_weibo.pkl", "r") as f:
+        weibo_model = pickle.load(f)
+
+    for item in es_results:
+        mid_list.append(item["_id"])
+        uid_list.append(item["_source"]["uid"])
+        tmp_feature_list = organize_feature(task_name,item["_id"], ts)
+        feature_list.append(tmp_feature_list)
+        weibo_prediction_result = weibo_model.predict(feature_list)
+        uid_prediction_result = uid_model.predict(feature_list)
+
+
+    results_dict = dict()
+    in_potential_list = []
+    for i in range(len(mid_list)):
+        mid = mid_list[i]
+        uid = uid_list[i]
+        iter_count = es.count(index=task_name, doc_type="text", body={"query":{"term":{"root_mid":mid}}})["count"]
+        pre_count = weibo_prediction_result[i]
+        if pre_count >= 500 and iter_count <= 500:
+            if not results_dict.has_key(uid):
+                results_dict[uid] = dict()
+            tmp = dict()
+            tmp["mid"] = mid
+            tmp["current_count"] = iter_count
+            tmp["prediction_count"] = int(pre_count)
+            weibo_detail = es.get(index=task_name, doc_type="text", id=mid)["_source"]
+            tmp.update(weibo_detail)
+            retweet, comment = search_retweet_comment(task_name, mid)
+            tmp["retweeted"] = retweet
+            tmp["comment"] = comment
+            results_dict[uid][mid] = tmp
+
 
     # user profile
+    tmp_in_list = results_dict.keys()
     if tmp_in_list:
         profile_results = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type, body={"ids":tmp_in_list})["docs"]
         for i in range(len(tmp_in_list)):
             detail = profile_results[i]
+            tmp = []
+            uid = tmp_in_list[i]
             if detail["found"]:
-                in_potential_list[i].append(detail["_source"]["nick_name"])
-                in_potential_list[i].append(detail["_source"]["photo_url"])
-                in_potential_list[i].append(detail["_source"]["fansnum"])
-                in_potential_list[i].append(detail["_source"]["statusnum"])
+                tmp.append(detail["_source"]["nick_name"])
+                tmp.append(detail["_source"]["photo_url"])
+                tmp.append(detail["_source"]["fansnum"])
+                tmp.append(detail["_source"]["statusnum"])
             else:
-                in_potential_list[i].append(detail["_id"])
-                in_potential_list[i].extend(["","",""])
+                tmp.append(detail["_id"])
+                tmp.extend(["","",""])
+            results_dict[uid]["user_profile"] = tmp
 
-    return_list = []
-    for item in in_potential_list:
-        uid = item[0]
-        if mid_dict.has_key(uid):
-            item.append(mid_dict[uid])
-        return_list.append(item)
 
-    return return_list
+    return results_dict
 
 
 
@@ -263,4 +293,4 @@ def search_times(task_name, uid, ts):
 
 
 if __name__ == "__main__":
-    dispose_results("mao_ze_dong_dan_chen_ji_nian_ri", 1482732000)
+    dispose_results("mao_ze_dong_dan_chen_ji_nian_ri", 1482681600 + 18*3600)
