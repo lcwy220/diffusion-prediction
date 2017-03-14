@@ -13,9 +13,12 @@ import json
 import math
 reload(sys)
 sys.path.append('../../')
-from diffusion_prediction.global_config import index_event_analysis_results,type_event_analysis_results
-from diffusion_prediction.global_utils import es_prediction as es
-from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
+#from diffusion_prediction.global_config import index_event_analysis_results,type_event_analysis_results
+#from diffusion_prediction.global_utils import es_prediction as es
+#from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
+from global_config import index_event_analysis_results,type_event_analysis_results
+from global_utils import es_prediction as es
+from global_utils import es_user_portrait,profile_index_name,profile_index_type
 
 Minute = 60
 Fifteenminutes = 15 * Minute
@@ -128,6 +131,42 @@ def get_sen_time_count_es(en_name,start_ts,end_ts,unit=MinInterval):
                             sen_count_results[end_ts][k] = v
     #print 'sen_count_results:::::::::::::::', sen_count_results           
     return  sen_count_results
+
+def get_sen_province_count_es_final(en_name,start_ts,end_ts,unit=MinInterval):
+
+    sen_geo_count_results = {}
+    sen_geo_results_dict = {}
+    sen_geo_count_results_final = []
+    
+    query_body = {
+        'query':{
+            'term':{'en_name':en_name}
+        }
+    }
+
+    es_results = es.search(index=index_event_analysis_results,doc_type=type_event_analysis_results,\
+                            body=query_body)['hits']['hits']
+
+    for es_result in es_results:
+        sen_results = es_result['_source']['sentiment_results']
+        sen_geo_results_dict = json.loads(sen_results)
+
+    during = sen_geo_results_dict['during']
+    geo_counts = sen_geo_results_dict['geo_count']
+    print 'geo_counts:::::::::::::',geo_counts
+    
+    for sen,geo_list in geo_counts.iteritems():
+        #print 'type:::::geo_list',geo_list
+        sen_geo_count_results[sen] = []
+        if geo_list:
+            for province,city_dict in geo_list.iteritems():
+                sen_geo_count_results[sen].append([province,city_dict])        
+        else:
+            continue
+        sen_geo_count_results_final.append(sen_geo_count_results)
+    #print 'sen_geo_count_results_final::::::::::::::::::',sen_geo_count_results_final
+    return sen_geo_count_results_final
+            
 
 def get_sen_province_count_es(en_name,start_ts,end_ts,unit=MinInterval):
 
@@ -473,5 +512,7 @@ if __name__ == '__main__':
     #get_weibo_content('aoyunhui',1468946700,1468948500)
     #get_sen_time_count('aoyunhui',1468946700,1468950300,1800)
     #get_sen_time_count_es('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600)
-    print get_weibo_content_es('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600,1,sort_item='timestamp')
+    #print get_weibo_content_es('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600,1,sort_item='timestamp')
     #get_sen_province_count_es('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600,unit=MinInterval)
+    get_sen_province_count_es_final('mao_ze_dong_dan_chen_ji_nian_ri',1482681600,1483113600,unit=MinInterval)
+    

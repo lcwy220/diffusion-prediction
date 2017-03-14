@@ -10,6 +10,7 @@ from diffusion_prediction.global_config import index_manage_interfere_task, type
         index_manage_event_analysis,type_manage_event_analysis,index_manage_prediction_task,type_manage_prediction_task
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts,datehour2ts,ts2datehour
 
+es = es_prediction
 
 mod = Blueprint('interfere', __name__, url_prefix='/interfere')
 
@@ -44,6 +45,7 @@ def ajax_create_interfere_task():
     sti_during = request.args.get("interfer_during", 3600)
 
     task_detail = dict()
+    task_detail["stimulation_during"] = sti_during
     task_detail["task_name"] = task_name
     task_detail['pinyin_task_name'] = pinyin_task_name
     task_detail["submit_user"] = submit_user
@@ -76,17 +78,16 @@ def ajax_create_interfere_task():
 
 @mod.route('/delete_task/')
 def ajax_delete_task():
-
-    task_name = request.args.get(task_name)
+    task_name = request.args.get("task_name","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
 
     try:
         result = es.delete(index=index_manage_interfere_task,doc_type=type_manage_interfere_task,\
             id=pinyin_task_name)['found']
-        return result  #True
+        return json.dumps(["1"])  #True
 
     except:
-        return 'False'
+        return json.dumps(["0"])
 
 
 # show all task

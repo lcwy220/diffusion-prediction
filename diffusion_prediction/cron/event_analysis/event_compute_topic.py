@@ -38,7 +38,8 @@ from geo.city_repost_search import repost_search
 from geo.cron_topic_city import cityTopic
 from network.cron_topic_identify import compute_network
 from propagate.cron_topic_propagate import propagateCronTopic
-from sentiment.cron_topic_sentiment import sentimentTopic
+#from sentiment.cron_topic_sentiment import sentimentTopic
+from sentiment.cron_topic_sentiment import sentimentTopic_new
 from language.fix.count_keyword import count_fre
 
 #from user_portrait.info_consume.topic_geo_analyze.utils import province_weibo_count
@@ -115,16 +116,18 @@ def compute_topic_task():
     end_ts = 1483113600
     must_keywords = ['毛泽东']
     should_keywords = ['诞辰','纪念日']
+    submit_time = time.time()
+    submit_user = 'admin@qq.com'
     #start compute
     
 
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':2}})
+    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':1}})
 
     #try:
     #weibo_counts,uid_counts=counts(start_ts,end_ts,topic,en_name,keywords)
     weibo_counts,uid_counts=counts_aggs(en_name,start_ts,end_ts)
     #weibo_es.index(index='topics',doc_type='text',id=en_name,body={'name':topic,'start_ts':start_ts,'end_ts':end_ts,'submit_ts':submit_ts,'comput_status':0,'en_name':en_name})
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-1,'weibo_counts':weibo_counts,'uid_counts':uid_counts}})
+    #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-1,'weibo_counts':weibo_counts,'uid_counts':uid_counts}})
     print 'finish change status'
 
        
@@ -144,7 +147,7 @@ def compute_topic_task():
     #{'during': ,'count':{},'kcount':{},'weibo':{}}
     time_results = json.dumps(time_results)
 
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-2}})
+    #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-2}})
     print 'finish time analyze'
     
     #geo
@@ -167,7 +170,7 @@ def compute_topic_task():
     	weibo_es.index(index=index_name_results,doc_type=index_type_results,id=id,body={'geo_results':geo_results})
 
 
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-3}})
+    #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-3}})
     print 'finish geo analyze'
     
     
@@ -175,20 +178,20 @@ def compute_topic_task():
     network_results = compute_network(en_name, start_ts, end_ts)
     #
     #'new_attribute_dict' 星形源头转发网络需要添加的节点对应的text、reposts_count、comment_count、 attitude_count
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-4}})
+    #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-4}})
     print 'finish network analyze'
     
     
     #sentiment
-    sentiment_results = sentimentTopic(en_name, start_ts=start_ts, over_ts=end_ts)
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-5}})
+    sentiment_results = sentimentTopic_new(en_name, start_ts=start_ts, over_ts=end_ts)
+    #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-5}})
     print 'finish sentiment analyze'
     
     #language
     language_results = count_fre(en_name, start_ts=start_ts, over_ts=end_ts,news_limit=NEWS_LIMIT,weibo_limit=MAX_LANGUAGE_WEIBO)
     #weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':-6}})
 
-    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':3,'finish_ts':int(time.time())}})
+    weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':2,'finish_ts':int(time.time())}})
 
     print 'finish language analyze'
     #finish compute
