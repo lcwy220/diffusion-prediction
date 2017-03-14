@@ -244,6 +244,7 @@ def ajax_show_analysis_task():
     return_dict = dict()
     return_dict["event_analysis_task"] = analysis_results
     return_dict["event_prediction_task"] = prediction_results
+    
 
     return json.dumps(return_dict)
 

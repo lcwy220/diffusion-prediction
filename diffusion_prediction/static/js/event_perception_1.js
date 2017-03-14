@@ -12,8 +12,10 @@ $('#build').on('click',function () {
         alert('请检查您的时间，开始时间不能大于结束时间。');
     }else {
         st_finish(start,end);
-        new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&end_ts=' +
+
+        new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&stop_time=' +
             end+'&must_keywords=['+must_val+']&should_keywords=['+should_val+']&submit_user=admin@qq.com';
+        console.log(new_task_url);
         $.ajax({
             url: new_task_url,
             type: 'GET',

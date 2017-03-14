@@ -1,9 +1,24 @@
 //可选任务列表-----
 function optional_task(data) {
     var data=eval(data);
-    $('#optional_task').bootstrapTable('load',data);
+    var data_new = [];
+    for (var key in data){
+        if (key == "event_analysis_task"){
+            for (var i=0;i<data[key].length;i++) {
+                data[key][i]["source"] = "事件分析";
+                data_new.push(data[key][i]);
+            } 
+        }else {
+            for (var i=0;i<data[key].length;i++) {
+                data[key][i]["source"] = "态势预测";
+                data_new.push(data[key][i]);
+            } 
+        }
+    }
+    console.log(data_new);
+    $('#optional_task').bootstrapTable('load',data_new);
     $('#optional_task').bootstrapTable({
-        data:data,
+        data:data_new,
         // search: true,//是否搜索
         pagination: true,//是否分页
         pageSize: 5,//单页记录数
@@ -40,79 +55,99 @@ function optional_task(data) {
             // },
             {
                 title: "任务名称",//标题
-                field: "",//键名
+                field: "task_name",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                formatter: function (value, row, index) {
-
-                },
+                width:300,
+                
             },
             {
-                title: "任务开始时间",//标题
-                field: "",//键名
+                title: "提交用户",//标题
+                field: "submit_user",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                formatter: function (value, row, index) {
-
-                },
-            },
-            {
-                title: "任务终止时间",//标题
-                field: "",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-
-                },
+                width:100,
+                
             },
             {
                 title: "提交时间",//标题
-                field: "",//键名
+                field: "submit_time",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:200,
+                formatter: function (value, row, index) {
+                    return new Date(parseInt(value) * 1000).toLocaleString();
+                },
+            },
+            {
+                title: "结束时间",//标题
+                field: "stop_time",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                width:200,
+                formatter: function (value, row, index) {
+                    return new Date(parseInt(value) * 1000).toLocaleString();
+                },
             },
             {
                 title: "备注",//标题
-                field: "",//键名
+                field: "remark",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:100,
             },
             {
-                title: "操作",//标题
-                field: "",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    var details='<span>提交</span>';
-                    return details;
+                    title: "任务来源",//标题
+                    field: "source",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    width:100,
+                    
                 },
-            },
+            // {
+            //     title: "操作",//标题
+            //     field: "",//键名
+            //     sortable: true,//是否可排序
+            //     order: "desc",//默认排序方式
+            //     align: "center",//水平
+            //     valign: "middle",//垂直
+            //     formatter: function (value, row, index) {
+            //         var details='<span>提交</span>';
+            //         return details;
+            //     },
+            // },
         ],
         onClickRow: function (row, tr) {
             // tr[0].childNodes[5].innerText
         }
     });
 }
-var optional_list_url='';
-$.ajax({
-    url: optional_list_url,
-    type: 'GET',
-    dataType: 'json',
-    async: true,
-    success:optional_task
-});
+
+function optional_task_outter(){
+    var optional_list_url='/interfere/show_former_task/';
+    $.ajax({
+        url: optional_list_url,
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success:optional_task
+    });
+}
+
+optional_task_outter();
+
 //可选任务列表-----完--
 
 

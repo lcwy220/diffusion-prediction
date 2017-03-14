@@ -229,7 +229,7 @@ function task_lists(data) {
                 },
                 {
                     title: "计算状态",//标题
-                    field: "finish",//键名
+                    field: "macro_value_finish",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -256,24 +256,38 @@ function task_lists(data) {
                     valign: "middle",//垂直
                 },
                 {
-                    title: "操作",//标题
+                    title: "详情分析",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    // formatter: function (value, row, index) {
+                    //     return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
+                    // },
+
                     formatter: function (value, row, index) {
-                        return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
+                        // go_to_datail(topic_name,en_name,date_from,date_to,compute_status)
+                        var e = '<a style="cursor:pointer;" onclick="go_to_detail(\''+ row.task_name +'\',\''+row.macro_value_finish+'\')">点击查看</a>';
+                        return e
+                        // return '<a onclick="go_to_detail('')">点击查看</a> ' + '<a class="remove" href="javascript:void(0)" >删除</a>';
                     },
-                    // function actionFormatter(value, row, index) {
-                    //     return '<a class="mod" >查看详情</a> ' + '<a class="delete">删除</a>';
-                    // }
-                    // window.actionEvents = {
+                    // events: {
                     //     'click .mod': function(e, value, row, index) {      
                     //           //修改操作
+                    //           console.log("修改！");
+                    //           console.log(e);
+                    //           console.log(value);
+                    //           console.log(row);
+                    //           console.log(index);
                     //         },
-                    //     'click .delete' : function(e, value, row, index) {
+                    //     'click .remove' : function(e, value, row, index) {
                     //           //删除操作 
+                    //           console.log("删除！");
+                    //           console.log(e);
+                    //           console.log(value);
+                    //           console.log(row);
+                    //           console.log(index);
                     //         }
                     // }
                 },
@@ -289,47 +303,60 @@ function task_lists(data) {
                 //         return details;
                 //     },
                 // },
-                // {
-                //     title: "删除",//标题
-                //     field: "",//键名
-                //     sortable: true,//是否可排序
-                //     order: "desc",//默认排序方式
-                //     align: "center",//水平
-                //     valign: "middle",//垂直
-                //     formatter: function (value, row, index) {
-                //         var delete_op ='<a>删除</a>';
-                //         return delete_op;
-                //     },
-                // },
+                {
+                    title: "删除",//标题
+                    field: "",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter:function(value,row,index){  
+                      var d = '<a style="cursor:pointer;" onclick="delete_task_outter(\''+ row.task_name +'\')">删除</a>';  
+                        return d;  
+                    }
+                },
             ],
-            onClickCell: function (field, value, row, $element) {
-                console.log($element)
-                // 'click .mod': function(e, value, row, index) {      
-                //       //修改操作
-                //     },
-                // 'click .delete' : function(e, value, row, index) {
-                //       //删除操作 
-                //     }
-                if ($element[0].innerText=='查看详情') {
-                    console.log(row.finish)
-                    if(!(row.finish=='0')){
-                        alert('暂时不能查看分析结果');
-                    }
-                    else{
-                        window.locationopen('/prediction/forecast_result/');
-                    }
-                }
-                if ($element[0].innerText=='删除') {
+            // onClickCell: function (field, value, row, $element) {
+            //     console.log($element)
+            //     // 'click .mod': function(e, value, row, index) {      
+            //     //       //修改操作
+            //     //     },
+            //     // 'click .delete' : function(e, value, row, index) {
+            //     //       //删除操作 
+            //     //     }
+            //     if ($element[0].innerText=='查看详情') {
+            //         console.log(row.finish)
+            //         if(!(row.finish=='0')){
+            //             alert('暂时不能查看分析结果');
+            //         }
+            //         else{
+            //             window.locationopen('/prediction/forecast_result/');
+            //         }
+            //     }
+            //     if ($element[0].innerText=='删除') {
 
-                    delete_task_outter(row.task_name);
-                }
-            }
+            //         delete_task_outter(row.task_name);
+            //     }
+            // }
 
         });
     }
 
-function go_to_detail(){
-    window.open('/prediction/forecast_result/');
+// function go_to_detail(data){
+//     window.open('/prediction/forecast_result/?task_name='+data);
+// }
+
+function go_to_detail(task_name,compute_status){
+
+     // alert('zhixingle1111');
+    if(compute_status==0){
+      alert('尚未计算，请稍后查看。');
+    }else if(compute_status==1){
+      alert('正在计算，请稍后查看。');
+    }else if(compute_status==2){
+      window.open('/prediction/forecast_result/?task_name='+task_name);
+    }
+
 }
 
 // function go_to_delete(){
@@ -429,3 +456,5 @@ function delete_task_outter(task_name){
 
 
 //删除任务  ----完-----
+
+ $('.bootstrap-table').eq(0).css({marginLeft:'12%'});
