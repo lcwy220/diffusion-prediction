@@ -23,10 +23,24 @@ def situation_prediction():
 
     return render_template('perleption/prediction.html')
 
+
+# @mod.route('/forecast_result/')
+# def forecast_result():
+
+#         return render_template('perleption/forecast_result.html')
+
+
 @mod.route('/forecast_result/')
 def forecast_result():
+    topic_name_on_detail = request.args.get('task_name','')
+    pinyin_task_name = pinyin.get(topic_name_on_detail.encode('utf-8'), format='strip', delimiter="_")
+    #topic_name_on_detail_ch = request.args.get('en_name','')
+    #date_from = request.args.get('date_from','')
+    #date_to = request.args.get('date_to','')
+    #return render_template('/perleption/forecast_result.html',topic_name=topic_name_on_detail,en_name=topic_name_on_detail_ch,date_from=date_from,date_to=date_to)
+    return render_template('/perleption/forecast_result.html',task_name=pinyin_task_name)
+    # return render_template('perleption/forecast_result.html')  
 
-        return render_template('perleption/forecast_result.html')
 
 # create task
 @mod.route('/create_prediction_task/')
@@ -152,11 +166,12 @@ def ajax_get_macro_prediction():
 
 @mod.route('/show_analysis_task/')
 def ajax_show_analysis_task():
+    current_time = time.time()
     query_body = {
         "query":{
             "range":{
                 "submit_time":{
-                    "gte": time.time()-20*24*3600
+                    "gte": current_time-20*24*3600
                 }
             }
         },
@@ -170,6 +185,6 @@ def ajax_show_analysis_task():
     results = []
     for item in es_results:
         results.append(item["_source"])
-
+    print '173::::::::::::::',results
     return json.dumps(results)
 

@@ -763,7 +763,7 @@ function Draw_blog_scan_area_emotion_result(){
 }		
 
 function emotion_load(){
-	// Draw_emotion_trend_line_result();
-	// Draw_emotion_map_result();
-	// Draw_blog_scan_area_emotion_result();
+	Draw_emotion_trend_line_result();
+	Draw_emotion_map_result();
+	Draw_blog_scan_area_emotion_result();
 }

@@ -27,8 +27,8 @@ def ajax_submit_event_task():
     submit_user = request.args.get('submit_user','admin@qq.com')
     current_ts = int(time.time())
     submit_time = request.args.get('submit_time',current_ts)
-    start_ts = request.args.get('start_ts','')
-    end_ts = request.args.get('end_ts','')
+    start_time = request.args.get('start_time','')
+    stop_time = request.args.get('stop_time','')
     must_keywords = request.args.get('must_keywords','')
     should_keywords = request.args.get('should_keywords','')
 
@@ -36,10 +36,10 @@ def ajax_submit_event_task():
     task_detail["task_name"] = task_name
     task_detail['pinyin_task_name'] = pinyin_task_name
     task_detail["submit_user"] = submit_user
-    task_detail["start_ts"] = long(start_ts)
-    print '36::::',task_detail["start_ts"]
-    print '36::::',type(task_detail["start_ts"])
-    task_detail["end_ts"] = long(end_ts)
+    task_detail["start_time"] = long(start_time)
+    print '36::::',task_detail["start_time"]
+    print '36::::',type(task_detail["start_time"])
+    task_detail["stop_time"] = long(stop_time)
     task_detail["submit_time"] = int(submit_time)
     task_detail["must_keywords"] = must_keywords
     task_detail["should_keywords"] = should_keywords
@@ -108,8 +108,8 @@ def ajax_show_all_task():
         tmp.append(item_detail["task_name"])
         tmp.append(item_detail["submit_user"])
         tmp.append(item_detail["submit_time"])
-        tmp.append(item_detail["start_ts"])
-        tmp.append(item_detail["end_ts"])
+        tmp.append(item_detail["start_time"])
+        tmp.append(item_detail["stop_time"])
         tmp.append(item_detail["event_value_finish"])
         
         task_list.append(tmp)
