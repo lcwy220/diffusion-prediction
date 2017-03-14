@@ -170,6 +170,6 @@ def ajax_show_analysis_task():
     results = []
     for item in es_results:
         results.append(item["_source"])
-
+    print '173::::::::::::::',results
     return json.dumps(results)
 

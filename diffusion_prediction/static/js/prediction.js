@@ -14,6 +14,7 @@ function choose_task(data) {
             searchOnEnterKey: false,//回车搜索
             // showRefresh: true,//刷新按钮
             // showColumns: true,//列选择按钮
+
             buttonsAlign: "right",//按钮对齐方式
             locale: "zh-CN",//中文支持
             detailView: false,
@@ -26,7 +27,8 @@ function choose_task(data) {
                     field: "select",
                     checkbox: true,
                     align: "center",//水平
-                    valign: "middle"//垂直
+                    valign: "middle",//垂直
+                    // width:5,
                 },
                 // {
                 //     title: "",//标题
@@ -40,66 +42,82 @@ function choose_task(data) {
                 //     }
                 // },
                 {
-                    title: "群组名称",//标题
-                    field: "",//键名
+                    title: "任务名称",//标题
+                    field: "task_name",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-
-                    },
+                    width:300,
+                    
+                },
+                {
+                    title: "提交用户",//标题
+                    field: "submit_user",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    width:100,
+                    
                 },
                 {
                     title: "提交时间",//标题
-                    field: "",//键名
+                    field: "submit_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    width:200,
                     formatter: function (value, row, index) {
-
+                        return new Date(parseInt(value) * 1000).toLocaleString();
                     },
                 },
                 {
-                    title: "提交人",//标题
-                    field: "",//键名
+                    title: "结束时间",//标题
+                    field: "finish_ts",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    width:200,
                     formatter: function (value, row, index) {
-
+                        return new Date(parseInt(value) * 1000).toLocaleString();
                     },
-                },
-                {
-                    title: "群组人数",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
                 },
                 {
                     title: "备注",//标题
-                    field: "",//键名
+                    field: "remark",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    width:100,
                 },
                 {
-                    title: "查看详情",//标题
+                    title: "任务来源",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    width:100,
                     formatter: function (value, row, index) {
-                        var details='<span>查看详情</span>';
-                        return details;
+                        return "事件分析";
                     },
                 },
+                // {
+                //     title: "操作",//标题
+                //     field: "",//键名
+                //     sortable: true,//是否可排序
+                //     order: "desc",//默认排序方式
+                //     align: "center",//水平
+                //     valign: "middle",//垂直
+                //     formatter: function (value, row, index) {
+                //         var details='<span>提交预测</span>';
+                //         return details;
+                //     },
+                // },
             ],
             onClickRow: function (row, tr) {
                 // tr[0].childNodes[5].innerText
@@ -109,7 +127,7 @@ function choose_task(data) {
     
 
 function choose_task_outter(){
-    var choose_list_url='';
+    var choose_list_url='/prediction/show_analysis_task/';
     $.ajax({
         url: choose_list_url,
         type: 'GET',
@@ -238,36 +256,67 @@ function task_lists(data) {
                     valign: "middle",//垂直
                 },
                 {
-                    title: "查看详情",//标题
+                    title: "操作",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var details='查看详情';
-                        return details;
+                        return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
                     },
+                    // function actionFormatter(value, row, index) {
+                    //     return '<a class="mod" >查看详情</a> ' + '<a class="delete">删除</a>';
+                    // }
+                    // window.actionEvents = {
+                    //     'click .mod': function(e, value, row, index) {      
+                    //           //修改操作
+                    //         },
+                    //     'click .delete' : function(e, value, row, index) {
+                    //           //删除操作 
+                    //         }
+                    // }
                 },
-                {
-                    title: "删除",//标题
-                    field: "",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var delete_op ='删除';
-                        return delete_op;
-                    },
-                },
+                // {
+                //     title: "查看详情",//标题
+                //     field: "",//键名
+                //     sortable: true,//是否可排序
+                //     order: "desc",//默认排序方式
+                //     align: "center",//水平
+                //     valign: "middle",//垂直
+                //     formatter: function (value, row, index) {
+                //         var details='<a>查看详情</a>';
+                //         return details;
+                //     },
+                // },
+                // {
+                //     title: "删除",//标题
+                //     field: "",//键名
+                //     sortable: true,//是否可排序
+                //     order: "desc",//默认排序方式
+                //     align: "center",//水平
+                //     valign: "middle",//垂直
+                //     formatter: function (value, row, index) {
+                //         var delete_op ='<a>删除</a>';
+                //         return delete_op;
+                //     },
+                // },
             ],
             onClickCell: function (field, value, row, $element) {
                 console.log($element)
+                // 'click .mod': function(e, value, row, index) {      
+                //       //修改操作
+                //     },
+                // 'click .delete' : function(e, value, row, index) {
+                //       //删除操作 
+                //     }
                 if ($element[0].innerText=='查看详情') {
                     console.log(row.finish)
-                    if(!(row.finish=='2')){
+                    if(!(row.finish=='0')){
                         alert('暂时不能查看分析结果');
+                    }
+                    else{
+                        window.locationopen('/prediction/forecast_result/');
                     }
                 }
                 if ($element[0].innerText=='删除') {
@@ -278,6 +327,15 @@ function task_lists(data) {
 
         });
     }
+
+function go_to_detail(){
+    window.open('/prediction/forecast_result/');
+}
+
+// function go_to_delete(){
+
+//     delete_task_outter(row.task_name);
+// }
 
 function task_lists_outter() {
     var task_lists_url='/prediction/show_task/';

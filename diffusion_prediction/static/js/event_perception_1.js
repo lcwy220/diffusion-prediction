@@ -130,9 +130,12 @@ function task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                // formatter: function (value, row, index) {
+                //     var delt='<span>删除</span>';
+                //     return delt;
+                // },
                 formatter: function (value, row, index) {
-                    var delt='<span>删除</span>';
-                    return delt;
+                        return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
                 },
             },
         ],
@@ -154,6 +157,11 @@ function task(data) {
         }
     });
 }
+
+function go_to_detail(){
+    window.open('/manage_event/event_analysis/');
+}
+
 function taskList() {
     var task_list_url='/manage_event/show_event_task/';
     $.ajax({

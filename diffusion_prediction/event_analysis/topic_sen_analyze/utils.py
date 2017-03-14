@@ -13,12 +13,12 @@ import json
 import math
 reload(sys)
 sys.path.append('../../')
-#from diffusion_prediction.global_config import index_event_analysis_results,type_event_analysis_results
-#from diffusion_prediction.global_utils import es_prediction as es
-#from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
-from global_config import index_event_analysis_results,type_event_analysis_results
-from global_utils import es_prediction as es
-from global_utils import es_user_portrait,profile_index_name,profile_index_type
+from diffusion_prediction.global_config import index_event_analysis_results,type_event_analysis_results
+from diffusion_prediction.global_utils import es_prediction as es
+from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
+#from global_config import index_event_analysis_results,type_event_analysis_results
+#from global_utils import es_prediction as es
+#from global_utils import es_user_portrait,profile_index_name,profile_index_type
 
 Minute = 60
 Fifteenminutes = 15 * Minute

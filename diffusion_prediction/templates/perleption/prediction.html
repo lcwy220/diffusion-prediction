@@ -18,25 +18,25 @@
         <div class="prediction_menu">
             <div class="task_name menu_m">
                 <span class="menu_m_s">任务名称</span>
-                <input type="text" placeholder="(必填，仅包含数字、汉字、英文、下划线)" id="new_task">
+                <input type="text" placeholder="(必填，仅包含数字、汉字、英文、下划线)" id="new_task" style="width: 300px;">
             </div>
             <div class="task_remarks menu_m">
                 <span class="menu_m_s">备注</span>
-                <input type="text" id="remarks" placeholder="(选填，仅包含数字、汉字、英文、下划线)"/>
+                <input type="text" id="remarks" placeholder="(选填，仅包含数字、汉字、英文、下划线)"/ style="width: 300px;">
             </div>
             <div class="task_words menu_m">
                 <span class="menu_m_s">关键词</span>
-                <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开">
-                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开">
+                <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开" style="width: 300px;">
+                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 300px;">
             </div>
             <div class="task_time menu_m">
-                <span style="position: relative;top: -7px;" class="menu_m_s">时间选择</span>
+                <span style="position: relative;top: -7px;" class="menu_m_s">起止时间</span>
                 <div class="task_time_cor" style="width: 450px!important;padding: 0;display: inline-block">
                     <span style="position: relative;top: -7px;left: 23px;">从</span>
                     <div style="display: inline-block;width: 200px;">
                         <div class="form-group" style="margin: 0">
                             <div class="input-group date" id="datetimepicker1">
-                                <input type="text" class="start form-control" style="height: 31px">
+                                <input type="text" class="start form-control" style="height: 31px;width: 180px;">
                                 <span class="input-group-addon" style="height: 28px;">
                                     <span class="icon icon-calendar" style="color:black;"></span>
                                 </span>
@@ -47,7 +47,7 @@
                     <div style="display: inline-block;width: 200px;">
                         <div class="form-group" style="margin: 0">
                             <div class="input-group date" id="datetimepicker2">
-                                <input type="text" class="end form-control" style="height: 31px;margin-left: 45px">
+                                <input type="text" class="end form-control" style="height: 31px;margin-left: 45px;width: 180px;">
                                 <span class="input-group-addon" style="height: 28px;">
                                     <span class="icon icon-calendar" style="color:black;"></span>
                                 </span>
@@ -58,18 +58,18 @@
             </div>
             <div class="task_interval menu_m">
                 <span class="menu_m_s">计算间隔</span>
-                <select id="inter_time" style="margin-left: 20px">
+                <select id="inter_time" style="margin-left: 20px;width:100px;" >
                     <option value="3600">1 hour</option>
                     <option value="10800">3 hour</option>
                 </select>
             </div>
             <div class="choose menu_m">
                 <span class="menu_m_s">可选任务</span>
-                <div id="choose_task" style="width: 70%;display: inline-block;"></div>
+                <div id="choose_task" style="width: 100%;display: inline-block;"></div>
             </div>
 
             <div class="new_build menu_m" style="height: 25px">
-                <button id="build" style="float: right;margin-right: 130px">新建任务</button>
+                <button id="build" style="float: right;margin-right: 100px">新建任务</button>
             </div>
         </div>
     </div>
