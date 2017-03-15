@@ -134,7 +134,7 @@ def get_sen_time_count_es(en_name,start_ts,end_ts,unit=MinInterval):
 
 def get_sen_province_count_es_final(en_name,start_ts,end_ts,unit=MinInterval):
 
-    sen_geo_count_results = {}
+    
     sen_geo_results_dict = {}
     sen_geo_count_results_final = []
     
@@ -157,6 +157,7 @@ def get_sen_province_count_es_final(en_name,start_ts,end_ts,unit=MinInterval):
     
     for sen,geo_list in geo_counts.iteritems():
         #print 'type:::::geo_list',geo_list
+        sen_geo_count_results = {}
         sen_geo_count_results[sen] = []
         if geo_list:
             for province,city_dict in geo_list.iteritems():

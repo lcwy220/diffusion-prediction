@@ -276,14 +276,14 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 			html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
 			//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
 			//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-			html += '<span style="display: inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';
-			html += '<span style="margin-top: -3%;float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
+			html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
+			html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
 			//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-			html += '<span style="margin-top: -3%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
+			html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
 			//html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
 			//html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 			html += '</p>';
-			html += '</div>';							 	
+			html += '</div>';					 	
 			html += '</div>';
 		// }
 		}
@@ -328,9 +328,10 @@ function Draw_blog_scan_area_order_result(){
 	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
 	var start_ts = 1482681600;
 	var end_ts = 1483113600;
+	
     url_order = "/topic_time_analyze/time_order_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item;
  	topic_analysis_time.call_sync_ajax_request(url_order,topic_analysis_time.Draw_blog_scan_area);
-
+ 	console.log(url_order);
 }
 function time_load(){
 	Draw_time_trend_line_result();

@@ -1,5 +1,6 @@
 #-*-coding:utf-8-*-
 import sys,json
+import time
 
 #from network.flow_text_mappings import get_mappings
 import datetime,time
@@ -109,7 +110,7 @@ def compute_topic_task():
     end_ts = 1483455435 #1483113600
     must_keywords = ["射击","判刑"] #['毛泽东']
     should_keywords = ["天津","老太"] #['诞辰'，'纪念日']
-    submit_time = time.time()
+    #submit_time = time.time()
     submit_user = 'admin@qq.com'
     '''
     
@@ -120,10 +121,11 @@ def compute_topic_task():
     end_ts = 1483113600
     must_keywords = ['毛泽东']
     should_keywords = ['诞辰','纪念日']
-    submit_time = time.time()
+    #submit_time = time.time()
     submit_user = 'admin@qq.com'
     
-    #start compute
+    
+    #start computes
     
 
     weibo_es.update(index=index_name,doc_type=index_type,id=en_name,body={'doc':{'event_value_finish':1}})
@@ -146,7 +148,7 @@ def compute_topic_task():
     item['must_keywords'] = must_keywords
     item['should_keywords'] = should_keywords
     item['submit_user'] = submit_user
-    item['submit_time'] = submit_time
+    #item['submit_time'] = submit_time
     
     weibo_es.index(index=index_name_results,doc_type=index_type_results,id=en_name,body=item)
     

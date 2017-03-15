@@ -23,17 +23,17 @@
 
 {% block main %}
 <div id="container">
-    <p class="type-list nav nav-tabs" id="myTab">
-        <a class="time" href="#time" data-toggle="tab" onclick="time_load()">
+    <p class="type-list" >
+        <a class="time" onclick="time_load()">
             <b class="icon icon-time"></b>&nbsp;&nbsp;时间
         </a>
-        <a class="place" href="#place" data-toggle="tab" onclick="place_load()">
+        <a class="place" onclick="place_load()">
             <b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</a>
-        <a class="network" href="#network" data-toggle="tab" onclick="network_load()">
+        <a class="network" onclick="network_load()">
             <b class="icon icon-rss"></b>&nbsp;&nbsp;网络</a>
-        <a class="emotion" href="#emotion" data-toggle="tab" onclick="emotion_load()">
+        <a class="emotion" onclick="emotion_load()">
             <b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</a>
-        <a class="meaning" href="#meaning" data-toggle="tab" onclick="meaning_load()">
+        <a class="meaning" onclick="meaning_load()">
             <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</a>
     </p>
     <div class="choose_date">
@@ -66,6 +66,38 @@
             <button class="opt_sure" onclick="ckdate()">确定</button>
         </div>
     </div>
+    <script type="text/javascript">
+        var date_time_from = "{{start_ts}}";
+        var date_time_to = "{{end_ts}}";
+        
+            function format(shijianchuo)
+            {
+                //shijianchuo不是整数，要parseInt转换
+            
+                var time = new Date(parseInt(shijianchuo) * 1000);
+                
+                var y = time.getFullYear();
+                var m = time.getMonth()+1;
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+                var apm = 'AM';
+                if(h>12){
+                    h=h-12;
+                    apm='PM';
+                }
+                return m+'/'+d+'/'+y+' '+h+':'+mm+' '+apm;
+            }
+        
+        var start_time = format(date_time_from);
+        var end_time = format(date_time_to);
+
+        if(date_time_from && date_time_to){
+            $("#datetimepicker6").val(start_time);
+            $("#datetimepicker7").val(end_time);
+        }
+    </script>
 
     <div class="tab-pane fade in active event_analysis" id="time">
         {% include "event_analysis/date_time.html"%}
