@@ -34,6 +34,15 @@ from diffusion_prediction.global_config import index_event_analysis_results,type
 from diffusion_prediction.global_utils import es_prediction as es
 from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
 
+
+# from global_config import index_event_analysis_results,type_event_analysis_results,\
+#                         MAX_LANGUAGE_WEIBO,MAX_FREQUENT_WORDS,\
+#                         topics_river_index_name,topics_river_index_type,\
+#                         subopinion_index_name,subopinion_index_type
+# from global_utils import es_prediction as es
+# from global_utils import es_user_portrait,profile_index_name,profile_index_type
+
+
 # from cp_global_config import db,es_user_profile,profile_index_name,profile_index_type,\
 #                             topics_river_index_name,topics_river_index_type,\
 #                             subopinion_index_name,subopinion_index_type
@@ -426,8 +435,11 @@ def get_subopinion(topic):
         }
     }
     features = es.search(index=subopinion_index_name,doc_type=subopinion_index_type,body=query_body)['hits']['hits']
+    print 'features::::::',features[0]
+    print 'features_keys::::::',features[0]['_source'].keys()
     if features:
         feature = json.loads(features[0]['_source']['features'])
+        print 'feature.values()::::::::::::::',feature.values()
         return feature.values()
     else:
         return 'no results'
@@ -438,11 +450,18 @@ def get_weibo_content(topic,start_ts,end_ts,opinion,sort_item='timestamp'): #微
     weibo_dict = {}
     #a = json.dumps(opinion)
     #opinion = '圣保罗_班底_巴西_康熙'
+    opinion = json.dumps(opinion)
+    opinion_str = opinion[0]
+    opinion_str = '_'.join(opinion)
+    for i in range(1,len(opinion)):
+        opinion_str = opinion_str + '_' + opinion_str
+
+    print 'opinion_str:::::::;;',opinion_str
     query_body = {
         'query':{
             'bool':{
                 'must':[
-                    {'wildcard':{'keys':opinion}},
+                    {'wildcard':{'keys':opinion_str}},
                     {'term':{'name':topic}},
                     {'range':{'start_ts':{'lte':start_ts}}},
                     {'range':{'end_ts':{'gte':end_ts}}}
@@ -454,6 +473,7 @@ def get_weibo_content(topic,start_ts,end_ts,opinion,sort_item='timestamp'): #微
     #print weibo_es,subopinion_index_name,subopinion_index_type,query_body
     print len(weibos)
     if weibos:
+        print 'weibos:::::::::::;',weibos
         weibos = json.loads(weibos[0]['_source']['cluster_dump_dict'])
         for weibo in weibos.values():#jln0825
             weibo = weibo[0]

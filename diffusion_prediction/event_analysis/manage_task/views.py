@@ -12,11 +12,19 @@ from diffusion_prediction.global_utils import es_prediction as es
 mod = Blueprint('manage_event',__name__,url_prefix='/manage_event')
 
 
+# @mod.route('/event_analysis/')
+# def hot_event():
+
+#     return render_template('event_analysis/date_base.html')
+
+
 @mod.route('/event_analysis/')
 def hot_event():
-
-    return render_template('event_analysis/date_base.html')
-
+    task_name = request.args.get('task_name','')
+    start_ts = request.args.get('start_ts','')
+    end_ts = request.args.get('end_ts','')
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+    return render_template('event_analysis/date_base.html',task_name=pinyin_task_name,start_ts=start_ts,end_ts=end_ts)
 
 
 @mod.route('/submit_event_task/')
@@ -75,16 +83,17 @@ def ajax_submit_event_task():
 @mod.route('/delete_event_task/')
 def ajax_delete_event_task():
 
-	task_name = request.args.get('task_name','')
-	pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+    task_name = request.args.get('task_name','')
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+    print 'pinyin_task_name',pinyin_task_name
+    try:
+        result = es.delete(index=index_manage_event_analysis,doc_type=type_manage_event_analysis,\
+            id=pinyin_task_name)['found']
+        #print 'result:::::::::'
+        return json.dumps(["1"])  #True
 
-	try:
-		result = es.delete(index=index_manage_event_analysis,doc_type=type_manage_event_analysis,\
-			id=pinyin_task_name)['found']
-		return result  #True
-
-	except:
-		return 'False'
+    except:
+        return json.dumps(["0"])
 
 
 @mod.route('/show_event_task/')
@@ -101,6 +110,7 @@ def ajax_show_all_task():
             body=query_body)["hits"]["hits"]
     #print '84::::::::',es_results
     task_list = []
+    '''
     for item in es_results:
         #print '96::::::::',item
         tmp = []
@@ -113,5 +123,7 @@ def ajax_show_all_task():
         tmp.append(item_detail["event_value_finish"])
         
         task_list.append(tmp)
-
+    '''
+    for item in es_results:
+        task_list.append(item['_source']);
     return json.dumps(task_list)

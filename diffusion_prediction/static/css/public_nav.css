@@ -90,3 +90,17 @@ a,a:link,a:hover,a:visited,a:active {
     margin-left: 15%;
     margin-top: -3%;
 }*/
+
+
+#container .decision_menu .menu_m #build_inf:hover {
+    background-color: #337ab7;
+    color: #d2dcf7;
+}
+
+#container .decision_menu .menu_m #build_inf {
+    padding: 5px 15px;
+    color: #ffffff;
+    background-color: #9b9b9b;
+    border-radius: 5px;
+    margin-top: 10px;
+}

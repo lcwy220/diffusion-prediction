@@ -118,9 +118,9 @@ def ajax_delete_task():
 
     try:
         result = es_prediction.delete(index=index_manage_prediction_task, doc_type=type_manage_prediction_task,id=pinyin_task_name)['found']
-        return result  #True
+        return json.dumps(["1"])  #True
     except:
-        return 'False'
+        return json.dumps(["0"]) 
 
 
 # macro trendline prediction
