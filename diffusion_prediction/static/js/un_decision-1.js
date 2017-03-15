@@ -40,7 +40,8 @@ function optional_task(data) {
                 field: "select",
                 checkbox: true,
                 align: "center",//水平
-                valign: "middle"//垂直
+                valign: "middle",//垂直
+                // width:5,
             },
             // {
             //     title: "",//标题
@@ -107,15 +108,15 @@ function optional_task(data) {
                 width:100,
             },
             {
-                    title: "任务来源",//标题
-                    field: "source",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    width:100,
-                    
-                },
+                title: "任务来源",//标题
+                field: "source",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                width:100,
+                
+            },
             // {
             //     title: "操作",//标题
             //     field: "",//键名
@@ -129,9 +130,9 @@ function optional_task(data) {
             //     },
             // },
         ],
-        onClickRow: function (row, tr) {
-            // tr[0].childNodes[5].innerText
-        }
+        // onClickRow: function (row, tr) {
+        //     // tr[0].childNodes[5].innerText
+        // }
     });
 }
 
@@ -213,7 +214,7 @@ function task_lists(data) {
                     formatter: function (value, row, index) {
                         return new Date(parseInt(value) * 1000).toLocaleString();
                     },
-                    
+
                 },
                 {
                     title: "提交时间",//标题
@@ -237,7 +238,7 @@ function task_lists(data) {
                 },
                 {
                     title: "计算状态",//标题
-                    field: "finish",//键名
+                    field: "interfere_finish",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -264,15 +265,17 @@ function task_lists(data) {
                     valign: "middle",//垂直
                 },
                 {
-                    title: "查看详情",//标题
+                    title: "详情分析",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var details='查看详情';
-                        return details;
+                           
+                           var e = '<a style="cursor:pointer;" onclick="go_to_detail_inf(\''+ row.task_name +'\',\''+row.interfere_finish+'\')">点击查看</a>';
+                           console.log(e);
+                            return e
                     },
                 },
                 {
@@ -282,28 +285,31 @@ function task_lists(data) {
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var delete_op ='删除';
-                        return delete_op;
-                    },
+                    formatter:function(value,row,index){  
+                      var d = '<a style="cursor:pointer;" onclick="delete_task_outter_inf(\''+ row.task_name +'\')">删除</a>';  
+                        return d;  
+                    }
                 },
             ],
-            onClickCell: function (field, value, row, $element) {
-                console.log($element)
-                if ($element[0].innerText=='查看详情') {
-                    console.log(row.finish)
-                    if(!(row.finish=='2')){
-                        alert('暂时不能查看分析结果');
-                    }
-                }
-                if ($element[0].innerText=='删除') {
-
-                    delete_task_outter(row.task_name);
-                }
-            }
+    
 
         });
     }
+
+
+function go_to_detail_inf(task_name,compute_status){
+
+    if(compute_status==0){
+      alert('尚未计算，请稍后查看。');
+    }else if(compute_status==1){
+      alert('正在计算，请稍后查看。');
+    }else if(compute_status==2){
+        console.log(task_name,start_time,stop_time,compute_status);
+      window.open('/interfere/strategy_results/?task_name='+task_name);
+    }
+
+}
+
 
 function task_lists_outter() {
     var task_lists_url='/interfere/show_all_task/';
@@ -330,7 +336,7 @@ function create_task(data){
     var data=eval(data);
     if (data[0] = 1) {
         alert("创建成功！");
-        choose_task_outter();
+
         task_lists_outter();
     }
     else{
@@ -339,7 +345,7 @@ function create_task(data){
 
 }
 
-$("#build").on('click',function(){
+$("#build_inf").on('click',function(){
     console.log('123');
     var task_name = $("#new_task").val();
     var start_time = Date.parse(new Date($('.start').val())).toString().substr(0,10);
@@ -353,8 +359,8 @@ $("#build").on('click',function(){
     var create_task_url = '/interfere/create_interfere_task/?task_name='+task_name+
     '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+
     '&remark='+remark+'&must_keywords='+must_keywords+'&should_keywords='+should_keywords+'&submit_user='+'admin@qq.com';
-    
     console.log(create_task_url);
+    // console.log(create_task_url);
     $.ajax({
         url: create_task_url,
         type: 'GET',
@@ -369,27 +375,27 @@ $("#build").on('click',function(){
 //删除任务  
 
 
-function delete_task(data){
-    if(data == 'True'){
+function delete_task_inf(data){
+    if(data[0] == "1"){
         alert("删除成功！");
-        choose_task_outter();
+       
         task_lists_outter();
     }else{
         alert("删除失败！");
     }
 }
 
-function delete_task_outter(task_name){
+function delete_task_outter_inf(task_name){
 
-    var delete_task_url = '/interfere/delete_task/?task_name='+task_name;
+    var delete_task_inf_url = '/interfere/delete_task/?task_name='+task_name;
 
-    console.log(delete_task_url);
+    console.log(delete_task_inf_url);
     $.ajax({
-        url: delete_task_url,
+        url: delete_task_inf_url,
         type: 'GET',
         dataType: 'json',
         async: true,
-        success:delete_task
+        success:delete_task_inf
     });
 
 }

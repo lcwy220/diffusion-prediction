@@ -1,11 +1,12 @@
 //新建任务
-var new_task_url;
+
 $('#build').on('click',function () {
     var name=$('#new_task').val();
     var must_val=$('#key-1').val();
     var should_val=$('#key-2').val();
     var start= Date.parse(new Date($('.start').val())).toString().substr(0,10);
     var end= Date.parse(new Date($('.end').val())).toString().substr(0,10);
+    var remark = $("#remarks").val();
     if (name==''||must_val==''||should_val==''){
         alert('请检查您的名称，关键。不能为空！');
     }else if (start>end){
@@ -13,7 +14,7 @@ $('#build').on('click',function () {
     }else {
         st_finish(start,end);
 
-        new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&stop_time=' +
+        var new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_time='+start+'&stop_time=' +
             end+'&must_keywords=['+must_val+']&should_keywords=['+should_val+']&submit_user=admin@qq.com';
         console.log(new_task_url);
         $.ajax({
@@ -45,6 +46,7 @@ function getLocalTime(nS) {
 
 function task(data) {
     var data=eval(data);
+    console.log(data);
     $('#tasks_lists_every').bootstrapTable('load',data);
     $('#tasks_lists_every').bootstrapTable({
         data:data,
@@ -77,37 +79,66 @@ function task(data) {
             },
             {
                 title: "任务名称",//标题
-                field: "",//键名
+                field: "task_name",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                
+            },
+            {
+                title: "开始时间",//标题
+                field: "submit_time",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return row[0];
+                    return new Date(parseInt(value) * 1000).toLocaleString();
+                },
+            },
+            {
+                title: "终止时间",//标题
+                field: "submit_time",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+                formatter: function (value, row, index) {
+                    return new Date(parseInt(value) * 1000).toLocaleString();
                 },
             },
             {
                 title: "提交时间",//标题
-                field: "",//键名
+                field: "submit_time",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return getLocalTime(row[2]);
+                    return new Date(parseInt(value) * 1000).toLocaleString();
                 },
             },
             {
+                title: "提交用户",//标题
+                field: "submit_user",//键名
+                sortable: true,//是否可排序
+                order: "desc",//默认排序方式
+                align: "center",//水平
+                valign: "middle",//垂直
+            
+            },
+            {
                 title: "任务进度",//标题
-                field: "",//键名
+                field: "event_value_finish",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    if (row[5]==0){
+                    if (value ==0){
                         return '尚未计算';
-                    }else if (row[5]==2){
+                    }else if (value==2){
                         return '计算完成';
                     }else {
                         return '正在计算';
@@ -115,53 +146,61 @@ function task(data) {
                 },
             },
             {
-                title: "提交人",//标题
+                    title: "备注",//标题
+                    field: "remark",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                },
+            {
+                title: "详情分析",//标题
                 field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-                    return row[1];
+                       
+                       var e = '<a style="cursor:pointer;" onclick="go_to_detail_event(\''+ row.task_name 
+                       +'\',\''+row.start_time
+                       +'\',\''+row.stop_time
+                       +'\',\''+row.event_value_finish+'\')">点击查看</a>';
+
+                       console.log(e);
+                        return e
                 },
             },
             {
-                title: "操作",//标题
+                title: "删除",//标题
                 field: "",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                // formatter: function (value, row, index) {
-                //     var delt='<span>删除</span>';
-                //     return delt;
-                // },
-                formatter: function (value, row, index) {
-                        return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
-                },
+                formatter:function(value,row,index){  
+                  var d = '<a style="cursor:pointer;" onclick="delete_task_outter_event(\''+ row.task_name +'\')">删除</a>';  
+                    return d;  
+                }
             },
         ],
-        onClickRow: function (row, tr) {
-            if (tr[0].childNodes[5].innerText=='删除') {
-                var task_name=tr[0].childNodes[1].innerText;
-                var del_url='/manage_event/delete_event_task/?task_name='+task_name;
-                $.ajax({
-                    url: del_url,
-                    type: 'GET',
-                    dataType: 'json',
-                    async: true,
-                    success:del_task
-                });
-            };
-            if (tr[0].childNodes[3].innerText=='计算完成') {
-                window.open('/social_sensing/perceived_results/');
-            }
-        }
+
     });
 }
 
-function go_to_detail(){
-    window.open('/manage_event/event_analysis/');
+
+function go_to_detail_event(task_name,start_time,stop_time,compute_status){
+
+    if(compute_status==0){
+      alert('尚未计算，请稍后查看。');
+    }else if(compute_status==1){
+      alert('正在计算，请稍后查看。');
+    }else if(compute_status==2){
+        console.log(task_name,start_time,stop_time,compute_status);
+      window.open('/manage_event/event_analysis/?task_name='+task_name
+                +'&start_ts='+start_time+'&end_ts='+stop_time);
+    }
+
 }
 
 function taskList() {
@@ -179,10 +218,30 @@ taskList();
 
 
 //删除
-function del_task(data) {
-    if (data=='True'){
-        alert('删除成功');
-    }else {
-        alert('删除失败');
+function delete_task_event(data){
+    
+    if(data[0] == "1"){
+        alert("删除成功！");
+        
+        taskList();
+    }else{
+        alert("删除失败！");
     }
 }
+
+function delete_task_outter_event(task_name){
+
+    var delete_task_event_url = '/manage_event/delete_event_task/?task_name='+task_name;
+
+    console.log(delete_task_event_url);
+
+    $.ajax({
+        url: delete_task_event_url,
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success:delete_task_event
+    });
+
+}
+

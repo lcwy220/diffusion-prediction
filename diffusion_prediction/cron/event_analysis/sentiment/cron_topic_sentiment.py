@@ -429,7 +429,7 @@ def compute_sentiment_weibo(topic,begin_ts,end_ts,k_limit,w_limit,during):
     all_sen_weibo = {}
     results = {}
     #results_geo_count = {}
-    geo_count = {} 
+    geo_count = {}
     for sentiment in sentiments:
         province_dict = {}
         query_body = {

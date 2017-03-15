@@ -359,12 +359,8 @@ Draw_blog_opinion:function(data){
       for (i=0;i < item.length;i++){
         // console.log('qqqqqq');
         // var opinion = item[i].join("+");
-          console.log(item[i])
-          $.each(item[i],function (index,item2) {
-              html += '<span class="label place_label" style="color: #868686;" onmouseover="set_opinion_type(\''+ item2 +'\')">'+item2+'</span>';
-          })
-
-          // console.log(item[i].join("+"));
+        html += '<span class="label place_label" style="color: #868686;" onmouseover="set_opinion_type(\''+ item[i] +'\')">'+item[i].join(",")+'</span>';
+        // console.log(item[i].join("+"));
       }
 
     }
@@ -376,7 +372,7 @@ Draw_blog_opinion:function(data){
 },
 
 Draw_blog_scan_area_meaning:function(data){
-    
+    console.log(data);
     $('#blog_scan_area_meaning').empty();
     var item = data;
     var html = '';

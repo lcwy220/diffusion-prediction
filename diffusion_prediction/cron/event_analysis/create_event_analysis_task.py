@@ -3,6 +3,7 @@
 from mappings_event_analysis_task import mappings_event_analysis_task
 
 import json
+import time
 import sys
 reload(sys)
 sys.path.append('../../')
@@ -31,8 +32,8 @@ def create_task():
     for item in results:
         topic = item["_source"]["task_name"]
         en_name = item["_source"]["pinyin_task_name"]
-        start_ts = item['_source']['start_ts']
-        end_ts = item['_source']['end_ts']
+        start_ts = item['_source']['start_time']
+        end_ts = item['_source']['stop_time']
         
         print "push task_name: ", en_name
 
@@ -74,17 +75,28 @@ def test():
     '''
     item['task_name'] = '天津老太摆射击摊被判刑' #'毛泽东诞辰纪念日'
     item['pinyin_task_name'] = 'tian_jin_lao_tai_she_ji_qiang_bei_pan_xing' #"mao_ze_dong_dan_chen_ji_nian_ri"
-    item['start_ts'] = 1482768502 #1482681600
-    item['end_ts'] = 1483455435 #1483113600
-    '''
-    item['task_name'] = '毛泽东诞辰纪念日'
-    item['pinyin_task_name'] = "mao_ze_dong_dan_chen_ji_nian_ri"
-    item['start_ts'] = 1482681600
-    item['end_ts'] = 1483113600
+    item['start_time'] = 1482768502 #1482681600
+    item['stop_time'] = 1483455435 #1483113600
     item['submit_user'] = 'admin@qq.com' 
-    item['submit_time'] = 1489027704 
+    item['submit_time'] = time.time() 
+    item['must_keywords'] = ['射击','判刑']
+    item['should_keywords'] = ['天津','老太']
     item['event_value_finish'] = 0
     item['scan_text_finish'] = 0
+    '''
+
+    
+    item['task_name'] = '毛泽东诞辰纪念日'
+    item['pinyin_task_name'] = "mao_ze_dong_dan_chen_ji_nian_ri"
+    item['start_time'] = 1482681600
+    item['stop_time'] = 1483113600
+    item['submit_user'] = 'admin@qq.com' 
+    item['submit_time'] = time.time() 
+    item['must_keywords'] = ['毛泽东']
+    item['should_keywords'] = ['诞辰','纪念日']
+    item['event_value_finish'] = 0
+    item['scan_text_finish'] = 0
+    
 
 
     mappings_event_analysis_task()

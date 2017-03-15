@@ -75,7 +75,7 @@ function choose_task(data) {
                 },
                 {
                     title: "结束时间",//标题
-                    field: "finish_ts",//键名
+                    field: "stop_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -175,6 +175,17 @@ function task_lists(data) {
                 //     valign: "middle"//垂直
                 // },
                 {
+                    title: "序号",//标题
+                    field: "",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        return index+1;
+                    }
+                },
+                {
                     title: "任务名称",//标题
                     field: "task_name",//键名
                     sortable: true,//是否可排序
@@ -184,7 +195,7 @@ function task_lists(data) {
                     
                 },
                 {
-                    title: "任务开始时间",//标题
+                    title: "开始时间",//标题
                     field: "start_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -196,7 +207,7 @@ function task_lists(data) {
                     
                 },
                 {
-                    title: "任务终止时间",//标题
+                    title: "终止时间",//标题
                     field: "stop_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -220,7 +231,7 @@ function task_lists(data) {
                     
                 },
                 {
-                    title: "创建人",//标题
+                    title: "提交用户",//标题
                     field: "submit_user",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -228,7 +239,7 @@ function task_lists(data) {
                     valign: "middle",//垂直
                 },
                 {
-                    title: "计算状态",//标题
+                    title: "任务进度",//标题
                     field: "macro_value_finish",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -272,37 +283,9 @@ function task_lists(data) {
                         return e
                         // return '<a onclick="go_to_detail('')">点击查看</a> ' + '<a class="remove" href="javascript:void(0)" >删除</a>';
                     },
-                    // events: {
-                    //     'click .mod': function(e, value, row, index) {      
-                    //           //修改操作
-                    //           console.log("修改！");
-                    //           console.log(e);
-                    //           console.log(value);
-                    //           console.log(row);
-                    //           console.log(index);
-                    //         },
-                    //     'click .remove' : function(e, value, row, index) {
-                    //           //删除操作 
-                    //           console.log("删除！");
-                    //           console.log(e);
-                    //           console.log(value);
-                    //           console.log(row);
-                    //           console.log(index);
-                    //         }
-                    // }
+                  
                 },
-                // {
-                //     title: "查看详情",//标题
-                //     field: "",//键名
-                //     sortable: true,//是否可排序
-                //     order: "desc",//默认排序方式
-                //     align: "center",//水平
-                //     valign: "middle",//垂直
-                //     formatter: function (value, row, index) {
-                //         var details='<a>查看详情</a>';
-                //         return details;
-                //     },
-                // },
+               
                 {
                     title: "删除",//标题
                     field: "",//键名
@@ -311,7 +294,7 @@ function task_lists(data) {
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter:function(value,row,index){  
-                      var d = '<a style="cursor:pointer;" onclick="delete_task_outter(\''+ row.task_name +'\')">删除</a>';  
+                      var d = '<a style="cursor:pointer;" onclick="delete_task_outter_prediction(\''+ row.task_name +'\')">删除</a>';  
                         return d;  
                     }
                 },
@@ -428,8 +411,9 @@ $("#build").on('click',function(){
 //删除任务  
 
 
-function delete_task(data){
-    if(data == 'True'){
+function delete_task_prediction(data){
+    console.log(data);
+    if(data[0] == "1"){
         alert("删除成功！");
         choose_task_outter();
         task_lists_outter();
@@ -438,7 +422,7 @@ function delete_task(data){
     }
 }
 
-function delete_task_outter(task_name){
+function delete_task_outter_prediction(task_name){
 
     var delete_task_url = '/prediction/delete_task/?task_name='+task_name;
 
@@ -448,7 +432,7 @@ function delete_task_outter(task_name){
         type: 'GET',
         dataType: 'json',
         async: true,
-        success:delete_task
+        success:delete_task_prediction
     });
 
 }
