@@ -159,16 +159,12 @@ function sensor(data) {
             },
         ],
         onClickRow: function (row, $element) {
-            //console.log(row);
-            // console.log($element[8].innerText);
-            // console.log(element);
             if ($element[0].innerText=='添加') {
-                    add_sensor_outter(row.id);
-                }
-                if ($element[0].innerText=='删除') {
-
-                    delete_sensor_outter(row.id);
-                }
+                add_sensor_outter(row.id);
+            }
+            if ($element[0].innerText=='删除') {
+                delete_sensor_outter(row.id);
+            }
         }
     });
 }
@@ -185,7 +181,6 @@ function sensor_outter(){
 }
 
 function add_sensor(data){
-    console.log(data);
     var data = eval(data);
     if (data[0] == "1"){
         alert("添加敏感人物库成功！");
@@ -209,7 +204,6 @@ function add_sensor_outter(add_users){
 
 
 function delete_sensor(data){
-    console.log(data);
     var data = eval(data);
     if (data[0] == "1"){
         alert("从敏感人物库删除成功！");
@@ -248,7 +242,6 @@ function sort(data) {
         data_json['rank'] = data[key];
         data_list.push(data_json);
     }
-    console.log(data_list);
     $('#sort_quota').bootstrapTable('load',data_list);
     $('#sort_quota').bootstrapTable({
         data:data_list,
@@ -313,7 +306,8 @@ function sort(data) {
         onClickRow: function (row, $element) {
             
             if ($element[0].innerText=='修改') {
-                    modify_sort_outter(row.topic,row.rank);
+                $('#myModal').modal('show');
+                modify_sort_outter(row.topic,row.rank);
             }
         }
     });
@@ -432,7 +426,7 @@ function interfer_parameter(data) {
         ],
         onClickRow: function (row, tr) {
             if ($element[0].innerText=='修改') {
-                    modify_interfer_parameter_outter(row.parameter_name,row.parameter_value);
+                modify_interfer_parameter_outter(row.parameter_name,row.parameter_value);
             }
         }
     });

@@ -134,7 +134,8 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-    var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
+//    var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
+    var topic_name='毛泽东诞辰纪念日';
     //---------时间控件
     $(function () {
         $('#datetimepicker6').datetimepicker();
@@ -146,7 +147,7 @@
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
         });
     });
-    $("#container .type-list a").hover(function () {
+    $("#container .type-list span").hover(function () {
         $(this).css({
             '-webkit-transform': 'scale(1,1.2)',
             '-moz-transform': 'scale(1,1.2)',
@@ -159,7 +160,7 @@
             'color':'#fff',
             'box-shadow': '0 0 20px rgba(0, 198, 226, 0.5)',
         });
-        $(this).siblings('a').css({
+        $(this).siblings('span').css({
             'width':'19%'
         });
     },function () {
@@ -175,7 +176,7 @@
             'color':'#373D41',
             'box-shadow': '',
         });
-        $(this).siblings('a').css({
+        $(this).siblings('span').css({
             'width':'20%'
         })
     });
@@ -196,17 +197,19 @@
     })
 </script>
 
-<!-- <script type="text/javascript" src='../../static/js/echarts/src/chart/graph/graph.js'></script> -->
-
-<!-- <script type="text/javascript" src="../../static/js/require.js"></script>
-<script type="text/javascript" src="../../static/js/require.min.js"></script> -->
-<!-- <script type="text/javascript" src="../../static/js/esl.js"></script> -->
 <script type="text/javascript" src='../../static/js/map.js'></script>
 <script type="text/javascript" src='../../static/js/echarts-map.js'></script>
 <script src="../../static/js/jqcloud-1.0.4.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src='../../static/js/dataTool.js'></script>
 <script type="text/javascript" src="../../static/js/jquery.eeyellow.Timeline.js"></script>
 
+<<<<<<< HEAD
+<script type="text/javascript" src="../../static/js/date_time.js"></script>
+<script type="text/javascript" src="../../static/js/date_place.js"></script>
+<script type="text/javascript" src="../../static/js/date_network.js"></script>
+<script type="text/javascript" src="../../static/js/date_meaning.js"></script>
+<script type="text/javascript" src="../../static/js/date_emotion.js"></script>
+=======
  <script type="text/javascript" src="../../static/js/date_time.js"></script>
  <script type="text/javascript" src="../../static/js/date_place.js"></script>
  <script type="text/javascript" src="../../static/js/date_network.js"></script>
@@ -214,5 +217,6 @@
  <script type="text/javascript" src="../../static/js/date_emotion.js"></script>
 
 
+>>>>>>> d256a9bdf1c95a4ee09a3021252dd0c6c39eb5d6
 
 {% endblock %}

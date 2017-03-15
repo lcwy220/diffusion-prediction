@@ -50,18 +50,18 @@
                 <p class="line"></p>
             </li>
             <li class="main_li main_4" style="position: relative;z-index: 5">
-                <a class="list_four li_a">系统管理</a>
+                <a class="list_four li_a" href="/manage/purview/">系统配置</a>
                 <p class="line"></p>
             </li>
         </ul>
     </div>
-    <div class="setting" style="width:100%;text-align: center;display: none;padding: 30px 0 20px;
-    position:relative;top: -10px;z-index: 10">
-        <a href="/manage/purview/" class="power">系统配置</a>
+    <!--<div class="setting" style="width:100%;text-align: center;display: none;padding: 30px 0 20px;-->
+    <!--position:relative;top: -10px;z-index: 10">-->
+        <!--<a href="/manage/purview/" class="power">系统配置</a>-->
         <!--<a href="/manage/sensitive_words/" class="sentive_words">敏感词管理</a>-->
-        <a href="###" class="sentive_words">敏感词管理</a>
-        <a href="###" class="day_note">日志管理</a>
-    </div>
+        <!--<a href="###" class="sentive_words">敏感词管理</a>-->
+        <!--<a href="###" class="day_note">日志管理</a>-->
+    <!--</div>-->
 </div>
 {% endblock %}
 <!-- 导航结束 -->
@@ -74,7 +74,6 @@
 
 <!-- JS文件 -->
 {% block js %}
-<!-- <script src="/static/js/jquery.js"></script> -->
 <script src="/static/js/jquery-3.1.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-table.min.js"></script>
@@ -100,19 +99,20 @@
 {% block write_js %}
     <script>
     //导航栏鼠标滑过，显示下拉菜单
-    $("#nav .nav_bottom .list .list_four").on('mouseover',function () {
-        $('.setting').css({display:'block'});
-    }).on('mouseout',function () {
-        $('.setting').css({display:'none'});
-    });
-    $(".setting").on('mouseover',function () {
-        $(this).css({display:'block'});
-        $(".nav_bottom .list .list_four").css({borderBottom:'2px solid #2e90e6'});
-    }).on('mouseout',function () {
-        $(this).css({display:'none'});
-        $(".nav_bottom .list .list_four").css({borderBottom:'none'});
-    });
 
+//    $("#nav .nav_bottom .list .list_four").on('mouseover',function () {
+//        $('.setting').css({display:'block'});
+//    }).on('mouseout',function () {
+//        $('.setting').css({display:'none'});
+//    });
+//    $(".setting").on('mouseover',function () {
+//        $(this).css({display:'block'});
+//        $(".nav_bottom .list .list_four").css({borderBottom:'2px solid #2e90e6'});
+//    }).on('mouseout',function () {
+//        $(this).css({display:'none'});
+//        $(".nav_bottom .list .list_four").css({borderBottom:'none'});
+//    });
+//
     $('#nav .nav_bottom .list .main_li .li_a').on('mouseover',function () {
         $(this).siblings('.line').css({left:'0%'});
     }).on('mouseout',function () {
