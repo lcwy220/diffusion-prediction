@@ -12,8 +12,10 @@ $('#build').on('click',function () {
         alert('请检查您的时间，开始时间不能大于结束时间。');
     }else {
         st_finish(start,end);
-        new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&end_ts=' +
+
+        new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_ts='+start+'&stop_time=' +
             end+'&must_keywords=['+must_val+']&should_keywords=['+should_val+']&submit_user=admin@qq.com';
+        console.log(new_task_url);
         $.ajax({
             url: new_task_url,
             type: 'GET',
@@ -130,9 +132,12 @@ function task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                // formatter: function (value, row, index) {
+                //     var delt='<span>删除</span>';
+                //     return delt;
+                // },
                 formatter: function (value, row, index) {
-                    var delt='<span>删除</span>';
-                    return delt;
+                        return '<a class="mod" onclick="go_to_detail()">查看详情</a> ' + '<a class="delete">删除</a>';
                 },
             },
         ],
@@ -154,6 +159,11 @@ function task(data) {
         }
     });
 }
+
+function go_to_detail(){
+    window.open('/manage_event/event_analysis/');
+}
+
 function taskList() {
     var task_list_url='/manage_event/show_event_task/';
     $.ajax({

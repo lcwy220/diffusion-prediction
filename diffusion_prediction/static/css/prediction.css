@@ -35,7 +35,7 @@
 #container .prediction_menu .menu_m input,
 #container .prediction_menu .menu_m #inter_time{
     padding: 5px 8px;
-    width: 180px;
+    width: 40px;
     margin-left: 20px;
     border-radius: 5px;
     border: 1px solid #6f6f6f;
@@ -55,7 +55,7 @@
 
 
 #container .build_prediction .prediction_menu {
-    height: 400px;
+    height: auto;
     width: 100%;
     padding: 10px 20px;
     border: 1px solid silver;

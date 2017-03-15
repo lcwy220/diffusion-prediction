@@ -37,18 +37,15 @@ def mappings_event_analysis_task():
                         "type": "string",
                         "index": "not_analyzed"
                     },
-                    "start_ts":{      #event start time
+                    "start_time":{      #event start time
                         "type": "long"
                     },
-                    "end_ts":{          #event end time
+                    "stop_time":{ # task end time
                         "type": "long"
                     },
                     "submit_user":{
                         "type": "string",
                         "index": "not_analyzed"
-                    },
-                    "stop_time":{ # task end time
-                        "type": "long"
                     },
                     "submit_time":{ # task start time
                         "type": "long"

@@ -109,7 +109,11 @@ def compute_topic_task():
     end_ts = 1483455435 #1483113600
     must_keywords = ["射击","判刑"] #['毛泽东']
     should_keywords = ["天津","老太"] #['诞辰'，'纪念日']
+    submit_time = time.time()
+    submit_user = 'admin@qq.com'
     '''
+    
+    
     topic = '毛泽东诞辰纪念日'
     en_name = "mao_ze_dong_dan_chen_ji_nian_ri"
     start_ts = 1482681600
@@ -118,6 +122,7 @@ def compute_topic_task():
     should_keywords = ['诞辰','纪念日']
     submit_time = time.time()
     submit_user = 'admin@qq.com'
+    
     #start compute
     
 
@@ -134,10 +139,14 @@ def compute_topic_task():
     item = {}
     item['topic'] = topic
     item['en_name'] = en_name
-    item['start_ts'] = start_ts
-    item['end_ts'] = end_ts
+    item['start_time'] = start_ts
+    item['stop_time'] = end_ts
     item['weibo_counts'] = weibo_counts
     item['uid_counts'] = uid_counts
+    item['must_keywords'] = must_keywords
+    item['should_keywords'] = should_keywords
+    item['submit_user'] = submit_user
+    item['submit_time'] = submit_time
     
     weibo_es.index(index=index_name_results,doc_type=index_type_results,id=en_name,body=item)
     
