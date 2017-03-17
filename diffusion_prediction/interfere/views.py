@@ -19,18 +19,18 @@ mod = Blueprint('interfere', __name__, url_prefix='/interfere')
 def intervention_decision():
 
     return render_template('interfere/un_decision.html')
-'''
+
 @mod.route('/strategy_results/')
 def strategy_results():
 
     return render_template('interfere/strategy_results.html')
-'''
 
-@mod.route('/strategy_results/')
-def strategy_results():
-    task_name = request.args.get('task_name','')
-    pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='-')
-    return render_template('interfere/strategy_results.html',task_name=pinyin_task_name)
+
+# @mod.route('/strategy_results/')
+# def strategy_results():
+#     task_name = request.args.get('task_name','')
+#     pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='-')
+#     return render_template('interfere/strategy_results.html',task_name=pinyin_task_name)
 
 
 
