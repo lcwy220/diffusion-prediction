@@ -148,7 +148,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 	 	for (var key in data){
 	 		
 			//key_datetime = new Date(parseInt(key)*1000).format('yyyy/MM/dd hh:mm');
-			key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+			key_datetime = new Date(parseInt(key) * 1000).toLocaleString();
 			//console.log(key_datetime);
 			x_item.push(key_datetime);	
 			y_item_pos.push(data[key][1]);
@@ -660,7 +660,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 					item[i][1].uname=item[i][1].uid
 					//console.log(item[i][1].uname);
 				}
-				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
 				html += '<div class="blog_time">';
 				//html += '<div><img class="img-circle" src="../../static/images/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
 				html += '<div><img class="img-circle" src="'+item[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
@@ -721,9 +721,9 @@ function Draw_emotion_trend_line_result(){
   //   start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   //   end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-    var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+ //    var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 
 	url = "/topic_sen_analyze/sen_time_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&pointInterval='+pointInterval;
  	topic_analysis_emotion.call_sync_ajax_request(url,topic_analysis_emotion.Draw_emotion_trend_line);
@@ -738,9 +738,9 @@ function Draw_emotion_map_result(){
  //  	start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
  //  	end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
- 	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+ // 	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 
     url = "/topic_sen_analyze/sen_province_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
  	topic_analysis_emotion.call_sync_ajax_request(url,topic_analysis_emotion.Draw_emotion_map);
@@ -753,9 +753,9 @@ function Draw_blog_scan_area_emotion_result(){
     // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
     // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-    var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+ //    var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 
 
     url = "/topic_sen_analyze/sen_weibo_content/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item_emotion+'&sen='+sen;

@@ -236,24 +236,35 @@ function task_lists(data) {
                     align: "center",//水平
                     valign: "middle",//垂直
                 },
+                // {
+                //     title: "计算状态",//标题
+                //     field: "interfere_finish",//键名
+                //     sortable: true,//是否可排序
+                //     order: "desc",//默认排序方式
+                //     align: "center",//水平
+                //     valign: "middle",//垂直
+                //     formatter: function (value, row, index) {
+                //         if(value == 0){
+                //             return '尚未计算'
+                //         }
+                //         else if(value == 2){
+                //             return '计算完成'
+                //         }
+                //         else{
+                //             return '正在计算'
+                //         }
+
+                //     },
+                // },
                 {
-                    title: "计算状态",//标题
-                    field: "interfere_finish",//键名
+                    title: "更新时间",//标题
+                    field: "update_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if(value == 0){
-                            return '尚未计算'
-                        }
-                        else if(value == 2){
-                            return '计算完成'
-                        }
-                        else{
-                            return '正在计算'
-                        }
-
+                        return new Date(parseInt(value) * 1000).toLocaleString();
                     },
                 },
                 {
@@ -273,7 +284,8 @@ function task_lists(data) {
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
                            
-                           var e = '<a style="cursor:pointer;" onclick="go_to_detail_inf(\''+ row.task_name +'\',\''+row.interfere_finish+'\')">点击查看</a>';
+                           // var e = '<a style="cursor:pointer;" onclick="go_to_detail_inf(\''+ row.task_name +'\',\''+row.interfere_finish+'\')">点击查看</a>';
+                           var e = '<a style="cursor:pointer;" onclick="go_to_detail_inf(\''+ row.task_name +'\',\''+row.update_time+'\')">点击查看</a>';
                            console.log(e);
                             return e
                     },
@@ -297,17 +309,19 @@ function task_lists(data) {
     }
 
 
-function go_to_detail_inf(task_name,compute_status){
+function go_to_detail_inf(task_name,update_time){
 
-    if(compute_status==0){
-      alert('尚未计算，请稍后查看。');
-    }else if(compute_status==1){
-      alert('正在计算，请稍后查看。');
-    }else if(compute_status==2){
-        console.log(task_name,start_time,stop_time,compute_status);
-      window.open('/interfere/strategy_results/?task_name='+task_name);
-    }
-
+    // if(compute_status==0){
+    //   alert('尚未计算，请稍后查看。');
+    // }else if(compute_status==1){
+    //   alert('正在计算，请稍后查看。');
+    // }else if(compute_status==2){
+    //     console.log(task_name,start_time,stop_time,compute_status);
+    //   window.open('/interfere/intervention_strategy/?task_name='+task_name);
+    // }
+    console.log(task_name);
+    console.log(update_time);
+    window.open('/interfere/intervention_strategy/?task_name='+task_name+'&update_time='+update_time);
 }
 
 

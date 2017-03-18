@@ -1,0 +1,150 @@
+{% extends "public_nav.html" %}
+{% block title %}<title></title>{% endblock %}
+{% block my_css %}
+<link rel="stylesheet" href="/static/css/intervention_strategy.css">
+<style>
+
+</style>
+{% endblock %}
+
+{% block main %}
+<script type="text/javascript">
+    task_name = "{{task_name}}";
+    update_time = "{{update_time}}";
+    
+</script>
+<div id="container">
+    <!-- Nav tabs -->
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">  
+        
+        <li role="presentation" class="active">
+            <a href="#current_weibo" aria-controls="settings" role="tab" data-toggle="tab">当前热门微博</a>
+        </li>
+        <li role="presentation">
+            <a href="#potential_weibo" aria-controls="messages" role="tab" data-toggle="tab">潜在热门微博</a>
+        </li>
+        <li role="presentation">
+            <a href="#potential_users" aria-controls="profile" role="tab" data-toggle="tab">潜在关键用户</a>
+        </li>
+        <li role="presentation" >
+            <a href="#critical_path" aria-controls="home" role="tab" data-toggle="tab">关键传播路径</a>
+        </li>
+
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content" id="content">
+        <div role="tabpanel" class="tab-pane active" id="current_weibo">
+           <!--  <h1 class="title-1" style='color: #919191;font-size: 30px'>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+                当前热门微博
+            </h1> -->
+            <div id="current_hot_weibo">
+                <div style="padding-left: 30px">
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#a73cff;
+                position: relative;top: 9px;"></span>
+                    <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c;
+                position: relative;top: 9px;"></span>
+                    <span style="display: inline-block;font-size: 20px;color:#868686;
+                position: relative;top: 5px;">排序方式：</span>
+                    <div class="btn-group sorting" role="group" style="display: inline-block;">
+                        <button type="button" class="btn btn-default s-1">按总数</button>
+                        <button type="button" class="btn btn-default s-2">按转发</button>
+                        <button type="button" class="btn btn-default s-3">按评论</button>
+                    </div>
+                </div>
+                <div id="group_emotion_loading2" style="display:block;text-align:center;">正在加载，请稍后...</div>
+                <div id="influeweibo2" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                    <table id="input-table2" class="In-table" style="display: block;">
+                        <tbody class="In-table" style='width:100%!important;'>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='fanye' style="width:100%;text-align:center;margin-top: 30px">
+                    <span style="display:none;">每页显示<input type="text" id="PageNo2" size="4" value="4" style='text-align:center;border:1px solid #ccc;'/>组</span>
+                    <div id="div-button2" style="display:inline-block;margin-left:5px;">
+                        <input type="button" value="首页" id="F-page2">
+                        <input type="button" value="上一页" id="Pre-page2">
+                        <input type="button" value="下一页" id="Nex-page2">
+                        <input type="button" value="尾页" id="L-page2">
+                    </div>
+
+                    <span style="display:inline-block;">&nbsp;当前第<span id="s22"></span>页</span>
+                    <span style="display:inline-block;">总共<span id="s12"></span>页</span>
+                </div>
+            </div>
+        </div>
+        
+        <div role="tabpanel" class="tab-pane" id="potential_weibo">
+            <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+                潜在热门微博
+            </h1> -->
+            <div id="hot_weibo">
+                <div style="padding-left: 30px">
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#a73cff;
+                position: relative;top: 9px;"></span>
+                    <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c;
+                position: relative;top: 9px;"></span>
+                    <span style="display: inline-block;font-size: 20px;color:#868686;
+                position: relative;top: 5px;">排序方式：</span>
+                    <div class="btn-group sorting" role="group" style="display: inline-block;">
+                        <button type="button" class="btn btn-default s-1">按总数</button>
+                        <button type="button" class="btn btn-default s-2">按转发</button>
+                        <button type="button" class="btn btn-default s-3">按评论</button>
+                    </div>
+                </div>
+                <div id="group_emotion_loading" style="display:block;text-align:center;">正在加载，请稍后...</div>
+                <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                    <table id="input-table" class="In-table" style="display: block;">
+                        <tbody class="In-table" style='width:100%!important;'>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='fanye' style="width:100%;text-align:center;margin-top: 30px">
+                    <span style="display:none;">每页显示<input type="text" id="PageNo" size="4" value="4" style='text-align:center;border:1px solid #ccc;'/>组</span>
+                    <div id="div-button" style="display:inline-block;margin-left:5px;">
+                        <input type="button" value="首页" id="F-page">
+                        <input type="button" value="上一页" id="Pre-page">
+                        <input type="button" value="下一页" id="Nex-page">
+                        <input type="button" value="尾页" id="L-page">
+                    </div>
+
+                    <span style="display:inline-block;">&nbsp;当前第<span id="s2"></span>页</span>
+                    <span style="display:inline-block;">总共<span id="s1"></span>页</span>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="potential_users">
+            <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+                潜在关键用户
+            </h1> -->
+            <div id="user"></div>
+        </div>
+        
+        <div role="tabpanel" class="tab-pane " id="critical_path">
+            <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
+                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+                关键传播路径
+            </h1> -->
+            <div id="start_end"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+<script type="text/javascript">
+    $('#myTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+</script>
+<script src="/static/js/intervention_strategy.js"></script>
+{% endblock %}

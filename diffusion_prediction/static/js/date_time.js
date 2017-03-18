@@ -153,7 +153,7 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
  	for (var key in item){
  		//console.log(key);
 		//key_datetime = new Date(parseInt(key)*1000).format('yyyy/MM/dd hh:mm');
-		key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+		key_datetime = new Date(parseInt(key) * 1000).toLocaleString();
 		// key_datetime = format(parseInt(key).formate_data);
 		//console.log(key_datetime);
 		x_item.push(key_datetime);	
@@ -258,7 +258,7 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 				item[i][1].uname=item[i][1].uid
 				//console.log(item[i][1].uname);
 			}
-			var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+			var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
 			// var item_timestamp_datetime = format(parseInt(item[i][1].timestamp).formate_data_time);
 			
 			html += '<div class="blog_time" id="blog_time">';
@@ -305,14 +305,14 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 
 var topic_analysis_time = new topic_analysis_time();
  
-function Draw_time_trend_line_result(){
+function Draw_time_trend_line_result(topic,start_ts,end_ts){
 
 	//topic = topic_name_on_detail;
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
 	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 	// console.log(topic);
 	//console.log(start_ts);
 	//console.log(end_ts);
@@ -321,25 +321,29 @@ function Draw_time_trend_line_result(){
  	topic_analysis_time.call_sync_ajax_request(url,topic_analysis_time.Draw_time_trend_line);
 }		
 
-function Draw_blog_scan_area_order_result(){
+function Draw_blog_scan_area_order_result(topic,start_ts,end_ts){
 	//topic = topic_name_on_detail;
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
 	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+	
+	// console.log(topic);
+	// console.log(start_ts);
+	// console.log(end_ts);
+	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 	
     url_order = "/topic_time_analyze/time_order_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item;
  	topic_analysis_time.call_sync_ajax_request(url_order,topic_analysis_time.Draw_blog_scan_area);
  	console.log(url_order);
 }
-function time_load(){
-	Draw_time_trend_line_result();
-	Draw_blog_scan_area_order_result();
+function time_load(topic,start_ts,end_ts){
+	Draw_time_trend_line_result(topic,start_ts,end_ts);
+	Draw_blog_scan_area_order_result(topic,start_ts,end_ts);
 }
 
-Draw_time_trend_line_result();
-Draw_blog_scan_area_order_result();
+Draw_time_trend_line_result(topic,start_ts,end_ts);
+Draw_blog_scan_area_order_result(topic,start_ts,end_ts);
 
 
 

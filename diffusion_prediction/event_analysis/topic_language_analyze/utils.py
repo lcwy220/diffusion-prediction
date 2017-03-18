@@ -35,6 +35,7 @@ from diffusion_prediction.global_utils import es_prediction as es
 from diffusion_prediction.global_utils import es_user_portrait,profile_index_name,profile_index_type
 
 
+
 # from global_config import index_event_analysis_results,type_event_analysis_results,\
 #                         MAX_LANGUAGE_WEIBO,MAX_FREQUENT_WORDS,\
 #                         topics_river_index_name,topics_river_index_type,\
@@ -450,30 +451,67 @@ def get_weibo_content(topic,start_ts,end_ts,opinion,sort_item='timestamp'): #微
     weibo_dict = {}
     #a = json.dumps(opinion)
     #opinion = '圣保罗_班底_巴西_康熙'
-    opinion = json.dumps(opinion)
-    opinion_str = opinion[0]
-    opinion_str = '_'.join(opinion)
-    for i in range(1,len(opinion)):
-        opinion_str = opinion_str + '_' + opinion_str
-
-    print 'opinion_str:::::::;;',opinion_str
+    #[u'毛泽东', u'纪念日', u'亲人', u'毛泽东思想', u'万岁']
+    #opinion = json.dumps(opinion)
+    #opinion = '毛泽东_纪念日_亲人_毛泽东思想_万岁'
+    # opinion_str = opinion[0]
+    # opinion_str = '_'.join(opinion)
+    # for i in range(1,len(opinion)):
+    #     opinion_str = opinion_str + '_' + opinion_str
+    # query_body = {
+    #     'query':{
+    #         'bool':{
+    #             'must':[
+    #                 {'wildcard':{'keys':opinion}},
+    #                 {'term':{'name':topic}},
+    #                 {'range':{'start_ts':{'lte':start_ts}}},
+    #                 {'range':{'end_ts':{'gte':end_ts}}}
+    #             ]
+    #         }
+    #     },
+    #     'size':100000
+    # }  #没有查到uid   每次的id不一样   
+    # print 'opinion:::::::;;',opinion
+    # start_ts = int(start_ts)
     query_body = {
         'query':{
             'bool':{
                 'must':[
-                    {'wildcard':{'keys':opinion_str}},
+                    # {'wildcard':{'keys':'*'+opinion+'*'}},
+                    {"match_phrase":{"keys": opinion}},
+                    #{'term':{'keys':opinion}},
                     {'term':{'name':topic}},
-                    {'range':{'start_ts':{'lte':start_ts}}},
-                    {'range':{'end_ts':{'gte':end_ts}}}
+                    {'range':{'start_ts':{'gte':start_ts}}},
+                    {'range':{'end_ts':{'lte':end_ts}}}
                 ]
             }
-        }
+        },
+        'size':1000000
     }  #没有查到uid   每次的id不一样   
+    # query_body = {
+    #     'query':{
+    #         'match_all':{}
+    #     },
+    #     'size':1000000
+    # }
+    print 'query_body:::::;',query_body
     weibos = es.search(index=subopinion_index_name,doc_type=subopinion_index_type,body=query_body)['hits']['hits']
     #print weibo_es,subopinion_index_name,subopinion_index_type,query_body
     print len(weibos)
+    #keys_list = []
+    for weibo in weibos:
+        print weibo['_source'].keys()
+        print 'start_ts:::::::::',weibo["_source"]["start_ts"]
+        print 'end_ts:::::::::::',weibo["_source"]["end_ts"]
+        print 'name:::::::::::::',weibo['_source']["name"]
+        print 'keys:::::::::::::',weibo["_source"]["keys"]
+    #print 'keys_list:::::::',keys_list
+    print 'opinion:::::',opinion
+    print 'start_ts::::',start_ts
+    print 'end_ts::::::',end_ts
+    print 'topic:::::::',topic
     if weibos:
-        print 'weibos:::::::::::;',weibos
+        # print 'weibos:::::::::::;',weibos[0]['_source']['keys']
         weibos = json.loads(weibos[0]['_source']['cluster_dump_dict'])
         for weibo in weibos.values():#jln0825
             weibo = weibo[0]

@@ -1,6 +1,6 @@
-var topic = 'aoyunhui';
-var start_ts = 1467648000;
-var end_ts = 1470844800;
+// var topic = 'aoyunhui';
+// var start_ts = 1467648000;
+// var end_ts = 1470844800;
 var sort_item_network = 'timestamp';
 var blog_type_network = 'maker';
 
@@ -271,27 +271,36 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     $('#right_col_title_2_network').empty();
     var item = data;
     var html = '';
+    console.log("执行发起者！");
+    console.log(item);
+    item_len = 0
+    for (var k in item){
+      item_len++;
 
-    html += '<table id="table_photo">';
-    for(i=0;i<Math.min(7,item.length);i=i+1){
-  
-      html += '<tr>';
-    
-        if (item[i].photo=='no'){
-          item[i].photo='/static/images/photo_unknown.png';
-        }
-        var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-        // html += '<td><img title=用户昵称：' +item[k].name+'<br/>粉丝数：'+item[k].fans+'<br/>发布时间：'+item[k].+'style="width:40px;height:40px" class="photo_user" src='+item[k].photo+'/><td>';
-        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+item[i].photo+'/><td>';
-        html += '<td><p style="font-size: 12px;">用户昵称：'+item[i].name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+item[i].fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
-        
-
-      
-      
-      html += '</tr>'; 
-      // html += ''
     }
-    html += '</table>';
+    if (item_len == 0){
+      console.log("发起者！无数据");
+      html += '<div style="background-color: #FFFFFF;width: 80%;height: 100px;position: relative;margin-left: 10%;margin-top: 12%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 15%;margin-left: 10%;">呀，暂时还没有数据喔~</p></div>'
+    }else{
+      html += '<table id="table_photo">';
+      for(i=0;i<Math.min(7,item.length);i=i+1){
+        console.log(item);
+        html += '<tr>';
+      
+          if (item[i].photo=='no'){
+            item[i].photo='/static/images/photo_unknown.png';
+          }
+          var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
+          // html += '<td><img title=用户昵称：' +item[k].name+'<br/>粉丝数：'+item[k].fans+'<br/>发布时间：'+item[k].+'style="width:40px;height:40px" class="photo_user" src='+item[k].photo+'/><td>';
+          html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+item[i].photo+'/><td>';
+          html += '<td><p style="font-size: 12px;">用户昵称：'+item[i].name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+item[i].fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
+          
+        html += '</tr>'; 
+        // html += ''
+      }
+      html += '</table>';
+    }
+    
     
     
     $("table td").mouseover(function(){
@@ -312,7 +321,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     $('#right_col_title_2_network').empty();
     var data = eval(data);
     var item = [];
-    console.log(data)
+
     var html = '';
     for(var uid_data in data){
       item.push(data[uid_data]);
@@ -321,19 +330,27 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     for(i=0;i<Math.min(7,item.length);i=i+1){
       
       html += '<tr>';
-      
-        if (item[i].user_info.profile_image_url=='no'){
-          item[i].user_info.profile_image_url='/static/images/photo_unknown.png';
+
+        if (item[i].user_info.profile_image_url=='unknown'){
+          var photo_img = '../../static/images/photo_unknown.png';
+        }else{
+          var photo_img = item[i].user_info.profile_image_url;
         }
-        if (item[i].user_info.name=='未知'){
-          item[i].user_info.name='未知';
+        if (item[i].user_info.name=='unknown'){
+          var nick_name='未知';
+        }else{
+          var nick_name = item[i].user_info.name;
         }
-        if (item[i].user_info.followers_count=='未知'){
-          item[i].user_info.followers_count='未知';
+
+        if (item[i].user_info.followers_count=='unknown'){
+          var fans ='未知';
+        }else{
+          var fans = item[i].user_info.followers_count
         }
-        var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+item[i].user_info.profile_image_url+'/><td>';
-        html += '<td><p style="font-size: 12px;">用户昵称：'+item[i].user_info.name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+item[i].user_info.followers_count+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
+        // var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
+        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+photo_img+'/><td>';
+        html += '<td><p style="font-size: 12px;">用户昵称：'+nick_name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
         
       
       html += '</tr>'; 
@@ -361,15 +378,14 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
       var max_i_network = item_i_network+Math.min(10,blog_num_max_local_network-item_i_network);
       
       for (i=item_i_network; i<max_i_network; i++){
-
-  
-        if (item[i]._source.photo_url=='no'){
-          item[i]._source.photo_url='/static/images/photo_unknown.png'
+       
+        if (item[i]._source.photo_url=='unknown'){
+          item[i]._source.photo_url='../../static/images/photo_unknown.png'
         }
-        if (item[i]._source.uname=='未知'){
+        if (item[i]._source.uname=='unknown'){
           item[i]._source.uname=item[i]._source.uid;
         }
-        var item_timestamp_datetime = new Date(parseInt(item[i]._source.timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        var item_timestamp_datetime = new Date(parseInt(item[i]._source.timestamp) * 1000).toLocaleString();
         html += '<div class="blog_time">';
         //html += '<div><img class="img-circle" src="../../static/images/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
         html += '<div><img class="img-circle" src="'+item[i]._source.photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
@@ -385,10 +401,15 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
         html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
         //html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
         //html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-        html += '<span style="display: inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';
-        html += '<span style="margin-top: -3%;float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';
-        //html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;&nbsp;|</span>';
-        html += '<span style="margin-top: -3%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
+        html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
+        html += '<span style="float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';
+        //html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
+        html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
+
+        // html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">'; 
+        // html += '<span style="display: inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';
+        // html += '<span style="margin-top: -3%;float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';       
+        // html += '<span style="margin-top: -3%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
         //html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
         //html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
         html += '</p>';
@@ -429,9 +450,9 @@ function Draw_network_pic_result(){
   //topic = topic_name_on_detail;
   //start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   //end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_gexf/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
 
@@ -447,9 +468,9 @@ function Draw_trend_maker_result(){
   //start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   //end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_trend_maker/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_trend_maker);
@@ -462,9 +483,9 @@ function Draw_trend_pusher_result(){
   //start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   //end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_network_analyze/get_trend_pusher/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
   topic_analysis_network.call_sync_ajax_request(url,topic_analysis_network.Draw_trend_pusher);

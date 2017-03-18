@@ -1,0 +1,57 @@
+/*内容样式*/
+#container {
+    width: 60%;
+    padding:80px 30px;
+    margin: 0px auto 0;
+    border-radius:5px;
+    background-color: rgba(228, 228, 228, 0.61);
+}
+#content {
+    width:100%;
+}
+.fanye #div-button input {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    color: #337ab7;
+}
+.fanye #div-button input:hover{
+    background-color:#eee;
+}
+.same {
+    cursor: pointer;
+}
+
+
+.weibo_explain{
+    width: 90%;
+    padding: 10px 0;
+    margin: 10px auto;
+    background-color: white;
+}
+.weibo_explain .weibo_detail_left,
+.weibo_explain .weibo_detail_right{
+    display: inline-block;
+}
+.weibo_explain .weibo_detail_left {
+    float: left;
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
+.weibo_explain .weibo_detail_right {
+    width: 80%;
+    height: auto;
+    padding: 10px;
+    margin-left: 40px;
+}
+.weibo_explain .weibo_detail_right .weibo_words,
+.weibo_explain .weibo_detail_right .weibo_source{
+    color: black;
+    font-size: 10px;
+}
+.weibo_explain .weibo_detail_right .weibo_source {
+    margin-top: 15px;
+}

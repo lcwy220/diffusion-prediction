@@ -19,18 +19,19 @@ mod = Blueprint('interfere', __name__, url_prefix='/interfere')
 def intervention_decision():
 
     return render_template('interfere/un_decision.html')
-'''
-@mod.route('/strategy_results/')
-def strategy_results():
 
-    return render_template('interfere/strategy_results.html')
-'''
+# @mod.route('/strategy_results/')
+# def strategy_results():
 
-@mod.route('/strategy_results/')
+#     return render_template('interfere/strategy_results.html')
+
+
+@mod.route('/intervention_strategy/')
 def strategy_results():
     task_name = request.args.get('task_name','')
-    pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='-')
-    return render_template('interfere/strategy_results.html',task_name=pinyin_task_name)
+    update_time = request.args.get('update_time','')
+    #pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+    return render_template('interfere/intervention_strategy.html',task_name=task_name,update_time=update_time)
 
 
 
@@ -152,7 +153,7 @@ def get_task_detail():
 @mod.route('/get_current_hot_weibo/')
 def ajax_get_current_hot_weibo():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    ts = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
@@ -187,11 +188,11 @@ def ajax_get_potential_hot_weibo():
 @mod.route('/get_future_user_info/')
 def ajax_get_future_user_info():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    update_time = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
-    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
     results = es_results["future_user_info"]
 
     return results

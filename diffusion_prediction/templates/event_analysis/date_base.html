@@ -22,28 +22,39 @@
 {% endblock %}
 
 {% block main %}
+
+<script type="text/javascript">
+    var topic = "{{task_name}}";
+    var start_ts = "{{start_ts}}";
+    var end_ts = "{{end_ts}}";
+    console.log(topic);
+    console.log(start_ts);
+    console.log(end_ts);
+</script>
+
 <div id="container">
     <p class="type-list" >
-        <a class="time" onclick="time_load()">
+        <span class="time" onclick="time_load()">
             <b class="icon icon-time"></b>&nbsp;&nbsp;时间
-        </a>
-        <a class="place" onclick="place_load()">
-            <b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</a>
-        <a class="network" onclick="network_load()">
-            <b class="icon icon-rss"></b>&nbsp;&nbsp;网络</a>
-        <a class="emotion" onclick="emotion_load()">
-            <b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</a>
-        <a class="meaning" onclick="meaning_load()">
-            <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</a>
+        </span>
+        <span class="place" onclick="place_load()">
+            <b class="icon icon-map-marker"></b>&nbsp;&nbsp;地域</span>
+        <span class="network" onclick="network_load()">
+            <b class="icon icon-rss"></b>&nbsp;&nbsp;网络</span>
+        <span class="emotion" onclick="emotion_load()">
+            <b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</span>
+        <span class="meaning" onclick="meaning_load()">
+            <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
     </p>
-    <div class="choose_date">
+
+    <!-- <div class="choose_date">
         <div class="date-1"
              style="display: inline-block;width: 100%!important;padding: 0;">
             <span style="display: inline-block;color: #919191;
                                 position: relative;top: -7px;font-size: 14px;font-weight: 700;">日期：从</span>
             <div style="display: inline-block;width: 200px;">
                 <div class="form-group" style="margin: 0">
-                    <div class='input-group date' id='datetimepicker6'>
+                    <div class='input-group date' id='datetimepicker11'>
                         <input type='text' class="form-control start" style="height: 28px"/>
                         <span class="input-group-addon" style="height: 28px">
                                         <span class="icon icon-calendar"></span>
@@ -55,7 +66,7 @@
                                 position: relative;top: -7px;font-size: 14px;font-weight: 700;">到</span>
             <div style="display: inline-block;width: 200px;">
                 <div class="form-group" style="margin: 0">
-                    <div class='input-group date' id='datetimepicker7'>
+                    <div class='input-group date' id='datetimepicker12'>
                         <input type='text' class="form-control end" style="height: 28px"/>
                         <span class="input-group-addon" style="height: 28px">
                                         <span class="icon icon-calendar"></span>
@@ -69,6 +80,10 @@
     <script type="text/javascript">
         var date_time_from = "{{start_ts}}";
         var date_time_to = "{{end_ts}}";
+
+        // var date_time_from = 1482681600;
+        // var date_time_to = 1483113600;
+        
         
             function format(shijianchuo)
             {
@@ -92,36 +107,41 @@
         
         var start_time = format(date_time_from);
         var end_time = format(date_time_to);
+        console.log(start_time);
+        console.log(end_time);
+
 
         if(date_time_from && date_time_to){
-            $("#datetimepicker6").val(start_time);
-            $("#datetimepicker7").val(end_time);
+            $("#datetimepicker11").val(start_time);
+            $("#datetimepicker12").val(end_time);
         }
-    </script>
+    </script> -->
+    <!-- 分割线 -->
+    <div class="halving_line"></div>
 
-    <div class="tab-pane fade in active event_analysis" id="time">
+    <div class="event_analysis" id="time">
         {% include "event_analysis/date_time.html"%}
     </div>
 
-    <div id='place' class="tab-pane fade event_analysis" style="display: none">
+    <div id='place' class="event_analysis" style="display: none">
 
         {% include "event_analysis/date_place.html"%}
 
     </div>
 
-    <div id='network' class="tab-pane fade event_analysis" style="display: none">
+    <div id='network' class="event_analysis" style="display: none">
 
         {% include "event_analysis/date_network.html"%}
 
     </div>
 
-    <div id='emotion' class="tab-pane fade event_analysis" style="display: none">
+    <div id='emotion' class="event_analysis" style="display: none">
 
         {% include "event_analysis/date_emotion.html"%}
 
     </div>
 
-    <div id='meaning' class="tab-pane fade event_analysis" style="display: none">
+    <div id='meaning' class="event_analysis" style="display: none">
 
         {% include "event_analysis/date_meaning.html"%}
 
@@ -138,13 +158,13 @@
     var topic_name='毛泽东诞辰纪念日';
     //---------时间控件
     $(function () {
-        $('#datetimepicker6').datetimepicker();
-        $('#datetimepicker7').datetimepicker();
-        $("#datetimepicker6").on("dp.change",function (e) {
-            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        $('#datetimepicker11').datetimepicker();
+        $('#datetimepicker12').datetimepicker();
+        $("#datetimepicker11").on("dp.change",function (e) {
+            $('#datetimepicker12').data("DateTimePicker").minDate(e.date);
         });
-        $("#datetimepicker7").on("dp.change",function (e) {
-            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        $("#datetimepicker12").on("dp.change",function (e) {
+            $('#datetimepicker11').data("DateTimePicker").maxDate(e.date);
         });
     });
     $("#container .type-list span").hover(function () {
@@ -181,7 +201,7 @@
         })
     });
 
-    $('#myTab a').on('click',function () {
+    $('.type-list span').on('click',function () {
         var class_name=$(this).attr('class');
         if (class_name=='time'){
             $('#time').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
@@ -203,13 +223,7 @@
 <script type="text/javascript" src='../../static/js/dataTool.js'></script>
 <script type="text/javascript" src="../../static/js/jquery.eeyellow.Timeline.js"></script>
 
-<<<<<<< HEAD
-<script type="text/javascript" src="../../static/js/date_time.js"></script>
-<script type="text/javascript" src="../../static/js/date_place.js"></script>
-<script type="text/javascript" src="../../static/js/date_network.js"></script>
-<script type="text/javascript" src="../../static/js/date_meaning.js"></script>
-<script type="text/javascript" src="../../static/js/date_emotion.js"></script>
-=======
+
  <script type="text/javascript" src="../../static/js/date_time.js"></script>
  <script type="text/javascript" src="../../static/js/date_place.js"></script>
  <script type="text/javascript" src="../../static/js/date_network.js"></script>
@@ -217,6 +231,5 @@
  <script type="text/javascript" src="../../static/js/date_emotion.js"></script>
 
 
->>>>>>> d256a9bdf1c95a4ee09a3021252dd0c6c39eb5d6
 
 {% endblock %}

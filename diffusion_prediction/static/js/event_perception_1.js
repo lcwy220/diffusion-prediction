@@ -73,6 +73,7 @@ function task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:50,
                 formatter: function (value, row, index) {
                     return index+1;
                 }
@@ -88,7 +89,7 @@ function task(data) {
             },
             {
                 title: "开始时间",//标题
-                field: "submit_time",//键名
+                field: "start_time",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
@@ -99,7 +100,7 @@ function task(data) {
             },
             {
                 title: "终止时间",//标题
-                field: "submit_time",//键名
+                field: "stop_time",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平

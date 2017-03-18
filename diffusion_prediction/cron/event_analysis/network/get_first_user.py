@@ -291,7 +291,7 @@ def get_user_info(uid):
     #result = result[0]['_source']
     #print result
     
-    if len(result) > 1:
+    if len(result) > 0:
         user_info['name'] = result['nick_name']
         user_info['location'] = result['user_location']
         # user_info['gender'] = result['gender']
@@ -304,12 +304,12 @@ def get_user_info(uid):
         #user_info['statuses_count'] = result['statuses_count']
 
     else:
-        user_info['name'] = u'未知'
-        user_info['location'] = u'未知'
-        user_info['friends_count'] = u'未知'
-        user_info['followers_count'] = u'未知'
-        user_info['profile_image_url'] = 'no'
-        user_info['created_at'] = u'未知'
+        user_info['name'] = 'unknown'
+        user_info['location'] = 'unknown'
+        user_info['friends_count'] = 'unknown'
+        user_info['followers_count'] = 'unknown'
+        user_info['profile_image_url'] = 'unknown'
+        user_info['created_at'] = 'unknown'
         #user_info['statuses_count'] = u'未知' 
                               
     return user_info
