@@ -2,12 +2,20 @@
  * Created by Administrator on 2017/3/17.
  */
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+
 //传播路径
 function critical_path_task(data) {
     var data=eval(data);
-    $('#start_end').bootstrapTable('load',data);
+    console.log(data);
+    var data_uids = data[0];
+    var data_info = data[1];
+    $('#start_end').bootstrapTable('load',data_uids);
     $('#start_end').bootstrapTable({
-        data:data,
+        data:data_uids,
         search: true,//是否搜索
         pagination: true,//是否分页
         pageSize: 5,//单页记录数
@@ -33,24 +41,56 @@ function critical_path_task(data) {
             // },
             {
                 title: "起点用户",//标题
-                field: "",//键名
+                field: "root_uid",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
                 formatter: function (value, row, index) {
-
-                }
+                    // console.log(!(value in data_info));
+                    if(!(value in data_info)){
+                        photo_img = '../../static/images/photo_unknown.png';
+                    }
+                    else {
+                        user_inf = data_info[value];
+                        photo_img = user_inf.photo_url;
+                        if(!photo_img){
+                            photo_img = '../../static/images/photo_unknown.png';
+                        }
+                        
+                    }
+                    
+                    return '<img src="'+photo_img+'" height="50" width="50" title="uid:'+value+'">'
+                    
+                },
             },
             {
                 title: "终点用户",//标题
-                field: "",//键名
+                field: "uid_list",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
-                align: "center",//水平
+                align: "left",//水平
                 valign: "middle",//垂直
+                width:650,
                 formatter: function (value, row, index) {
-
+                    var html = '';  
+                    // console.log(value[0])
+                    for (var k=0;k<value.length;k++){
+                        uid = value[k];
+                       
+                       if(!(uid in data_info)){
+                            photo_img = '../../static/images/photo_unknown.png';
+                       }else {
+                            user_inf = data_info[uid];
+                            console.log(user_inf);
+                            photo_img = user_inf.photo_url;
+                            if(!photo_img){
+                                photo_img = '../../static/images/photo_unknown.png';
+                            }
+                       }
+                        html += '<img src="'+photo_img+'" height="50" width="50" title="uid:'+uid+'">';
+                    }
+                    return html
                 },
             },
 
@@ -58,20 +98,28 @@ function critical_path_task(data) {
 
     });
 }
-var critical_path_url='';
-$.ajax({
-    url: critical_path_url,
-    type: 'GET',
-    dataType: 'json',
-    async: true,
-    success:critical_path_task
-});
+
+
+
+function critical_path_task_outter(){
+    var critical_path_url='/interfere/get_diffusion_path/?task_name='+task_name+'&update_time='+update_time;
+    $.ajax({
+        url: critical_path_url,
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success:critical_path_task
+    });
+}
+
+critical_path_task_outter();
+
 //---------完
 
 //--潜在关键用户
 function potential_users_task(data) {
     var data=eval(data);
-    console.log(data);
+    // console.log(data);
     data_list = new Array();
     for(var k=0;k<data.length;k++){
         var data_dic = new Object();
@@ -81,7 +129,7 @@ function potential_users_task(data) {
         data_dic.fans = data[k][3];
         data_dic.atten_num = data[k][4];
         data_dic.weibo_num = data[k][5];
-        console.log(data_dic);
+        // console.log(data_dic);
         data_list.push(data_dic);
     }
     $('#user').bootstrapTable('load',data_list);
@@ -1016,7 +1064,7 @@ function current_weibo_text(data){
             {                                                          //循环打印数组值
                 oTBody.insertRow(i);
                 var name,photo;
-                console.log(dataArray[i]);
+                // console.log(dataArray[i]);
                 if (dataArray[i].length==1){
                     if (dataArray[i]["uname"]==''||dataArray[i]["uname"]=='unknown') {
                         name="未知";

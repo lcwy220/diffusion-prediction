@@ -153,11 +153,11 @@ def get_task_detail():
 @mod.route('/get_current_hot_weibo/')
 def ajax_get_current_hot_weibo():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("update_time","")
+    update_time = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
-    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
     results = json.loads(es_results["current_hot_weibo"])
 
     attribute_list = ["comment", "uid", "text", "uname", "fansnum", "retweet", "mid", "geo", "photo_url", "statusnum", "timestamp"]
@@ -174,11 +174,11 @@ def ajax_get_current_hot_weibo():
 @mod.route('/get_potential_hot_weibo/')
 def ajax_get_potential_hot_weibo():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    update_time = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
-    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
     results = es_results["potential_hot_weibo"]
 
     return results
@@ -201,11 +201,11 @@ def ajax_get_future_user_info():
 @mod.route('/get_diffusion_path/')
 def ajax_get_diffusion_path():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    update_time = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
-    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
     #print 'keys::::::::',es_results.keys()
     #results = es_results["diffusion"]
     results = json.loads(es_results["diffusion_path"])
@@ -241,10 +241,17 @@ def ajax_get_diffusion_path():
                 tmp["friendsnum"] = ""
                 tmp["statusnum"] = ""
                 tmp["location"] = ""
-            user_info[item["_id"]] = tmp
+            user_info[tmp["uid"]] = tmp
 
+    results_dic_list = []
+    
+    for root_uid,uid_list in results.iteritems():
+        results_dic_list_item = {}
+        results_dic_list_item["root_uid"] = root_uid
+        results_dic_list_item["uid_list"] = uid_list
+        results_dic_list.append(results_dic_list_item)
 
-    return [results, user_info]
+    return json.dumps([results_dic_list, user_info])
 
 
 # 展示先前的事件分析和态势预测任务

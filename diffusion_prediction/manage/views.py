@@ -75,26 +75,29 @@ def ajax_show_social_sensors():
 
 @mod.route('/add_social_sensors/')
 def ajax_add_social_sensor():
+    finish = ["0"]
     add_user = request.args.get("add_users",'') # &.join
     task_detail = es_prediction.get(index="manage_sensing_task", doc_type="task", id="social_sensing_task")["_source"]
     sensors = json.loads(task_detail["social_sensors"])
     if add_user:
-        uid_list = add_user.split("&")
+        uid_list = add_user.split("，")  #改成了“，”
         if uid_list:
             in_set = set(uid_list) & set(sensors)
             out_set = set(uid_list) - set(sensors)
             if out_set:
                 new_list = list(set(uid_list) | set(sensors))
                 task_detail["social_sensors"] = json.dumps(new_list)
-                es_prediction.index(index="manage_sensing_task", doc_type="task", id="social_sensing_task", body=task_detail)["_source"]
+                es_prediction.index(index="manage_sensing_task", doc_type="task", id="social_sensing_task", body=task_detail)
+                finish = ["1"]
     results = [list(in_set), list(out_set)]
 
     #return json.dumps(results)
-    return json.dumps(["1"])
+    return json.dumps(finish)
 
 
 @mod.route('/delete_social_sensors/')
 def ajax_delete_social_sensors():
+    finish = ["0"]
     delete_user = request.args.get("delete_users",'') # &.join
     task_detail = es_prediction.get(index="manage_sensing_task", doc_type="task", id="social_sensing_task")["_source"]
     sensors = json.loads(task_detail["social_sensors"])
@@ -102,10 +105,10 @@ def ajax_delete_social_sensors():
         uid_list = delete_user.split("&")
         new_list = set(sensors) - set(uid_list)
         task_detail["social_sensors"] = json.dumps(list(new_list))
-        es_prediction.index(index="manage_sensing_task", doc_type="task", id="social_sensing_task", body=task_detail)["_source"]
+        es_prediction.index(index="manage_sensing_task", doc_type="task", id="social_sensing_task", body=task_detail)
+        finish = ["1"]
 
-
-    return json.dumps(["1"])
+    return json.dumps(finish)
 
 
 

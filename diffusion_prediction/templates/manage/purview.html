@@ -15,6 +15,10 @@
             <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
             人物传感器
         </h1>
+        <div class="pull-right">
+            <a class="btn btn-success" href="#" id="btnAdd" data-toggle="modal" data-target="#add_sensor" style="margin-top: 16%;margin-left: 5%;">添加</a>
+        </div>
+        <!-- <div><a class="btn btn-danger" href="#" id="btnDel">删除</a></div> -->
         <div id="sensor" style="width: 100%;"></div>
     </div>
     <div class="sort">
@@ -35,26 +39,121 @@
     </div>
 
 </div>
-
-<!--修改-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+<!-- 添加敏感人物 -->
+<script type="text/javascript">
+        function checkText(){
+            var textValue = document.getElementById("uid_input").value;
+            if(textValue == ""){
+                alert("输入框不能为空！");
+            }
+        }
+    </script>
+<div class="modal fade" id="add_sensor" tabindex="-1" role="dialog" style="margin-top: 10%;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
             </div>
             <div class="modal-body">
-
+            <!-- <input type="" name="" placeholder="若输入多个uid请用中文逗号(“，”)隔开"> -->
+            <p><span><b>请输入敏感人物uid：</b><input id="uid_input" type="" name="" placeholder="若输入多个uid请用中文逗号(“，”)隔开" style="margin-left: 0.5%;margin-top: 2%; border:1px solid; width: 500px;height: 30px;border-color: grey;" onblur="checkText();"> </span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_sensor_outter(document.getElementById('uid_input').value)">确定</button>
             </div>
         </div>
     </div>
 </div>
-<!--修改     完-->
+
+<!-- 添加敏感人物  完  -->
+
+<!--修改等级-->
+
+<div class="modal fade" id="modify_rank" tabindex="-1" role="dialog" style="margin-top: 5%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改指标等级</h4>
+            </div>
+            <div class="modal-body">
+            <p style="float:left;"><span><b>领域：</b><p id="topic"></p></span></p>
+            <p><span><b>等级：</b><input id="rank" type="" name="" style="margin-left: 0.5%;margin-top: 2%; border:1px solid; width: 500px;height: 30px;border-color: grey;" > </span></p>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="modify_sort_outter($('#topic').text(),$('#rank').val())">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function editInfo(topic,rank) {  
+        
+        // var id = $(obj).attr("id");  
+        // //获取表格中的一行数据  
+        // var topic = document.getElementById("sort_quota").rows[id].cells[0].innerText;  
+        // var rank = document.getElementById("sort_quota").rows[id].cells[1].innerText;  
+ 
+        //向模态框中传值  
+        // $('#topic').val(topic);  
+        $("#topic").html(topic);
+        $('#rank').val(rank);  
+        // $('#modify_rank').modal('show'); 
+         $(document).ready(function(){    $('#modify_rank').modal('show')}) 
+    }  
+</script>
+<!--修改等级     完-->
+
+<!--修改参数-->
+
+<div class="modal fade" id="modify_para" tabindex="-1" role="dialog" style="margin-top: 5%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改参数</h4>
+            </div>
+            <div class="modal-body">
+            <p style="float:left;"><span><b>参数含义：</b><p id="para_name"></p></span></p>
+            <p><span><b>参数值：</b><input id="para_val" type="" name="" style="margin-left: 0.5%;margin-top: 2%; border:1px solid; width: 500px;height: 30px;border-color: grey;" > </span></p>
+            
+            
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="modify_interfer_parameter_outter($('#para_name').text(),$('#para_val').val())">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function editInfo_para(name,value) {  
+        
+        // var id = $(obj).attr("id");  
+        // //获取表格中的一行数据  
+        // var topic = document.getElementById("sort_quota").rows[id].cells[0].innerText;  
+        // var rank = document.getElementById("sort_quota").rows[id].cells[1].innerText;  
+ 
+        //向模态框中传值  
+        // $('#topic').val(topic); 
+        console.log(name); 
+        console.log(value);
+        $("#para_name").html(name);
+        $('#para_val').val(value);  
+        // $('#modify_rank').modal('show'); 
+         $(document).ready(function(){$('#modify_para').modal('show')}) 
+    }  
+</script>
+<!--修改参数   完-->
+
 {% endblock %}
 
 <!-- 自己的JS -->

@@ -10,7 +10,7 @@ function sensor(data) {
     $('#sensor').bootstrapTable('load',data);
     $('#sensor').bootstrapTable({
         data:data,
-        // search: true,//是否搜索
+        search: true,//是否搜索
         pagination: true,//是否分页
         pageSize: 5,//单页记录数
         pageList: [5, 10, 20],//分页步进值
@@ -18,7 +18,7 @@ function sensor(data) {
         searchAlign: "left",
         searchOnEnterKey: false,//回车搜索
         // showRefresh: true,//刷新按钮
-        // showColumns: true,//列选择按钮
+        showColumns: true,//列选择按钮
         buttonsAlign: "right",//按钮对齐方式
         locale: "zh-CN",//中文支持
         detailView: false,
@@ -56,6 +56,7 @@ function sensor(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:200,
                
             },
             {
@@ -65,6 +66,7 @@ function sensor(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:100,
                
             },
             {
@@ -111,6 +113,7 @@ function sensor(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:150,
                 
             },
             {
@@ -129,20 +132,20 @@ function sensor(data) {
                         }
                 },
             },
-            {
-                title: "添加",//标题
-                field: "",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                width:100,
-                formatter: function (value, row, index) {
-                    var add='<a>添加</a>';
+            // {
+            //     title: "添加",//标题
+            //     field: "",//键名
+            //     sortable: true,//是否可排序
+            //     order: "desc",//默认排序方式
+            //     align: "center",//水平
+            //     valign: "middle",//垂直
+            //     width:100,
+            //     formatter: function (value, row, index) {
+            //         var add='<a>添加</a>';
                     
-                    return add;
-                },
-            },
+            //         return add;
+            //     },
+            // },
             {
                 title: "删除",//标题
                 field: "",//键名
@@ -153,19 +156,23 @@ function sensor(data) {
                 width:100,
                 formatter: function (value, row, index) {
                    
-                    var sub='<a>删除</a>';
+                    var sub='<a class="remove" title="Remove" onclick="delete_sensor_outter(\''+row.uid+'\')" style="cursor:pointer;">删除</a>';
                     return sub;
                 },
             },
         ],
-        onClickRow: function (row, $element) {
-            if ($element[0].innerText=='添加') {
-                add_sensor_outter(row.id);
-            }
-            if ($element[0].innerText=='删除') {
-                delete_sensor_outter(row.id);
-            }
-        }
+        // onClickRow: function (row, $element) {
+        //     // if ($element[0].innerText=='添加') {
+        //     //     add_sensor_outter(row.id);
+        //     // }
+        //     text = $element[0].innerText
+        //     console.log($element[0].innerText);
+        //     console.log(typeof(text));
+        //     console.log(text.length);
+        //     if (field=='删除') {
+        //         delete_sensor_outter(row.id);
+        //     }
+        // }
     });
 }
 
@@ -183,14 +190,19 @@ function sensor_outter(){
 function add_sensor(data){
     var data = eval(data);
     if (data[0] == "1"){
-        alert("添加敏感人物库成功！");
+        alert("添加成功！");
+        window.location.reload()
     }else{
-        alert("添加敏感人物库失败！");
+        alert("添加失败！");
     }
 
 }
 
 function add_sensor_outter(add_users){
+    // var users = $('#sensor').bootstrapTable('getSelections', 'none');
+    // console.log(users);
+    console.log(add_users);
+    console.log(typeof(add_users));
     var add_sensor_url = '/manage/add_social_sensors/?add_users='+add_users;
     $.ajax({
         url: add_sensor_url,
@@ -206,15 +218,16 @@ function add_sensor_outter(add_users){
 function delete_sensor(data){
     var data = eval(data);
     if (data[0] == "1"){
-        alert("从敏感人物库删除成功！");
+        alert("删除成功！");
+        window.location.reload()
     }else{
-        alert("从敏感人物库删除失败！");
+        alert("删除失败！");
     }
 
 }
 
 function delete_sensor_outter(delete_users){
-    var delete_sensor_url = '/manage/add_social_sensors/?delete_users='+delete_users;
+    var delete_sensor_url = '/manage/delete_social_sensors/?delete_users='+delete_users;
     $.ajax({
         url: delete_sensor_url,
         type: 'GET',
@@ -298,18 +311,18 @@ function sort(data) {
                 width:300,
                 formatter: function (value, row,index) {
                     // var del='<a>删除</a>';
-                    var modify='<a>修改</a>';
+                    var modify='<a style="cursor:pointer;" data-toggle="modal" data-target="#modify_rank" onclick="editInfo(\''+row.topic+'\',\''+row.rank+'\')">修改</a>';
                     return modify;
                 },
             }
         ],
-        onClickRow: function (row, $element) {
+        // onClickRow: function (row, $element) {
             
-            if ($element[0].innerText=='修改') {
-                $('#myModal').modal('show');
-                modify_sort_outter(row.topic,row.rank);
-            }
-        }
+        //     if ($element[0].innerText=='修改') {
+        //         $('#myModal').modal('show');
+        //         modify_sort_outter(row.topic,row.rank);
+        //     }
+        // }
     });
 }
 
@@ -327,6 +340,7 @@ function sort_outter(){
 function modify_sort(data){
     if (data[0] = "1") {
         alert("修改成功!");
+        sort_outter();
     }
     else{
         alert("修改失败！");
@@ -334,7 +348,8 @@ function modify_sort(data){
 }
 
 function modify_sort_outter(topic,rank){
-    var modify_sort_url='/manage/topic_order/?topic='+topic+'&rank='+rank;
+    console.log("modify!!");
+    var modify_sort_url='/manage/revise_order/?topic='+topic+'&rank='+rank;
     $.ajax({
         url: modify_sort_url,
         type: 'GET',
@@ -355,8 +370,26 @@ sort_outter();
 function interfer_parameter(data) {
     var data=eval(data);
     var data_list = [];
-    data_list.push(data);
+    
+    // console.log(data_list);
+    
+    for(var key in data){
+        data_dic = {}
+        if(key == "extend_retweet_threshold"){
+            data_dic["name"] = "未来参与用户最近被转发的次数阈值";
+
+            data_dic["para_value"] = data[key];
+        }else if(key == "in_user_threshold"){
+            data_dic["name"] = "重要参与用户至少被转发的次数阈值";
+            data_dic["para_value"] = data[key];
+        }else if(key == "potential_threshold"){
+            data_dic["name"] = "重要潜在用户参与事件后可能被转发的次数阈值";
+            data_dic["para_value"] = data[key];
+        }
+        data_list.push(data_dic);
+    }
     console.log(data_list);
+
     $('#emulation').bootstrapTable('load',data_list);
     $('#emulation').bootstrapTable({
         data:data_list,
@@ -384,30 +417,24 @@ function interfer_parameter(data) {
             //     valign: "middle"//垂直
             // },
             {
-                title: "未来参与用户最近被转发的次数阈值",//标题
-                field: "extend_retweet_threshold",//键名
+                title: "参数含义",//标题
+                field: "name",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:400,
                 
             },
             {
-                title: "重要参与用户至少被转发的次数阈值",//标题
-                field: "in_user_threshold",//键名
+                title: "参数值",//标题
+                field: "para_value",//键名
                 sortable: true,//是否可排序
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                
-            },
-            {
-                title: "重要潜在用户参与事件后可能被转发的次数阈值",//标题
-                field: "potential_threshold",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
+                width:400,
+
                 
             },
             {
@@ -419,16 +446,20 @@ function interfer_parameter(data) {
                 valign: "middle",//垂直
                 width:200,
                 formatter: function (value, row,index) {
-                    var modify='<a>修改</a>';
+                    console.log(row.name);
+                    console.log(row.para_value);
+
+                    var modify='<a style="cursor:pointer;" data-toggle="modal" data-target="#modify_para" onclick="editInfo_para(\''+row.name+'\',\''+row.para_value+'\')">修改</a>';
+                    
                     return modify;
                 },
             },
         ],
-        onClickRow: function (row, tr) {
-            if ($element[0].innerText=='修改') {
-                modify_interfer_parameter_outter(row.parameter_name,row.parameter_value);
-            }
-        }
+        // onClickRow: function (row, tr) {
+        //     if ($element[0].innerText=='修改') {
+        //         modify_interfer_parameter_outter(row.parameter_name,row.parameter_value);
+        //     }
+        // }
     });
 }
 
@@ -449,6 +480,7 @@ function modify_interfer_parameter(data){
     data = eval(data);
     if(data[0] == "1"){
         alert("修改成功！");
+        window.location.reload()
     }
     else{
         alert("修改失败！");
