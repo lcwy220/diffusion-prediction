@@ -1,9 +1,9 @@
 
-var topic = 'aoyunhui';
-//var start_ts = 1468166400;
-var start_ts = 1468474200;
-//var end_ts = 1468170900;
-var end_ts = 1468495800;
+// var topic = 'aoyunhui';
+// //var start_ts = 1468166400;
+// var start_ts = 1468474200;
+// //var end_ts = 1468170900;
+// var end_ts = 1468495800;
 var province = '北京';
 var sort_item = 'timestamp';
 var no_page_place = 0;
@@ -251,6 +251,7 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
     });
   },
 	Draw_geo_map:function(data){
+		console.log("map！！");
 		var data1=[],data2=[],data3=[];
 		for (var key in data){
 			if (key==1){  //原创
@@ -323,7 +324,8 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 					item[i][1].uname=item[i][1].uid
 					//console.log(item[i][1].uname);
 				}
-				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				console.log(item[i]);
+				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
 				html += '<div class="blog_time">';
 				//html += '<div><img class="img-circle" src="../../static/info_consume/image/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
 				html += '<div><img class="img-circle" src="'+item[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
@@ -337,12 +339,12 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 				//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
 				html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
 				html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
-			//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
-			//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-			html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-			html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
-			//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-			html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
+				//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
+				//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
+				html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
+				html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
+				//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
+				html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
 				//html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
 				//html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 				html += '</p>';
@@ -371,9 +373,9 @@ function Draw_geo_map_result(){
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
 	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 
     url = "/topic_geo_analyze/geo_weibo_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
  	topic_analysis_place.call_sync_ajax_request(url,topic_analysis_place.Draw_geo_map);
@@ -386,16 +388,23 @@ function Draw_blog_scan_area_place_result(){
 	//topic = topic_name_on_detail;
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
 	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
+	// var topic = "{{task_name}}";
+	// var start_ts = "{{start_ts}}"
+	// var end_ts = "{{end_ts}}"
 
-	var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	var start_ts = 1482681600;
-	var end_ts = 1483113600;
+	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+	// var start_ts = 1482681600;
+	// var end_ts = 1483113600;
 
     url = "/topic_geo_analyze/geo_weibo_content/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&province='+province+'&sort_item='+sort_item;
  	topic_analysis_place.call_sync_ajax_request(url,topic_analysis_place.Draw_blog_scan_area_place);
 }
 
 function place_load(){
+	// console.log("place_load!!!");
+	// console.log(topic);
+	// console.log(start_ts);
+	// console.log(end_ts);
 	Draw_geo_map_result();
 	Draw_blog_scan_area_place_result();
 }

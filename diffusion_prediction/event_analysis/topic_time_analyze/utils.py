@@ -182,7 +182,7 @@ def get_weibo_by_time_es(topic,start_ts,end_ts,sort_item='timestamp'):
             weibo_content['mid'] = weibo['mid']
             #print weibo_content
             weibo_dict[weibo_content['mid']] = weibo_content
-        results = sorted(weibo_dict.items(),key=lambda x:x[1]['retweeted'],reverse=False)
+        results = sorted(weibo_dict.items(),key=lambda x:x[1][sort_item],reverse=True)
 
     else:
         results = []   

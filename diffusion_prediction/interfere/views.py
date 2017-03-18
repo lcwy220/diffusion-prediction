@@ -5,9 +5,9 @@ import time
 import json
 import pinyin
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
-from diffusion_prediction.global_utils import es_prediction
-from diffusion_prediction.global_config import index_manage_interfere_task, type_manage_interfere_task,\
-        index_manage_event_analysis,type_manage_event_analysis,index_manage_prediction_task,type_manage_prediction_task
+from diffusion_prediction.global_utils import es_prediction, es_user_profile
+from diffusion_prediction.global_config import index_manage_interfere_task, type_manage_interfere_task,profile_index_name,\
+        index_manage_event_analysis,type_manage_event_analysis,index_manage_prediction_task,type_manage_prediction_task,profile_index_type
 from diffusion_prediction.time_utils import ts2datetime, datetime2ts,datehour2ts,ts2datehour
 
 es = es_prediction
@@ -20,17 +20,18 @@ def intervention_decision():
 
     return render_template('interfere/un_decision.html')
 
-@mod.route('/strategy_results/')
-def strategy_results():
-
-    return render_template('interfere/strategy_results.html')
-
-
 # @mod.route('/strategy_results/')
 # def strategy_results():
-#     task_name = request.args.get('task_name','')
-#     pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='-')
-#     return render_template('interfere/strategy_results.html',task_name=pinyin_task_name)
+
+#     return render_template('interfere/strategy_results.html')
+
+
+@mod.route('/intervention_strategy/')
+def strategy_results():
+    task_name = request.args.get('task_name','')
+    update_time = request.args.get('update_time','')
+    #pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
+    return render_template('interfere/intervention_strategy.html',task_name=task_name,update_time=update_time)
 
 
 
@@ -152,7 +153,7 @@ def get_task_detail():
 @mod.route('/get_current_hot_weibo/')
 def ajax_get_current_hot_weibo():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    ts = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
@@ -187,11 +188,11 @@ def ajax_get_potential_hot_weibo():
 @mod.route('/get_future_user_info/')
 def ajax_get_future_user_info():
     task_name = request.args.get('task_name','')
-    ts = request.args.get("ts","")
+    update_time = request.args.get("update_time","")
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
     index_name = "stimulation_"+pinyin_task_name
     index_type = "stimulation_results"
-    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
     results = es_results["future_user_info"]
 
     return results
@@ -207,9 +208,43 @@ def ajax_get_diffusion_path():
     es_results = es_prediction.get(index=index_name, doc_type=index_type, id=ts)["_source"]
     #print 'keys::::::::',es_results.keys()
     #results = es_results["diffusion"]
-    results = es_results["diffusion_path"]
+    results = json.loads(es_results["diffusion_path"])
 
-    return results
+    uid_set = set()
+    for k,v in results.iteritems():
+        uid_set.add(k)
+        uid_set = uid_set|set(v)
+    uid_list = list(uid_set)
+
+    user_info = dict()
+    if uid_list:
+        es_results = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type,body={"ids":uid_list})["docs"]
+        for item in es_results:
+            tmp = dict()
+            if item["found"]:
+                item = item["_source"]
+                tmp["uid"] = item["uid"]
+                tmp["photo_url"] = item["photo_url"]
+                if item["nick_name"]:
+                    tmp["nick_name"] = item["nick_name"]
+                else:
+                    tmp["nick_name"] = item["uid"]
+                tmp["fansnum"] = item["fansnum"]
+                tmp["friendsnum"] = item["friendsnum"]
+                tmp["statusnum"] = item["statusnum"]
+                tmp["location"] = item["user_location"]
+            else:
+                tmp["uid"] = item["_id"]
+                tmp["photo_url"] = ""
+                tmp["nick_name"] = item["_id"]
+                tmp["fansnum"] = ""
+                tmp["friendsnum"] = ""
+                tmp["statusnum"] = ""
+                tmp["location"] = ""
+            user_info[item["_id"]] = tmp
+
+
+    return [results, user_info]
 
 
 # 展示先前的事件分析和态势预测任务

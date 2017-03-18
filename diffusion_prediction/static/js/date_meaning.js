@@ -71,6 +71,7 @@ function set_order_type_meaning(type){
 function set_opinion_type(type){
     //console.log(type);
     opinion=type;
+    console.log(opinion);
     Draw_blog_scan_area_meaning_result();
 
 }
@@ -243,7 +244,11 @@ Draw_time_line:function(data){
 
     var item = data;
     var html = '';
-    if (item.length == 0){
+    var item_len = 0;
+    for(var item_k in item){
+      item_len ++ ;
+    } 
+    if (item_len == 0){
 
         html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
     }else{
@@ -332,12 +337,18 @@ Draw_time_line:function(data){
 
         }
         window.jQuery || document.write('<script src="jquery.min.js"><\/script>')
-        $(document).ready(function () {
-            $('.VivaTimeline').vivaTimeline({
-                carousel: true,
-                carouselTime: 300
-            });
-        });
+        for (var key in item ){
+          if (item[key].length > 1){
+              $(document).ready(function () {
+                  $('.VivaTimeline').vivaTimeline({
+                      carousel: true,
+                      carouselTime: 300
+                  });
+              });
+          }
+        }
+        
+        
         //console.log('34343434');
         $('#container_time_line').append(html);
 
@@ -352,10 +363,11 @@ Draw_blog_opinion:function(data){
     var html = '';
     // console.log(item);
     if (item.length == 0){
-    html += '<div style="color:grey;text-align: center">暂无数据</div>'
+        html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
+    
     }else{
       opinion=item[0];
-      // console.log();
+      console.log(opinion);
       for (i=0;i < item.length;i++){
         // console.log('qqqqqq');
         // var opinion = item[i].join("+");
@@ -366,6 +378,7 @@ Draw_blog_opinion:function(data){
     }
     // console.log(opinion);
     opinion = item[0];
+    console.log(opinion);
     Draw_blog_scan_area_meaning_result();
 
     $('#opinions').append(html);
@@ -383,7 +396,7 @@ Draw_blog_scan_area_meaning:function(data){
     
     blog_num_max_global_meaning = blog_num_max_local_meaning;
     if (item == 'no results'){
-    html += '<div style="color:grey;">暂无数据</div>'
+    html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 5%;">呀，暂时还没有数据喔~</p></div>'
     }else{
       var num_page = Math.ceil(blog_num_max_local_meaning/10);  //num_page表示微博数据共有多少页
       var item_i_meaning = no_page_meaning*10;
@@ -393,13 +406,13 @@ Draw_blog_scan_area_meaning:function(data){
       for (i=item_i_meaning; i<max_i_meaning; i++){
   
         if (item[i][1].photo_url=='unknown'){
-          item[i][1].photo_url='../../static/info_consume/image/photo_unknown.png'
+          item[i][1].photo_url='../../static/images/photo_unknown.png'
         }
         if (item[i][1].uname=='unknown'){
           item[i][1].uname=item[i][1].uid;
           //console.log(item[i][1].uname);
         }
-        var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
         html += '<div class="blog_time">';
         //html += '<div><img class="img-circle" src="../../static/info_consume/image/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
         html += '<div><img class="img-circle" src="'+item[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
@@ -415,10 +428,10 @@ Draw_blog_scan_area_meaning:function(data){
         html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
         //html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
         //html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-        html += '<span style="display:inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';
-        html += '<span style="margin-top: -3%;float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
-        //html += '<span id="oule" style="margin-top: -3%;display:inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;&nbsp;|</span>';
-        html += '<span style="margin-top: -3%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
+        html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -145%;">'+item_timestamp_datetime+'</span>';
+        html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
+        //html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
+        html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
         //html += '<span style="margin-top: -3%;display:inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
         //html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
         html += '</p>';
@@ -451,9 +464,9 @@ function Draw_keywords_cloud_result(){
     // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
     // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-    var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-    var start_ts = 1482681600;
-    var end_ts = 1483113600;
+    // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+    // var start_ts = 1482681600;
+    // var end_ts = 1483113600;
 
     url = "/topic_language_analyze/during_keywords/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
 
@@ -467,9 +480,9 @@ function Draw_event_river_result(){
   // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_language_analyze/topics_river/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_event_river);
@@ -481,9 +494,9 @@ function Draw_time_line_result(){
   // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_language_analyze/symbol_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts;
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_time_line);
@@ -495,11 +508,12 @@ function Draw_blog_opinion_result(){
   // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_language_analyze/subopinion/?topic="+topic;
+  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_blog_opinion);
 }
 function Draw_blog_scan_area_meaning_result(){
@@ -509,11 +523,12 @@ function Draw_blog_scan_area_meaning_result(){
   // start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
   // end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
 
-  var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-  var start_ts = 1482681600;
-  var end_ts = 1483113600;
+  // var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
+  // var start_ts = 1482681600;
+  // var end_ts = 1483113600;
 
   url = "/topic_language_analyze/weibo_content/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&opinion='+opinion+'&sort_item='+sort_item;
+  console.log(url);
   topic_analysis_meaning.call_sync_ajax_request(url,topic_analysis_meaning.Draw_blog_scan_area_meaning);
 }
  // Draw_time_line_result();

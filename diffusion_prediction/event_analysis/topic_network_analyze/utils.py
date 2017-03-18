@@ -144,6 +144,11 @@ def get_trend_pusher_es(topic, identifyDate, identifyWindow):
     	network_result = network_result['_source']['network_results']
     	network_result = json.loads(network_result)
     	pusher_results = network_result['pusher_results']
+    	# print '147:::::::::::::',pusher_results
+    	for uid, info_dict in pusher_results.iteritems():
+    		user_info = info_dict['user_info']
+    		user_info = json.loads(user_info)
+    		pusher_results[uid]['user_info'] = user_info
 
    
     return pusher_results
@@ -187,6 +192,12 @@ def get_trend_maker_es(topic, identifyDate, identifyWindow):
     	network_result = network_result['_source']['network_results']
     	network_result = json.loads(network_result)
     	maker_results = network_result['maker_results']
+    	for uid, info_dict in maker_results.iteritems():
+    		user_info = info_dict['user_info']
+    		user_info = json.loads(user_info)
+    		maker_results[uid]['user_info'] = user_info
+
+
 
     return maker_results
     
@@ -228,7 +239,7 @@ def get_pusher_weibos_sort_es(topic, identifyDate, identifyWindow,sort_item):
     	network_result = network_result['_source']['network_results']
     	network_result = json.loads(network_result)
     	pusher_results = network_result['pusher_results']
-
+    	print '234 pusher_results:::::::::::::',pusher_results
     	for uid,pusher_info in pusher_results.iteritems():
     		user_info = pusher_info['user_info']
     		user_info = json.loads(user_info)
