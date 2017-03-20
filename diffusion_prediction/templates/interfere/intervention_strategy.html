@@ -13,26 +13,26 @@
     update_time = "{{update_time}}";
     
 </script>
-<div id="container">
+<div id="container" style="width:950px;height:750px">
     <!-- Nav tabs -->
     <ul id="myTabs" class="nav nav-tabs" role="tablist">  
         
         <li role="presentation" class="active">
-            <a href="#current_weibo" aria-controls="settings" role="tab" data-toggle="tab">当前热门微博</a>
+            <a href="#current_weibo" aria-controls="settings" role="tab" data-toggle="tab" style="font-size: 18px">当前热门微博</a>
         </li>
         <li role="presentation">
-            <a href="#potential_weibo" aria-controls="messages" role="tab" data-toggle="tab">潜在热门微博</a>
+            <a href="#potential_weibo" aria-controls="messages" role="tab" data-toggle="tab" style="font-size: 18px">潜在热门微博</a>
         </li>
         <li role="presentation">
-            <a href="#potential_users" aria-controls="profile" role="tab" data-toggle="tab">潜在关键用户</a>
+            <a href="#potential_users" aria-controls="profile" role="tab" data-toggle="tab" style="font-size: 18px">潜在关键用户</a>
         </li>
         <li role="presentation" >
-            <a href="#critical_path" aria-controls="home" role="tab" data-toggle="tab">关键传播路径</a>
+            <a href="#critical_path" aria-controls="home" role="tab" data-toggle="tab" style="font-size: 18px">关键传播路径</a>
         </li>
 
     </ul>
     <!-- Tab panes -->
-    <div class="tab-content" id="content">
+    <div class="tab-content" id="content" >
         <div role="tabpanel" class="tab-pane active" id="current_weibo">
            <!--  <h1 class="title-1" style='color: #919191;font-size: 30px'>
                 <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
@@ -132,7 +132,7 @@
                 <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
                 关键传播路径
             </h1> -->
-            <div id="start_end"></div>
+            <div id="start_end" style="width:900px;height:700px"></div>
         </div>
     </div>
 </div>
@@ -146,5 +146,7 @@
         $(this).tab('show');
     })
 </script>
+<!-- <script src="/static/js/chord.js"></script> -->
 <script src="/static/js/intervention_strategy.js"></script>
+
 {% endblock %}

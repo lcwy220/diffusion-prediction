@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask
+from flask import Flask,render_template
 from elasticsearch import Elasticsearch
 from flask_debugtoolbar import DebugToolbarExtension
 from diffusion_prediction.extensions import admin
@@ -9,6 +9,9 @@ from diffusion_prediction.social_sensing.views import mod as socialsensingModule
 from diffusion_prediction.prediction.views import mod as predictionModule
 from diffusion_prediction.manage.views import mod as manageModule
 from diffusion_prediction.interfere.views import mod as interfereModule
+
+
+
 #import sys
 #reload(sys)
 #sys.setdefaultencoding('utf-8')
@@ -19,8 +22,16 @@ from diffusion_prediction.event_analysis.topic_network_analyze.views import mod 
 from diffusion_prediction.event_analysis.topic_sen_analyze.views import mod as topicSenModule
 from diffusion_prediction.event_analysis.topic_language_analyze.views import mod as topicLanguageModule
 
+#登录
+from diffusion_prediction.extensions import db, security, user_datastore, admin, User, Role, roles_users, AdminAccessView, mongo
+from flask.ext.security import SQLAlchemyUserDatastore
+from flask_admin.contrib import sqla
+
+
 def create_app():
     app = Flask(__name__)
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///flask-admin.db'
 
     register_blueprints(app)
     register_extensions(app)
@@ -37,12 +48,15 @@ def create_app():
     app.register_blueprint(topicNetworkModule)
     app.register_blueprint(topicSenModule)
     app.register_blueprint(topicLanguageModule)
+
+    
     # the debug toolbar is only enabled in debug mode
     app.config['DEBUG'] = True
 
 
     app.config['ADMINS'] = frozenset(['youremail@yourdomain.com'])
     app.config['SECRET_KEY'] = 'SecretKeyForSessionSigning'
+    app.config["WTF_CSRF_ENABLED"] = False 
     
     '''
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://%s:@%s/%s?charset=utf8' % (MYSQL_USER, MYSQL_HOST, MYSQL_DB)
@@ -66,7 +80,26 @@ def create_app():
     
     # debug toolbar
     # toolbar = DebugToolbarExtension(app)
-    
+    app.config['MONGO_HOST'] = '219.224.134.212'    
+    app.config['MONGO_PORT'] = 27017    
+    app.config['MONGO_DBNAME'] = 'mrq'
+    # init database
+    db.init_app(app)
+    with app.test_request_context():
+        db.create_all()
+
+    # init security
+    security.init_app(app, datastore=user_datastore)
+
+    # init admin
+    admin.init_app(app)
+    admin.add_view(sqla.ModelView(User, db.session))
+    admin.add_view(sqla.ModelView(Role, db.session))
+    #admin.add_view(sqla.ModelView(User, db.session))
+    #admin.add_view(sqla.ModelView(Role, db.session))
+    #admin.add_view(Roleadmin(db.session))
+
+
     '''
     app.config['MONGO_HOST'] = MONGODB_HOST
     app.config['MONGO_PORT'] = MONGODB_PORT
@@ -76,7 +109,7 @@ def create_app():
         'host': MONGODB_HOST,
         'port': MONGODB_PORT
     }
-
+    
     # Create mysql database
     db.init_app(app)
     with app.test_request_context():

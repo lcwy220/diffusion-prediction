@@ -215,7 +215,7 @@ IGNORE_PUNCTUATION = 1
 
 #ABSOLUTE_DICT_PATH = os.path.abspath(os.path.join(abs_path, './dict'))
 #ABSOLUTE_DICT_PATH = os.path.abspath(os.path.join(BASE_DIR, '/../cron/event_analysis/network/domain/dict'))
-ABSOLUTE_DICT_PATH = '/home/ubuntu8/yuanhuiru/diffusion/diffusion-prediction/diffusion_prediction/cron/event_analysis/network/domain/dict'
+ABSOLUTE_DICT_PATH = '/home/ubuntu2/yuanhuiru/diffusion_0306/diffusion-prediction/diffusion_prediction/cron/event_analysis/network/domain/dict'
 CUSTOM_DICT_PATH = os.path.join(ABSOLUTE_DICT_PATH, 'userdic.txt')
 EXTRA_STOPWORD_PATH = os.path.join(ABSOLUTE_DICT_PATH, 'stopword.txt')
 #EXTRA_EMOTIONWORD_PATH = os.path.join(ABSOLUTE_DICT_PATH, 'emotionlist.txt')

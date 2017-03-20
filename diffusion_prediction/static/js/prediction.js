@@ -181,6 +181,7 @@ function task_lists(data) {
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+
                     formatter: function (value, row, index) {
                         return index+1;
                     }
@@ -237,6 +238,7 @@ function task_lists(data) {
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    width:100,
                 },
                 {
                     title: "任务进度",//标题
