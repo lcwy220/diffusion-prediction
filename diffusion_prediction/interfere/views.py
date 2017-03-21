@@ -210,48 +210,75 @@ def ajax_get_diffusion_path():
     #results = es_results["diffusion"]
     results = json.loads(es_results["diffusion_path"])
 
-    uid_set = set()
-    for k,v in results.iteritems():
-        uid_set.add(k)
-        uid_set = uid_set|set(v)
-    uid_list = list(uid_set)
+    # uid_set = set()
+    # root_uid_set = set()
+    # for k,v in results.iteritems():
+    #     uid_set.add(k)
+    #     uid_set = uid_set|set(v)
+    #     root_uid_set.add(k)
+    # uid_list = list(uid_set)
+    # root_uid_list = list(root_uid_set)
 
-    user_info = dict()
-    if uid_list:
-        es_results = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type,body={"ids":uid_list})["docs"]
-        for item in es_results:
-            tmp = dict()
-            if item["found"]:
-                item = item["_source"]
-                tmp["uid"] = item["uid"]
-                tmp["photo_url"] = item["photo_url"]
-                if item["nick_name"]:
-                    tmp["nick_name"] = item["nick_name"]
-                else:
-                    tmp["nick_name"] = item["uid"]
-                tmp["fansnum"] = item["fansnum"]
-                tmp["friendsnum"] = item["friendsnum"]
-                tmp["statusnum"] = item["statusnum"]
-                tmp["location"] = item["user_location"]
-            else:
-                tmp["uid"] = item["_id"]
-                tmp["photo_url"] = ""
-                tmp["nick_name"] = item["_id"]
-                tmp["fansnum"] = ""
-                tmp["friendsnum"] = ""
-                tmp["statusnum"] = ""
-                tmp["location"] = ""
-            user_info[tmp["uid"]] = tmp
-
-    results_dic_list = []
+    # user_info = dict()
+    # if uid_list:
+    #     es_results = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type,body={"ids":uid_list})["docs"]
+    #     for item in es_results:
+    #         tmp = dict()
+    #         if item["found"]:
+    #             item = item["_source"]
+    #             tmp["uid"] = item["uid"]
+    #             tmp["photo_url"] = item["photo_url"]
+    #             if item["nick_name"]:
+    #                 tmp["nick_name"] = item["nick_name"]
+    #             else:
+    #                 tmp["nick_name"] = item["uid"]
+    #             tmp["fansnum"] = item["fansnum"]
+    #             tmp["friendsnum"] = item["friendsnum"]
+    #             tmp["statusnum"] = item["statusnum"]
+    #             tmp["location"] = item["user_location"]
+    #         else:
+    #             tmp["uid"] = item["_id"]
+    #             tmp["photo_url"] = ""
+    #             tmp["nick_name"] = item["_id"]
+    #             tmp["fansnum"] = ""
+    #             tmp["friendsnum"] = ""
+    #             tmp["statusnum"] = ""
+    #             tmp["location"] = ""
+    #         user_info[tmp["uid"]] = tmp
     
-    for root_uid,uid_list in results.iteritems():
-        results_dic_list_item = {}
-        results_dic_list_item["root_uid"] = root_uid
-        results_dic_list_item["uid_list"] = uid_list
-        results_dic_list.append(results_dic_list_item)
+    # results_dic_list = []
+    
+    # for root_uid,uid_list in results.iteritems():
+    #     results_dic_list_item = {}
+    #     results_dic_list_item["root_uid"] = root_uid
+    #     results_dic_list_item["uid_list"] = uid_list
+    #     results_dic_list.append(results_dic_list_item)
 
-    return json.dumps([results_dic_list, user_info])
+    # return json.dumps([results_dic_list, user_info])
+    
+    
+    # uid_name_list = []
+
+    # for uid in uid_list:
+    #     name = user_info[uid]["nick_name"]
+    #     if uid in root_uid_list:
+    #         if name :
+    #             uid_name_list.append([1,name])
+    #         else:
+    #             uid_name_list.append([1,uid])
+    #     else:
+    #         if name :
+    #             uid_name_list.append([2,name])
+    #         else:
+    #             uid_name_list.append([2,uid])
+    
+
+    # link_list = []
+    # for root_uid,uid_list in results.iteritems():
+    #     for uid in uid_list:
+    #         root_name = 
+
+    return json.dumps(results)
 
 
 # 展示先前的事件分析和态势预测任务

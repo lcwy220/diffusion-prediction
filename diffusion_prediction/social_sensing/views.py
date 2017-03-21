@@ -9,6 +9,8 @@ from diffusion_prediction.time_utils import datetime2ts, ts2datetime
 from diffusion_prediction.global_utils import R_SOCIAL_SENSING as r
 from diffusion_prediction.global_utils import es_prediction as es
 from utils import get_text_detail
+from flask.ext.security import Security, SQLAlchemyUserDatastore, \
+            UserMixin, RoleMixin, login_required
 #from delete_es import delete_es
 #from addtional import get_sensor_detail, get_more_out, get_more_portrait
 from get_task_detail import get_task_detail_2
@@ -17,16 +19,19 @@ mod = Blueprint('social_sensing', __name__, url_prefix='/social_sensing')
 
 #页面链接
 @mod.route('/hot_event/')
+@login_required
 def hot_event():
 
     return render_template('social_sensing/hot_event.html')
 
 @mod.route('/event_perception/')
+#@login_required
 def event_perception():
 
     return render_template('social_sensing/event_perception.html')
 
 @mod.route('/perceived_results/')
+@login_required
 def perceived_results():
 
         return render_template('social_sensing/perceived_results.html')

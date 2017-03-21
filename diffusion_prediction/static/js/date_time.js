@@ -305,7 +305,7 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 
 var topic_analysis_time = new topic_analysis_time();
  
-function Draw_time_trend_line_result(topic,start_ts,end_ts){
+function Draw_time_trend_line_result(){
 
 	//topic = topic_name_on_detail;
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
@@ -321,7 +321,7 @@ function Draw_time_trend_line_result(topic,start_ts,end_ts){
  	topic_analysis_time.call_sync_ajax_request(url,topic_analysis_time.Draw_time_trend_line);
 }		
 
-function Draw_blog_scan_area_order_result(topic,start_ts,end_ts){
+function Draw_blog_scan_area_order_result(){
 	//topic = topic_name_on_detail;
 	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
 	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
@@ -337,13 +337,13 @@ function Draw_blog_scan_area_order_result(topic,start_ts,end_ts){
  	topic_analysis_time.call_sync_ajax_request(url_order,topic_analysis_time.Draw_blog_scan_area);
  	console.log(url_order);
 }
-function time_load(topic,start_ts,end_ts){
-	Draw_time_trend_line_result(topic,start_ts,end_ts);
-	Draw_blog_scan_area_order_result(topic,start_ts,end_ts);
+function time_load(){
+	Draw_time_trend_line_result();
+	Draw_blog_scan_area_order_result();
 }
 
-Draw_time_trend_line_result(topic,start_ts,end_ts);
-Draw_blog_scan_area_order_result(topic,start_ts,end_ts);
+Draw_time_trend_line_result();
+Draw_blog_scan_area_order_result();
 
 
 

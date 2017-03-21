@@ -19,6 +19,7 @@ mod = Blueprint('manage_event',__name__,url_prefix='/manage_event')
 
 
 @mod.route('/event_analysis/')
+
 def hot_event():
     task_name = request.args.get('task_name','')
     start_ts = request.args.get('start_ts','')

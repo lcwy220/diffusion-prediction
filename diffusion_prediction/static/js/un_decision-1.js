@@ -41,7 +41,7 @@ function optional_task(data) {
                 checkbox: true,
                 align: "center",//水平
                 valign: "middle",//垂直
-                // width:5,
+                
             },
             // {
             //     title: "",//标题

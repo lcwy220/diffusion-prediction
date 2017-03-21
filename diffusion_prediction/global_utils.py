@@ -22,3 +22,5 @@ r_event_analysis = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=3)
 R_SOCIAL_SENSING = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=3)
 
 r_stimulation = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT, db=4)
+
+R_ADMIN = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=15)

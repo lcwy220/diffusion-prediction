@@ -87,6 +87,7 @@ def MtypeCount():      #每类微博的数量
     during = request.args.get('pointInterval', Fifteenminutes)   #默认查询时间粒度为900秒
     during = int(during)
     end_ts = request.args.get('end_ts', '')     #''代表默认值为空
+    print 'end_ts:::::::;;',end_ts
     end_ts = long(end_ts)
     start_ts = request.args.get('start_ts', '')
     start_ts = long(start_ts)
