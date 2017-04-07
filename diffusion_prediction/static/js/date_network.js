@@ -143,7 +143,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
          require(  
                 [  
                     'echarts',  
-                    'echarts/chart/force'  
+                    // 'echarts/chart/force'  
                 ],  
     function (ec) {  
         // 基于准备好的dom，初始化echarts图表  

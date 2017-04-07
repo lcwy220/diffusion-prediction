@@ -10,15 +10,16 @@
 {% block main %}
 <div id="container">
     <div class="build_prediction">
-        <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+        <h1 class="title-1" style='margin: 10px auto;color: #292727;font-size: 22px'>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left: -2px;margin-bottom: -3px;"></span>
             新建预测任务
         </h1>
+      
         <div class="prediction_menu">
             <div class="task_name menu_m">
                 <span class="menu_m_s">任务名称</span>
-                <input type="text" placeholder="(必填，仅包含数字、汉字、英文、下划线)" id="new_task" style="width: 300px;">
+                <input type="text" placeholder="(必填，仅包含数字、汉字、英文、下划线)" id="new_task" style="width: 200px;">
             </div>
             <!-- <div class="task_remarks menu_m">
                 <span class="menu_m_s">备注</span>
@@ -26,8 +27,8 @@
             </div> -->
             <div class="task_words menu_m">
                 <span class="menu_m_s">关键词</span>
-                <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开" style="width: 300px;">
-                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 300px;">
+                <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
+                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
             </div>
             <div class="task_time menu_m">
                 <span style="position: relative;top: -7px;" class="menu_m_s">起止时间</span>
@@ -78,10 +79,10 @@
         </div>
     </div>
     <div class="prediction_task">
-        <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
-            任务列表
+        <h1 class="title-2" style='margin: 15px auto;color: #292727;font-size: 22px'>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left:-2px;margin-bottom: -3px;"></span>
+        任务列表
         </h1>
         <div id="task_lists" style="width: 100%;">
         </div>

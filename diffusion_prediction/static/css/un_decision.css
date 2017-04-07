@@ -2,7 +2,7 @@
     padding-top: 100px;
 }
 #container .build_decision,#container .prediction_task {
-    width: 70%;
+    width: 61%;
     margin: 20px auto;
 }
 #container .build_decision .title-1,
@@ -25,11 +25,11 @@
 }
 #container .decision_menu .menu_m .menu_m_s {
     display: inline-block;
-    width: 150px;
+    width: 80px;
 }
 #container .decision_menu span {
     color: #919191;
-    font-weight: 800;
+    font-weight: 500;
     font-size: 16px;
 }
 #container .decision_menu .menu_m input,

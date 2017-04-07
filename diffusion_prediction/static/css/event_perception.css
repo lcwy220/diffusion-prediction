@@ -1,4 +1,4 @@
-#container .new_perception_task {
+﻿#container .new_perception_task {
     padding-top: 100px;
 }
 #container .new_perception_task .new_task_menu {
@@ -14,7 +14,7 @@
 }
 #container .new_perception_task .new_task_menu .menu_m .menu_m_s {
     display: inline-block;
-    width: 150px;
+    width: 80px;
 }
 #container .new_perception_task .new_task_menu .menu_m input {
     padding: 5px 8px;
@@ -32,19 +32,19 @@
 }
 #container .new_perception_task .new_task_menu span {
     color: #919191;
-    font-weight: 800;
+    font-weight: 500;
     font-size: 16px;
 }
 #container .new_perception_task .new_task_menu .new_build button {
-    color: #464646;
-    font-weight: 800;
+    color: #6b5c5c;
+    font-weight: 500;
     font-size: 16px;
-    background-color: #bcbcbc;
+    background-color: #eae3e3;
     padding: 5px 10px;
     border-radius: 10px;
 }
 #container .new_perception_task .new_task_menu .new_build button:hover {
-    background-color: #464646;
+    background-color: #2e90e6;
     color: white;
 }
 /*任务列表*/

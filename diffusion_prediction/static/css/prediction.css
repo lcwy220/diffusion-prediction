@@ -2,7 +2,7 @@
     padding-top: 100px;
 }
 #container .build_prediction,#container .prediction_task {
-    width: 70%;
+    width: 62%;
     margin: 20px auto;
 }
 #container .build_prediction .title-1,
@@ -25,11 +25,11 @@
 }
 #container .prediction_menu .menu_m .menu_m_s {
     display: inline-block;
-    width: 150px;
+    width: 80px;
 }
 #container .prediction_menu span {
     color: #919191;
-    font-weight: 800;
+    font-weight: 500;
     font-size: 16px;
 }
 #container .prediction_menu .menu_m input,
@@ -59,7 +59,7 @@
     width: 100%;
     padding: 10px 20px;
     border: 1px solid silver;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 }
 
 
