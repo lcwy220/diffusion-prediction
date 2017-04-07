@@ -84,7 +84,6 @@ def user_fansnum(event, start_ts, end_ts):
             else:
                 total_comment += 1
 
-            """
             # 情绪统计
             if int(item["_source"]["sentiment"]) == 1:
                 positive_count += 1
@@ -92,7 +91,6 @@ def user_fansnum(event, start_ts, end_ts):
                 neutral_count += 1
             else:
                 negetive_count += 1
-            """
 
         except StopIteration:
             break
@@ -160,7 +158,7 @@ def user_fansnum(event, start_ts, end_ts):
     total_uid_count = es.search(index=event, doc_type="text", body=query_uid)["aggregations"]["uid_count"]["value"]
 
 
-    return [total_fans,total_origin,total_retweet,total_comment,total_count,total_uid_count]
+    return [total_fans,total_origin,total_retweet,total_comment,total_count,total_uid_count, positive_count, negetive_count]
 
 
 if __name__ == "__main__":

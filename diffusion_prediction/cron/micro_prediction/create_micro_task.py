@@ -30,9 +30,10 @@ def create_task():
             es_prediction.update(index=index_manage_prediction_task,doc_type=type_manage_prediction_task,\
                     id=task_name, body={"doc":{"finish":"1"}})
         during = item["_source"]["micro_during"]
-        if current_ts - update_time>= during:
-            r_micro.lpush(task_micro_prediction, json.dumps([task_name, item["_source"]["scan_text_time"], current_ts, during])
+        if current_ts - update_time >= during:
+            r_micro.lpush(task_micro_prediction, json.dumps([task_name, item["_source"]["scan_text_time"], current_ts, during]))
 
+    return True
 
 def task_list():
     create_task()

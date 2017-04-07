@@ -11,7 +11,7 @@ from global_utils import es_user_profile
 from global_config import index_manage_interfere_task,type_manage_interfere_task,profile_index_name,profile_index_type
 from time_utils import ts2datehour, datehour2ts
 
-def dispose_results(task_name, ts):
+def dispose_results(task_name, ts, future_total, current_total):
     index_name = "stimulation_"+task_name
     index_type = "stimulation_results"
     results = es.get(index=index_name, doc_type=index_type, id=ts)["_source"]
@@ -41,14 +41,18 @@ def dispose_results(task_name, ts):
     current_hot_mid = search_hot_mid(task_name, ts)
 
     # 当前潜在热门微博
-    potential_mid = potential_user(task_name, ts)
+    potential_mid, t1, t2 = potential_user(task_name, ts)
+
+    future_total += t1
+    current_total += t2
+    ratio = float(current_total)/future_total
 
     update_dict = dict()
     update_dict["diffusion_path"] = json.dumps(diffusion_path)
     update_dict["future_user_info"] = json.dumps(future_user_info)
     update_dict["current_hot_weibo"] = json.dumps(current_hot_mid)
     update_dict["potential_hot_weibo"] = json.dumps(potential_mid)
-
+    update_dict["ratio"] = ratio
     es.update(index=index_name, doc_type=index_type, id=ts, body={"doc":update_dict})
 
     return True
@@ -210,6 +214,8 @@ def potential_user(task_name, ts):
         weibo_prediction_result = weibo_model.predict(feature_list)
         uid_prediction_result = uid_model.predict(feature_list)
 
+    future_total = 0
+    current_total = 0
 
     results_dict = dict()
     in_potential_list = []
@@ -218,7 +224,9 @@ def potential_user(task_name, ts):
         uid = uid_list[i]
         iter_count = es.count(index=task_name, doc_type="text", body={"query":{"term":{"root_mid":mid}}})["count"]
         pre_count = weibo_prediction_result[i]
+        future_total += abs(pre_count-iter_count)
         if pre_count >= 500 and iter_count <= 500:
+            current_total += abs(pre_count-iter_count)
             if not results_dict.has_key(uid):
                 results_dict[uid] = dict()
             tmp = dict()
@@ -252,7 +260,7 @@ def potential_user(task_name, ts):
             results_dict[uid]["user_profile"] = tmp
 
 
-    return results_dict
+    return results_dict, future_total, current_total
 
 
 

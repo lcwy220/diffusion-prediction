@@ -79,6 +79,8 @@ def extend_network(task_name, ts):
 
 
 def predict_user_influence(task_name, stop_time, ts):
+    future_total = 0 # 未来传播总量
+    current_total = 0 # 可控范围
     uid_count, in_user_list, in_user_info, all_user_dict = extend_network(task_name, ts)
 
     with open("gbdt.pkl", "r") as f:
@@ -130,22 +132,26 @@ def predict_user_influence(task_name, stop_time, ts):
                         tmp_prediction_list.append(tmp)
                         tmp_uid_list.append(item["_id"])
                         if count % 1000 == 0:
-                            iter_prediction_list = prediction_model(uid,gbdt, tmp_prediction_list, tmp_uid_list, future_dict)
+                            iter_prediction_list, t1, t2 = prediction_model(uid,gbdt, tmp_prediction_list, tmp_uid_list, future_dict)
                             future_dict = iter_prediction_list
                             tmp_prediction_list = []
                             tmp_uid_list = []
+                            future_total += t1
+                            current_total += t2
                             print "iter prediction: ", count
 
         if tmp_prediction_list:
-            iter_prediction_list = prediction_model(uid,gbdt, tmp_prediction_list, tmp_uid_list, future_dict)
+            iter_prediction_list, t1, t2 = prediction_model(uid,gbdt, tmp_prediction_list, tmp_uid_list, future_dict)
             future_dict = iter_prediction_list
+            future_total += t1
+            current_total += t2
             print "future_dict: ", future_dict
 
     # storage
     save_results(task_name, ts, prediction_in, future_dict)
 
     # do left things
-    dispose_results(task_name, ts)
+    dispose_results(task_name, ts, future_total, current_total)
 
 
     # update processing state
@@ -171,6 +177,8 @@ def save_results(task_name, ts, prediction_in, future_dict):
 
 def prediction_model(uid, gbdt, tmp_prediction_list, tmp_uid_list, future_dict):
     # 潜在用户阈值
+    tt1 = 0
+    tt2 = 0
     try:
         potential_threshold = float(r_stimulation.get("potential_threshold"))
     except:
@@ -181,14 +189,16 @@ def prediction_model(uid, gbdt, tmp_prediction_list, tmp_uid_list, future_dict):
     for tmp_each in tmp_value_list:
         index = tmp_value_list.index(tmp_each)
         tmp_prediction = math.exp(tmp_each)
+        tt1 += int(tmp_prediction)
         if tmp_prediction >= potential_threshold:
+            tt2 += int(tmp_prediction)
             try:
                 future_dict[uid][tmp_uid_list[index]] = tmp_prediction
             except:
                 future_dict[uid] = dict()
                 future_dict[uid][tmp_uid_list[index]] = tmp_prediction
 
-    return future_dict
+    return future_dict, tt1, tt2
 
 
 

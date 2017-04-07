@@ -34,7 +34,7 @@ def organize_feature(task_name, event, start_ts, end_ts, during=3600):
             data_dict[data_order[i]] = results_list[i]
         data_dict["update_time"] = start_ts+minimal_time_interval
         start_ts += minimal_time_interval
-        print start_ts
+        print "start timestamp: ",start_ts
         es_prediction.index(index=task_name, doc_type=index_type_prediction_task, id=start_ts, body=data_dict)
 
     #data_list = [total_fans_list,total_origin_list,total_retweet_list,total_comment_list,positive_count_list,neutral_count_list,negetive_count_list,origin_important_user_count,origin_important_user_retweet,retweet_important_user_count,retweet_important_user_retweet, total_count,average_origin_imp_hour_list,average_retweet_imp_hour_list]
@@ -46,6 +46,8 @@ def organize_feature(task_name, event, start_ts, end_ts, during=3600):
 # organise data feature
 
 def dispose_data(task_name,current_ts, during=3600):
+    K = 2 ########
+
     origin_task_name = task_name
     task_name = "micro_prediction_" + task_name
     query_body = {
@@ -72,6 +74,8 @@ def dispose_data(task_name,current_ts, during=3600):
     total_retweet_list = []
     total_comment_list = []
     total_uid_list = []
+    total_positive_list = []
+    total_negetive_list = []
 
     feature_list = []
     results = es_prediction.search(index=task_name, doc_type=index_type_prediction_task, body=query_body)["hits"]["hits"]
@@ -80,26 +84,41 @@ def dispose_data(task_name,current_ts, during=3600):
     if len(results) != K:
         short_len = K - len(results)
         results.extend([[]]*short_len)
-    print "result: ", len(results), K
+    print "former result: ", len(results), K
     results.reverse()
     for item in results:
         if item:
             item = item["_source"]
-            total_fans_list.append(item["total_fans_number"])
+            #total_fans_list.append(item["total_fans_number"])
             total_origin_list.append(item["origin_weibo_number"])
             total_retweet_list.append(item["retweeted_weibo_number"])
             total_comment_list.append(item["comment_weibo_number"])
             total_count.append(item["total_count"])
             total_uid_list.append(item["total_uid_count"])
+            total_positive_list.append(item["positive_count"])
+            total_negetive_list.append(item["negetive_count"])
         else:
-            total_fans_list.append(0)
+            #total_fans_list.append(0)
             total_origin_list.append(0)
             total_retweet_list.append(0)
             total_comment_list.append(0)
             total_uid_list.append(0)
             total_count.append(0)
-    print total_count
+            total_positive_list.append(0)
+            total_negetive_list.append(0)
+    print "total_count: ", total_count
 
+    feature_list = []
+    feature_list.append(math.log(int(total_retweet_list[-1]+1)))
+    feature_list.append(math.log(int(total_comment_list[-1]+1)))
+    feature_list.append(math.log(int(total_positive_list[-1]+1)))
+    feature_list.append(math.log(int(total_negetive_list[-2]+1)))
+    feature_list.append(math.log(int(total_negetive_list[-1]+1)))
+    feature_list.append(math.log(int(total_count[-1]+1)))
+    feature_list.append(math.log(int(total_uid_list[-1]+1)))
+
+    ### discard --2017-04-07
+    """
     # feature
     feature_list.append(location+1)
     for each in total_fans_list:
@@ -118,16 +137,15 @@ def dispose_data(task_name,current_ts, during=3600):
     for i in range(len(total_comment_list)):
         feature_list.append(math.log(int(each)+1))
         feature_list.append(float(each)/(1+total_count[i]))
-
-
+    """
 
     # load model and prediction
     if int(during) == 3600:
-        if total_count[-1] - total_count[-2] >= 0:
-            with open("1_8-up.pkl","r") as f:
+        if total_count[-1] - total_count[-2] >= -0.2*total_count[-2]:
+            with open("model-up.pkl","r") as f:
                 gbdt = pickle.load(f)
         else:
-            with open("1_8-down.pkl", "r") as f:
+            with open("model-down.pkl", "r") as f:
                 gbdt = pickle.load(f)
     elif int(during) == 3*3600:
         if total_count[-1] - total_count[-2] >= 0:
@@ -137,16 +155,17 @@ def dispose_data(task_name,current_ts, during=3600):
             with open("3_8-down.pkl", "r") as f:
                 gbdt = pickle.load(f)
 
+    print "feature_list: ", feature_list
     pred = gbdt.predict(feature_list)
     for item in pred:
         prediction_value = item
         prediction_value = math.exp(prediction_value)
-        print prediction_value
+        print "prediction_valie: ",prediction_value
 
 
     # update scan processing
     es_prediction.update(index=index_manage_prediction_task,doc_type=type_manage_prediction_task, \
-            id=origin_task_name, body={"doc":{"scan_text_processing":"0"}}
+            id=origin_task_name, body={"doc":{"scan_text_processing":"0"}})
 
 
     # update prediction value in es
