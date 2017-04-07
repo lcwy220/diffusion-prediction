@@ -76,6 +76,8 @@ def dispose_data(task_name,current_ts, during=3600):
     total_uid_list = []
     total_positive_list = []
     total_negetive_list = []
+    average_origin_ts = []
+    average_retweet_ts = []
 
     feature_list = []
     results = es_prediction.search(index=task_name, doc_type=index_type_prediction_task, body=query_body)["hits"]["hits"]
@@ -97,6 +99,8 @@ def dispose_data(task_name,current_ts, during=3600):
             total_uid_list.append(item["total_uid_count"])
             total_positive_list.append(item["positive_count"])
             total_negetive_list.append(item["negetive_count"])
+            average_origin_ts.append(item["average_origin_ts"])
+            average_retweet_ts.append(item["average_retweet_ts"])
         else:
             #total_fans_list.append(0)
             total_origin_list.append(0)
@@ -106,6 +110,8 @@ def dispose_data(task_name,current_ts, during=3600):
             total_count.append(0)
             total_positive_list.append(0)
             total_negetive_list.append(0)
+            average_origin_ts.append(0)
+            average_retweet_ts.append(0)
     print "total_count: ", total_count
 
     feature_list = []
@@ -116,28 +122,10 @@ def dispose_data(task_name,current_ts, during=3600):
     feature_list.append(math.log(int(total_negetive_list[-1]+1)))
     feature_list.append(math.log(int(total_count[-1]+1)))
     feature_list.append(math.log(int(total_uid_list[-1]+1)))
+    if int(during) == 3*3600:
+        feature_list.append(average_origin_ts[-1])
+        feature_list.append(average_retweet_ts[-1])
 
-    ### discard --2017-04-07
-    """
-    # feature
-    feature_list.append(location+1)
-    for each in total_fans_list:
-        feature_list.append(math.log(int(each)+1))
-    for each in total_count:
-        feature_list.append(math.log(int(each)+1))
-    for each in total_uid_list:
-        feature_list.append(math.log(int(each)+1))
-
-    for i in range(len(total_origin_list)):
-        feature_list.append(math.log(int(each)+1))
-        feature_list.append(float(each)/(1+total_count[i]))
-    for i in range(len(total_retweet_list)):
-        feature_list.append(math.log(int(each)+1))
-        feature_list.append(float(each)/(1+total_count[i]))
-    for i in range(len(total_comment_list)):
-        feature_list.append(math.log(int(each)+1))
-        feature_list.append(float(each)/(1+total_count[i]))
-    """
 
     # load model and prediction
     if int(during) == 3600:
@@ -148,12 +136,8 @@ def dispose_data(task_name,current_ts, during=3600):
             with open("model-down.pkl", "r") as f:
                 gbdt = pickle.load(f)
     elif int(during) == 3*3600:
-        if total_count[-1] - total_count[-2] >= 0:
-            with open("3_8-up.pkl","r") as f:
-                gbdt = pickle.load(f)
-        else:
-            with open("3_8-down.pkl", "r") as f:
-                gbdt = pickle.load(f)
+        with open("model-3.pkl","r") as f:
+            gbdt = pickle.load(f)
 
     print "feature_list: ", feature_list
     pred = gbdt.predict(feature_list)

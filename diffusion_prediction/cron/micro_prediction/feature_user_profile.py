@@ -96,14 +96,6 @@ def user_fansnum(event, start_ts, end_ts):
             break
 
     """
-    try:
-        average_origin_imp_hour = sum(origin_important_hour)/float(len(origin_important_hour))
-    except:
-        average_origin_imp_hour = 0
-    try:
-        average_retweet_imp_hour = sum(retweet_important_hour)/float(len(retweet_important_hour))
-    except:
-        average_retweet_imp_hour = 0
 
     # 重要参与用户的最近一周的转发量
     if origin_important_user:
@@ -157,8 +149,16 @@ def user_fansnum(event, start_ts, end_ts):
 
     total_uid_count = es.search(index=event, doc_type="text", body=query_uid)["aggregations"]["uid_count"]["value"]
 
+    try:
+        average_origin_ts = total_origin_ts /float(total_origin)
+    except:
+        average_origin_ts = 0
+    try:
+        average_retweet_ts = total_retweet_ts/float(total_retweet)
+    except:
+        average_retweet_ts = 0
 
-    return [total_fans,total_origin,total_retweet,total_comment,total_count,total_uid_count, positive_count, negetive_count]
+    return [total_fans,total_origin,total_retweet,total_comment,total_count,total_uid_count, positive_count, negetive_count,average_origin_ts,average_retweet_ts]
 
 
 if __name__ == "__main__":
