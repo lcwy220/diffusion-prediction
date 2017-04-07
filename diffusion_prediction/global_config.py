@@ -40,7 +40,7 @@ K = 8
 
 # micro prediction data organization order
 data_order = ["total_fans_number", "origin_weibo_number", "retweeted_weibo_number", "comment_weibo_number",\
-        "total_count","total_uid_count"]
+        "total_count","total_uid_count", "positive_count", "negetive_count"]
 
 # prediction task manage index
 index_manage_prediction_task = "manage_prediction_task"
