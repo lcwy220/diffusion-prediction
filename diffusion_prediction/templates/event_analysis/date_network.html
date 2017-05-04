@@ -1,8 +1,9 @@
 
 <!-- 分析指标——微博用户转发网 -->
-		<div style="margin-top: -7.5%;">
-			<div id="time_trend_title_line1"></div>
-			<p id="time_trend_title">微博用户转发网</p>
+		<div style="width:70.5%;margin:20px auto;">
+			<span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
+			<p id="time_trend_title" style="display: inline-block;">微博用户转发网</p>
 			<!-- <img id="img_doubt" src="../../static/images/doubt.png"> -->
 		</div>
 
@@ -14,40 +15,39 @@
 
 
 
-	<div id="left_line_right_network" style="margin-left: 8%;"></div>
-	<div id="right_col_network">
+	<!--<div id="left_line_right_network" style="margin-left: 8%;"></div>-->
+	<div id="right_col_network" >
 		<div id="right_col_title_1_network">
-			<div id="right_col_title_1_network_blue"></div>
-			<div id="right_col_title_1_network_green"></div>
-			<img id="img_person" src="../../static/images/person.png" onMouseOver="javascript: show(this,'mydiv1');" onMouseOut="hide(this,'mydiv1')">
+			<!--<div id="right_col_title_1_network_blue"></div>-->
+			<!--<div id="right_col_title_1_network_green"></div>-->
+			<img id="img_person" src="../../static/images/person.png" style="top: -7px;" onMouseOver="javascript: show(this,'mydiv1');" onMouseOut="hide(this,'mydiv1')">
 			<span id="trend_maker" onclick="get_trend_type('maker')">重要微博用户</span>
 			
 		</div>
 
 		<div style="display:inline-block;padding-top:3%;">
 <div id="users">
-	      <span class="label place_label" style="color: #868686;" onmouseover="set_trend_type('maker')">发起者</span>
-	      <span class="label place_label" style="color: #868686;" onmouseover="set_trend_type('pusher')">推动者</span>
+	      <span class="label place_label" style="color: #272424;font-size:16px;" onclick="set_trend_type('maker')">发起者</span>
+	      <span class="label place_label" style="color: #272424;font-size:16px;" onclick="set_trend_type('pusher')">推动者</span>
 	      <div class="halving_line4"></div>
 	      <style type="text/css">
 	      	#main_network_bigger {
-	      		margin-left: 0;
+	      		margin: 20px auto;
 
 	      	}
 	      	#left_line_right_network {
 	      		width: 0!important;
 	      	}
-	      	.halving_line2,#blog_scan_area_network_top,#blog_scan_area_network,#blog_scan_area_network_page {
+	      	.halving_line2 {
 	      		width: 70.5%;
 	      	}
-	      	#right_col_network {
-	      		margin-left: 0;
-	      		margin-top: 3%;
-	      	}
+	      	/*#right_col_network {*/
+	      		/*margin-left: 0;*/
+	      		/*margin-top: 3%;*/
+	      	/*}*/
 	      	#right_col_title_2_network {
-	      		margin-left: -14%;
-	      		height: 617px;
-	      		overflow: hidden;
+	      		/*height: 617px;*/
+	      		/*overflow: hidden;*/
 	      	}
 	      	#table_photo {
 	      		width: 0;
@@ -57,10 +57,8 @@
 	      		margin-top: 10px;
 	      	}
 	      	#users {
-	      		width: 88.5%;
+	      		/*width: 88.5%;*/
     			position: relative;
-    			left: -57px;
-    			padding-left: 3%;
     			padding-top: 2%
 	      	}
 	      	#right_col_title_1_network_blue {
@@ -69,9 +67,7 @@
 	      	#right_col_title_1_network_green {
 	      		margin-left: -10%;
 	      	}
-	      	#img_person {
-	      		margin-left: -6%;
-	      	}
+
 	      	#main_network center {
 	      		display: block;
 	      		width: 600px;
@@ -98,7 +94,7 @@
 					margin-left: 11%!important;
 				}
 				.halving_line2 {
-					margin-top: 17%!important;
+					margin-top: 50px!important;
 				}
 				#oule {
 		        	margin-left: 47%!important;
@@ -131,33 +127,41 @@
 	
 
 <!-- 分割线 -->
-<div class="halving_line2" style="margin-top:10%;"></div>
+<div class="halving_line2" style="margin-top:75px;"></div>
 
 <!-- 微博浏览区 -->
-<div class='liulan'>
-	<div id="blog_scan_title_line1"></div>
-	<p id="blog_scan_title">微博浏览区</p>
+<div class='liulan' style="width: 70.5%;margin: 0 auto;">
+	<span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
+	<p id="blog_scan_title" style="display: inline-block;">微博浏览区</p>
 	<!-- <img id="img_doubt" src="../../static/images/doubt.png"> -->
 </div>
 
-<div class='wei'>
+<div class='wei' style="width:70.5%;margin:0 auto 30px;">
 
-<div id="blog_scan_area_network_top" style="margin:0 0 0 20.1%;">
-  <div id="blog_scan_title_line2_network"></div>
-  <div id="blog_scan_title_line3_network"></div>
-  <p id="blog_scan_title2_network">排序方式：</p>
-  <div class="btn-group" data-toggle="buttons" id="btn_radio_network">
-       <label class="btn btn-primary active" id="label7" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_network('time')">
-         <input type="radio" name="options" id="option7" onClick="changecolor(this)"> 按时间
-       </label>
-       <label class="btn btn-primary" id="label8" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_network('hot')">
-          <input type="radio" name="options" id="option8" onClick="changecolor(this)"> 按热度
-       </label>
-  </div>
+<div id="blog_scan_area_network_top" style="margin:20px auto 0;">
+	<div>
+		<p style="float:left;margin-left:20px;;">
+		<span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;
+                position: relative;top: 22px;"></span>
+                <span style="display: inline-block;width: 5px;height: 22px;background-color:#20AB71;
+                position: relative;top: 22px;"></span>
+	</p>
+		<p id="blog_scan_title2_network">排序方式：</p>
+		<div class="btn-group" data-toggle="buttons" id="btn_radio_network">
+			<label class="btn btn-primary active" id="label7" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#272424;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_network('time')">
+				<input type="radio" name="options" id="option7" onClick="changecolor(this)"> 按时间
+			</label>
+			<label class="btn btn-primary" id="label8" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#272424;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_network('hot')">
+				<input type="radio" name="options" id="option8" onClick="changecolor(this)"> 按热度
+			</label>
+		</div>
+	</div>
+
 
   <div id="networks">
-      <span class="label place_label" style="color: #868686;" onmouseover="set_blog_type_network('maker')">发起微博</span>
-      <span class="label place_label" style="color: #868686;" onmouseover="set_blog_type_network('pusher')">推动微博</span>
+      <span class="label place_label" style="color: #272424;font-size:16px;" onClick="set_blog_type_network('maker')">发起微博</span>
+      <span class="label place_label" style="color: #272424;font-size:16px;" onClick="set_blog_type_network('pusher')">推动微博</span>
 
   </div>
 
@@ -165,7 +169,7 @@
 
 </div>
 
-<div id="blog_scan_area_network">
+<div id="blog_scan_area_network" style="padding: 20px 10px;">
 	
 	<!-- 微博浏览区 -->
 	<div id="emotion_loading" style="width:100%;">
@@ -175,7 +179,7 @@
 </div>
 
 <div  id="blog_scan_area_network_page">
-	<ul class="pager">
+	<ul class="pager" style="margin: 0;">
 		<li class="previous" onclick="up_network()"><a style="font-size: 16px;" >&larr; 上一页</a></li>
 		<li class="next"  onclick="down_network()"><a style="font-size: 16px;">下一页 &rarr;</a></li>
 	</ul>

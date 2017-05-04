@@ -29,6 +29,7 @@
                 <span class="menu_m_s">关键词</span>
                 <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
                 <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
+                <b class="icon icon-plus add_new" style="display: inline-block;margin-left: 10px;cursor: pointer;"></b>
             </div>
             <div class="task_time menu_m">
                 <span style="position: relative;top: -7px;" class="menu_m_s">起止时间</span>
@@ -60,8 +61,8 @@
             <div class="task_interval menu_m">
                 <span class="menu_m_s">计算间隔</span>
                 <select id="inter_time" style="margin-left: 20px;width:100px;" >
-                    <option value="3600">1 hour</option>
-                    <option value="10800">3 hour</option>
+                    <option value="3600">1 小时</option>
+                    <option value="10800">3 小时</option>
                 </select>
             </div>
             <div class="task_remarks menu_m">
@@ -93,7 +94,11 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-
+$('.add_new').on('click',function () {
+    var _input='<input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" ' +
+            'title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;margin: 10px 0 0 327px;">';
+    $(this).before(_input);
+});
    
     $(function () {
         $('#datetimepicker1').datetimepicker();

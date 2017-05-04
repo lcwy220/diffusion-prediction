@@ -32,8 +32,7 @@ function set_order_type_emotion(type){
 
 function get_per_time_emotion(val) {
 	pointInterval = val;
-	// console.log(pointInterval);
-	
+
 	Draw_emotion_trend_line_result();
 }
 
@@ -75,8 +74,6 @@ function up_emotion(){
          return false;
      }else{
  		no_page_emotion--;
- 		// console.log(no_page_emotion);
- 		// console.log('执行了上一页操作');
  		Draw_blog_scan_area_emotion_result();
  		
      }
@@ -88,12 +85,9 @@ function down_emotion(){
      
      if(no_page_emotion==Math.min(9,Math.ceil(blog_num_max_global_emotion/10)-1)){
          alert("当前已经是最后一页!");
-         // console.log(no_page_emotion);
          return false;
      }else{
  		no_page_emotion++;
- 		// console.log(no_page_emotion);
- 		// console.log('执行了下一页操作');
  		Draw_blog_scan_area_emotion_result();
  		
      }
@@ -114,7 +108,10 @@ function last_emotion(){
      // window.location.href="a.htm?b=123&b=qwe&c="+pageno;
      Draw_blog_scan_area_emotion_result();
 }
-
+function getLocalTime(nS) {
+	var timeTrans = new Date(parseInt(nS) * 1000);
+	return timeTrans.toLocaleString('chinese',{hour12:false});
+}
 
 
 
@@ -143,14 +140,11 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 		var y_item_sad = [];
 		var y_item_hate = [];
 		var y_item_otherneg = [];
-		// console.log(data);
-
 	 	for (var key in data){
 	 		
 			//key_datetime = new Date(parseInt(key)*1000).format('yyyy/MM/dd hh:mm');
-			key_datetime = new Date(parseInt(key) * 1000).toLocaleString();
-			//console.log(key_datetime);
-			x_item.push(key_datetime);	
+			key_datetime = getLocalTime(key);
+			x_item.push(key_datetime);
 			y_item_pos.push(data[key][1]);
 			y_item_neu.push(data[key][0]);
 			y_item_angry.push(data[key][2]);
@@ -171,10 +165,6 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 	    	toolbox: {
 		        show : true,
 		        feature : {
-		            mark : {show: true},
-		            dataView : {show: true, readOnly: false},
-		            magicType : {show: true, type: ['line', 'bar']},
-		            restore : {show: true},
 		            saveAsImage : {show: true}
 		        }
 		    },
@@ -190,7 +180,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 	        {
 	            type : 'value',
 	            axisLabel : {
-	                formatter: '{value} 次'
+	                formatter: '{value}'
 	            }
 	        }
 	    	],
@@ -244,7 +234,6 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
   },
 
   Draw_emotion_map:function(data){
-  		console.log(data);
   		$('#main_emotion_2').empty();
   		$('#top15_content_emotion').empty();
 		var item = data;
@@ -580,7 +569,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 					var option = {
 					    title: {
 					        text : '全国34个省市自治区',
-					        subtext : 'china （滚轮或点击切换）'
+					        subtext : '中国 （滚轮或点击切换）'
 					    },
 					    tooltip : {
 					        trigger: 'item',
@@ -590,18 +579,26 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 					        min: 0,
 					        //max: 1000,
 					        max:item_item_rank[0].value,
-					        color:['orange','white'],
+							y:'400px',
+							color:['#0270dd','white'],
 					        text:['高','低'],           // 文本，默认为数值文本
 					        calculable : true
 					    },
 					    series : [
 					        {
-					            name: '随机数据',
+					            // name: '随机数据',
 					            type: 'map',
 					            mapType: 'china',
 					            selectedMode : 'single',
 					            itemStyle:{
-					                normal:{label:{show:true}},
+									normal: {
+										show: true,
+										borderColor:"#252422",
+										borderWidth:"1",
+										label: {
+											show: true,
+										},
+									},
 					                emphasis:{label:{show:true}}
 					            },
 					            data:item_item
@@ -614,10 +611,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 			                myChart.setOption(option);     
 						
 		}
-		)	
-
-		// console.log(item_item);
-		
+		)
 		var rank_html = '';
 		rank_html += '<table id="table" style="table-layout:fixed">';
         for(var k=0;k<Math.min(15,item_item_rank.length);k++){
@@ -636,9 +630,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
   	$('#blog_scan_area_emotion').empty();
   	var item = data;
 	var html = '';
-		//var key_datetime = new Date(key*1000).format('yyyy/MM/dd hh:mm');
-		//key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-		//console.log(data.length);
+
 		var blog_num_max_local_emotion = Math.min(100,item.length);
 		
 		blog_num_max_global_emotion = blog_num_max_local_emotion;
@@ -658,7 +650,6 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 				}
 				if (item[i][1].uname=='unknown'){
 					item[i][1].uname=item[i][1].uid
-					//console.log(item[i][1].uname);
 				}
 				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
 				html += '<div class="blog_time">';
@@ -672,14 +663,14 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 				html += '</div>';
 				html += '<div class="blog_text">'
 				//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
-				html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
-				html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
+				html += '<p style="text-align:left;position: relative;margin:50px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
+				html += '<p style="position: relative;margin:20px 0;padding-left:50px;font-family: Microsoft YaHei;">';
 				//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
 				//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-				html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-				html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
+				html += '<span>'+item_timestamp_datetime+'</span>';
+				html += '<span style="display:inline-block;margin-left:500px;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
 				//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-				html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
+				html += '<span>评论数('+item[i][1].comment+')</span>';
 				//html += '<span style="margin-top: -3%;display:inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
 				//html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 				html += '</p>';
@@ -687,7 +678,7 @@ topic_analysis_emotion.prototype = {   //获取数据，重新画表
 				html += '</div>';
 			// }
 			}
-			html += '<div id="PageTurn" class="pager" style="margin-left:46.5%;height: 40px;margin-bottom: -20px;z-index: 99;">'
+			html += '<div id="PageTurn" class="pager" style="padding-bottom: 20px;margin: 0;">'
 	        html += '<p style="font-size: 20px;">共<font id="P_RecordCount" style="color:#FF9900;font-size: 20px;">'+num_page+'</font>页&nbsp;&nbsp;&nbsp;&nbsp;</p>'
 	        html += '</div>'
 			// html += '<div id="PageTurn" class="pager" style="margin-left:40%;">'

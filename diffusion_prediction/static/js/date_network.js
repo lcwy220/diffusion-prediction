@@ -1,6 +1,3 @@
-// var topic = 'aoyunhui';
-// var start_ts = 1467648000;
-// var end_ts = 1470844800;
 var sort_item_network = 'timestamp';
 var blog_type_network = 'maker';
 
@@ -167,8 +164,6 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
           toolbox: {
               show : true,
               feature : {
-                  restore : {show: true},
-                  magicType: {show: true, type: ['force', 'chord']},
                   saveAsImage : {show: true}
               }
           },
@@ -259,8 +254,6 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
           }
       }
       myChart.on(ecConfig.EVENT.CLICK, focus)
-
-    
        myChart.setOption(option);           
           
     }  
@@ -271,28 +264,23 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     $('#right_col_title_2_network').empty();
     var item = data;
     var html = '';
-    console.log("执行发起者！");
-    console.log(item);
     item_len = 0
     for (var k in item){
       item_len++;
 
     }
     if (item_len == 0){
-      console.log("发起者！无数据");
-      html += '<div style="background-color: #FFFFFF;width: 80%;height: 100px;position: relative;margin-left: 10%;margin-top: 12%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 15%;margin-left: 10%;">呀，暂时还没有数据喔~</p></div>'
+      html += '<div style="text-align:center;padding:30px 0;"><p style="color: #FF9900;font-size: 16px;">呀，暂时还没有数据喔~</p></div>'
     }else{
       html += '<table id="table_photo">';
       for(i=0;i<Math.min(7,item.length);i=i+1){
-        console.log(item);
         html += '<tr>';
-      
           if (item[i].photo=='no'){
             item[i].photo='/static/images/photo_unknown.png';
           }
           var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
           // html += '<td><img title=用户昵称：' +item[k].name+'<br/>粉丝数：'+item[k].fans+'<br/>发布时间：'+item[k].+'style="width:40px;height:40px" class="photo_user" src='+item[k].photo+'/><td>';
-          html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+item[i].photo+'/><td>';
+          html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;position:relative;left:-12px;top:-2px;" class="photo_user" src='+item[i].photo+'/><td>';
           html += '<td><p style="font-size: 12px;">用户昵称：'+item[i].name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+item[i].fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
           
         html += '</tr>'; 
@@ -370,7 +358,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     blog_num_max_global_network = blog_num_max_local_network;
 
     if (item.length == 0){
-    html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
+    html += '<div style="text-align:center;">呀，暂时还没有数据喔~</p></div>'
     }else{
       var num_page = Math.ceil(blog_num_max_local_network/10);  //num_page表示微博数据共有多少页
       var item_i_network = no_page_network*10;
@@ -397,14 +385,14 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
         html += '</div>';
         html += '<div class="blog_text">'
         //html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
-        html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i]._source.text+'</font></p>';
-        html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
+        html += '<p style="text-align:left;position: relative;margin:50px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+item[i]._source.text+'</font></p>';
+        html += '<p style="position: relative;margin:20px 0;padding-left:50px;font-family: Microsoft YaHei;">';
         //html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
         //html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-        html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-        html += '<span style="float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';
+        html += '<span>'+item_timestamp_datetime+'</span>';
+        html += '<span style="display:inline-block;margin-left:500px;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';
         //html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-        html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
+        html += '<span>评论数('+item[i]._source.comment+')</span>';
 
         // html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">'; 
         // html += '<span style="display: inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';

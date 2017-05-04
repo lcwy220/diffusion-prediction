@@ -384,7 +384,6 @@ function create_task(data){
 }
 
 $("#build").on('click',function(){
-    console.log('123');
     var task_name = $("#new_task").val();
     var start_time = Date.parse(new Date($('.start').val())).toString().substr(0,10);
     var stop_time = Date.parse(new Date($('.end').val())).toString().substr(0,10);
@@ -392,8 +391,7 @@ $("#build").on('click',function(){
     var remark = $("#remarks").val();
     var must_keywords = $("#key-1").val();
     var should_keywords = $("#key-2").val();
-    console.log(interfer_during);
-    
+
     var create_task_url = '/prediction/create_prediction_task/?task_name='+task_name+
     '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+
     '&remark='+remark+'&must_keywords='+must_keywords+'&should_keywords='+should_keywords+'&submit_user='+'admin@qq.com';

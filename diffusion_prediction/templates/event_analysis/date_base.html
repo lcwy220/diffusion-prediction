@@ -27,9 +27,6 @@
     var topic = "{{task_name}}";
     var start_ts = "{{start_ts}}";
     var end_ts = "{{end_ts}}";
-    // console.log(topic);
-    // console.log(start_ts);
-    // console.log(end_ts);
 </script>
 
 <div id="container">
@@ -47,75 +44,6 @@
             <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
     </p>
 
-    <!-- <div class="choose_date">
-        <div class="date-1"
-             style="display: inline-block;width: 100%!important;padding: 0;">
-            <span style="display: inline-block;color: #919191;
-                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">日期：从</span>
-            <div style="display: inline-block;width: 200px;">
-                <div class="form-group" style="margin: 0">
-                    <div class='input-group date' id='datetimepicker11'>
-                        <input type='text' class="form-control start" style="height: 28px"/>
-                        <span class="input-group-addon" style="height: 28px">
-                                        <span class="icon icon-calendar"></span>
-                                    </span>
-                    </div>
-                </div>
-            </div>
-            <span style="display: inline-block;color: #919191;
-                                position: relative;top: -7px;font-size: 14px;font-weight: 700;">到</span>
-            <div style="display: inline-block;width: 200px;">
-                <div class="form-group" style="margin: 0">
-                    <div class='input-group date' id='datetimepicker12'>
-                        <input type='text' class="form-control end" style="height: 28px"/>
-                        <span class="input-group-addon" style="height: 28px">
-                                        <span class="icon icon-calendar"></span>
-                                    </span>
-                    </div>
-                </div>
-            </div>
-            <button class="opt_sure" onclick="ckdate()">确定</button>
-        </div>
-    </div>
-    <script type="text/javascript">
-        var date_time_from = "{{start_ts}}";
-        var date_time_to = "{{end_ts}}";
-
-        // var date_time_from = 1482681600;
-        // var date_time_to = 1483113600;
-        
-        
-            function format(shijianchuo)
-            {
-                //shijianchuo不是整数，要parseInt转换
-            
-                var time = new Date(parseInt(shijianchuo) * 1000);
-                
-                var y = time.getFullYear();
-                var m = time.getMonth()+1;
-                var d = time.getDate();
-                var h = time.getHours();
-                var mm = time.getMinutes();
-                var s = time.getSeconds();
-                var apm = 'AM';
-                if(h>12){
-                    h=h-12;
-                    apm='PM';
-                }
-                return m+'/'+d+'/'+y+' '+h+':'+mm+' '+apm;
-            }
-        
-        var start_time = format(date_time_from);
-        var end_time = format(date_time_to);
-        console.log(start_time);
-        console.log(end_time);
-
-
-        if(date_time_from && date_time_to){
-            $("#datetimepicker11").val(start_time);
-            $("#datetimepicker12").val(end_time);
-        }
-    </script> -->
     <!-- 分割线 -->
     <div class="halving_line"></div>
 
@@ -154,7 +82,6 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-//    var topic_name='mao_ze_dong_dan_chen_ji_nian_ri';
     var topic_name='毛泽东诞辰纪念日';
     //---------时间控件
     $(function () {
@@ -214,7 +141,7 @@
         }else if(class_name=='meaning'){
             $('#meaning').css({display:'block'}).siblings('.event_analysis').css({display:'none'});
         }
-    })
+    });
 </script>
 
 <script type="text/javascript" src='../../static/js/map.js'></script>
@@ -222,6 +149,7 @@
 <script src="../../static/js/jqcloud-1.0.4.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src='../../static/js/dataTool.js'></script>
 <script type="text/javascript" src="../../static/js/jquery.eeyellow.Timeline.js"></script>
+<script id="hello" type="text/javascript" src=""></script>
 
 
  <script type="text/javascript" src="../../static/js/date_time.js"></script>
@@ -229,7 +157,24 @@
  <script type="text/javascript" src="../../static/js/date_network.js"></script>
  <script type="text/javascript" src="../../static/js/date_meaning.js"></script>
  <script type="text/javascript" src="../../static/js/date_emotion.js"></script>
+<script>
+//    var scriptObj = document.getElementById("hello");
+//    $('.type-list span').on('click',function () {
+//        var class_name=$(this).attr('class');
+//        if(class_name=='place'){
+//            $(scriptObj).attr('src','../../static/js/date_place.js');
+//            place_load();
+//        }else if(class_name=='network'){
+//            $(scriptObj).attr('src','../../static/js/date_network.js');
+//            network_load();
+//        }else if(class_name=='emotion'){
+//            $(scriptObj).attr('src','../../static/js/date_emotion.js');
+//            emotion_load();
+//        }
+//    });
 
 
+</script>
 
 {% endblock %}
+

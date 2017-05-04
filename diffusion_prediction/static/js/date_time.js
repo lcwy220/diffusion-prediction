@@ -1,15 +1,5 @@
-
-
-// var topic = 'aoyunhui';
-// var start_ts = 1468426500;
-// var end_ts = 1468459800;
 var pointInterval = 3600;
 var sort_item = 'timestamp';
-
-// var topic = $('#topic_text').text();
-//var start_ts = set_timestamp().start_timestamp_return; 
-//var end_ts = set_timestamp().end_timestamp_return;
-
 
 var start_ts,end_ts,pointInterval;
 
@@ -59,8 +49,6 @@ function datetime_to_timestamp(datetime) {
 
 function get_per_time_time(val) {
 	pointInterval = val;
-	//console.log(pointInterval);
-	//set_timestamp();
 	Draw_time_trend_line_result();
 }
 
@@ -124,7 +112,10 @@ function last(){
      Draw_blog_scan_area_order_result();
 }
 
-
+function getLocalTime(nS) {
+	var timeTrans = new Date(parseInt(nS) * 1000);
+    return timeTrans.toLocaleString('chinese',{hour12:false});
+}
 function topic_analysis_time(){
  
 }
@@ -143,7 +134,6 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 // //设置ajax访问后台填充折线图
 
   Draw_time_trend_line: function(data){
- 	
  	var item = data;
  	var x_item = [];
  	var y_item_origin = [];
@@ -151,11 +141,7 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 	var y_item_comment = [];
 	
  	for (var key in item){
- 		//console.log(key);
-		//key_datetime = new Date(parseInt(key)*1000).format('yyyy/MM/dd hh:mm');
-		key_datetime = new Date(parseInt(key) * 1000).toLocaleString();
-		// key_datetime = format(parseInt(key).formate_data);
-		//console.log(key_datetime);
+		key_datetime = getLocalTime(key);
 		x_item.push(key_datetime);	
 		y_item_origin.push(item[key]['1']);
 		y_item_forwarding.push(item[key]['2']);
@@ -175,27 +161,29 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 		toolbox: {
 			show : true,
 			feature : {
-			    mark : {show: true},
-			    dataView : {show: true, readOnly: false},
-			    magicType : {show: true, type: ['line', 'bar']},
-			    restore : {show: true},
 			    saveAsImage : {show: true}
 		    }
 		},
 		calculable : true,
+		grid:{
+		    x:'11%',
+		    y:'11%',
+		    x2:'11%',
+		    y2:'11%',
+		  },
 		xAxis : [
 		    {
-		    type : 'category',
-		    boundaryGap : false,
-		    data : x_item
-		  
-		        }
+			    type : 'category',
+			    boundaryGap : false,
+			    data : x_item
+			  
+		    }
 		],
 		yAxis : [
 		    {
 		    type : 'value',
 		    axisLabel : {
-		        formatter: '{value} 次'
+		        formatter: '{value} '
 		        }
 		    }
 		],
@@ -225,18 +213,9 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
   },
 
   Draw_blog_scan_area: function(data){
-  	// $('#blog_time').empty();
-  	// $('#blog_time').remove();
-  	$('#blog_scan_area_time').empty();
-  	// document.getElementById("blog_time").parentNode.removeChild(document.getElementById("blog_time"));
-    
+  	$('#blog_scan_area_time').empty();    
     var item = data;
 	var html = '';
-		//var key_datetime = new Date(key*1000).format('yyyy/MM/dd hh:mm');
-		//key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-		//console.log(data.length);
-		
-
 	if (!item){
 		html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
 	}else{
@@ -256,7 +235,6 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 			}
 			if (item[i][1].uname=='unknown'){
 				item[i][1].uname=item[i][1].uid
-				//console.log(item[i][1].uname);
 			}
 			var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
 			// var item_timestamp_datetime = format(parseInt(item[i][1].timestamp).formate_data_time);
@@ -272,14 +250,14 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 			html += '</div>';
 			html += '<div class="blog_text">'
 			//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
-			html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
-			html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
+			html += '<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
+			html += '<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">';
 			//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
 			//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-			html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-			html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
+			html += '<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>';
+			html += '<span style="display: inline-block;margin-left:500px;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
 			//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-			html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
+			html += '<span style="" >评论数('+item[i][1].comment+')</span>';
 			//html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
 			//html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 			html += '</p>';
@@ -287,7 +265,7 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 			html += '</div>';
 		// }
 		}
-		   html += '<div id="PageTurn" class="pager" style="margin-left:46.5%;height: 40px;margin-bottom: -20px;z-index: 99;">'
+		   html += '<div id="PageTurn" class="pager" style="height: 40px;z-index: 99;">'
 	       html += '<p style="font-size: 20px;">共<font id="P_RecordCount" style="color:#FF9900;font-size: 20px;">'+num_page+'</font>页&nbsp;&nbsp;&nbsp;&nbsp;</p>'
 	       html += '</div>'
 
@@ -295,9 +273,6 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 	}
 	
 	$('#blog_scan_area_time').append(html);
-		
-		
-	
   },
 				                    				
 }
@@ -306,36 +281,13 @@ topic_analysis_time.prototype = {   //获取数据，重新画表
 var topic_analysis_time = new topic_analysis_time();
  
 function Draw_time_trend_line_result(){
-
-	//topic = topic_name_on_detail;
-	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
-	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	// var start_ts = 1482681600;
-	// var end_ts = 1483113600;
-	// console.log(topic);
-	//console.log(start_ts);
-	//console.log(end_ts);
-	//console.log(pointInterval);
     url = "/topic_time_analyze/mtype_count/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&pointInterval='+pointInterval;
  	topic_analysis_time.call_sync_ajax_request(url,topic_analysis_time.Draw_time_trend_line);
 }		
 
 function Draw_blog_scan_area_order_result(){
-	//topic = topic_name_on_detail;
-	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
-	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-	
-	// console.log(topic);
-	// console.log(start_ts);
-	// console.log(end_ts);
-	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	// var start_ts = 1482681600;
-	// var end_ts = 1483113600;
-	
     url_order = "/topic_time_analyze/time_order_weibos/?topic="+topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&sort_item='+sort_item;
  	topic_analysis_time.call_sync_ajax_request(url_order,topic_analysis_time.Draw_blog_scan_area);
- 	console.log(url_order);
 }
 function time_load(){
 	Draw_time_trend_line_result();
