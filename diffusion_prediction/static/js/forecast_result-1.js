@@ -1,10 +1,9 @@
 function big_line_1(data) {
     var item = [];
-    console.log(data);
+
     var data = eval(data);
     item.push(Math.ceil(data[0]));
     item.push(Math.ceil(data[1]));
-    console.log(item);
     var myChart = echarts.init(document.getElementById('big_img_weibo'));
     option = {
     title : {
@@ -49,10 +48,14 @@ function big_line_1(data) {
     myChart.setOption(option);   
 }
 
+function getLocalTime(nS) {
+	var timeTrans = new Date(parseInt(nS) * 1000);
+    return timeTrans.toLocaleString('chinese',{hour12:false});
+}
+
 function big_line_1_outter(){
     task_name = '毛泽东诞辰纪念日';
     var macro_value_url = '/prediction/get_macro_prediction/?task_name='+task_name;
-    console.log(macro_value_url);
     $.ajax({
         url: macro_value_url,
         type: 'GET',
@@ -95,7 +98,6 @@ function big_line_2_outter(){
 
     task_name = '毛泽东诞辰纪念日';
     var macro_rank_url = '/prediction/get_macro_prediction/?task_name='+task_name;
-    console.log(macro_rank_url);
     $.ajax({
         url: macro_rank_url,
         type: 'GET',
@@ -112,22 +114,20 @@ function big_line_3(data) {
     var data = eval(data);
     var data_time = [];
     var data_data = [];
-    console.log(data);
     var exist_trend = data.exist_trend;
     var climax = data.climax;
     var rise_trend = data.rise_trend;
     var fall_trend = data.fall_trend;
-    console.log(climax);
     if(exist_trend){
         for (var i=0; i< exist_trend.length; i++){
-            date_time = new Date(parseInt(exist_trend[i][0]) * 1000).toLocaleString();
+            date_time =getLocalTime(exist_trend[i][0]);
             data_time.push(date_time);
             data_data.push(exist_trend[i][1]);
         }
     }
 
     if(climax){
-            date_time = new Date(parseInt(climax[0]) * 1000).toLocaleString();
+            date_time =getLocalTime(climax[0]);
             data_time.push(date_time);
             data_data.push(climax[1]);
         
@@ -135,7 +135,7 @@ function big_line_3(data) {
 
     if(rise_trend){
         for (var i=0; i< rise_trend.length; i++){
-            date_time = new Date(parseInt(rise_trend[i][0]) * 1000).toLocaleString();
+            date_time =getLocalTime(rise_trend[i][0]);
             data_time.push(date_time);
             data_data.push(rise_trend[i][1]);
         }
@@ -144,14 +144,13 @@ function big_line_3(data) {
     if(fall_trend){
         for (var i=0; i< fall_trend.length; i++){
 
-            date_time = new Date(parseInt(fall_trend[i][0]) * 1000).toLocaleString();
+            date_time =getLocalTime(fall_trend[i][0]);
             data_time.push(date_time);
             data_data.push(fall_trend[i][1]);
         }
     }
 
-    console.log(data_time);
-    console.log(data_data);
+
 
     myChart.setOption(option = {
         title: {
@@ -201,7 +200,6 @@ function big_line_3(data) {
 function big_line_3_outter(){
     task_name = '毛泽东诞辰纪念日';
     var macro_trend_url = '/prediction/get_macro_trendline/?task_name='+task_name;
-    console.log(macro_trend_url);
     $.ajax({
         url: macro_trend_url,
         type: 'GET',

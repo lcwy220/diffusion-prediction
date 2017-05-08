@@ -1,3 +1,8 @@
+function getLocalTime(nS) {
+	var timeTrans = new Date(parseInt(nS) * 1000);
+    return timeTrans.toLocaleString('chinese',{hour12:false});
+}
+
 function small_trend(data) {
     var data = eval(data)
     var data_time = [];
@@ -5,7 +10,7 @@ function small_trend(data) {
     var data_predict = [];
     if(data){
         for(var i=0; i<data.length;i++){
-            date_time = new Date(parseInt(data[i][0]) * 1000).toLocaleString();
+            date_time =getLocalTime(data[i][0]);
             data_time.push(date_time);
             data_truth.push(data[i][1]);
             data_predict.push(data[i][2]);
@@ -97,7 +102,6 @@ function small_trend_outter(){
     var micro_trend_url = '/prediction/get_micro_prediction/?task_name='+task_name+
     '&start_ts='+start_ts+'&end_ts='+end_ts;
 
-    console.log(micro_trend_url);
     $.ajax({
         url: micro_trend_url,
         type: 'GET',

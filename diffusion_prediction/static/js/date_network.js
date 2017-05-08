@@ -18,6 +18,7 @@ $(objDiv).css("display", "none");
 } 
 
 function set_trend_type(val) {
+
   case_val = val;
   $('#right_col_title_2_network').empty();
 
@@ -337,7 +338,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
         }
         // var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
-        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+photo_img+'/><td>';
+        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;position:relative;left:-10px;" class="photo_user" src='+photo_img+'/><td>';
         html += '<td><p style="font-size: 12px;">用户昵称：'+nick_name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
         
       

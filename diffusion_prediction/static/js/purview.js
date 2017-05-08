@@ -1,7 +1,6 @@
 //人物传感器列表-----
 function sensor(data) {
     var data=eval(data);
-    console.log(data);
     // for(var i=0;i<data.length;i++){
     //     if(typeof data[i] == string){
     //         new_data = {""}
@@ -18,11 +17,11 @@ function sensor(data) {
         searchAlign: "left",
         searchOnEnterKey: false,//回车搜索
         // showRefresh: true,//刷新按钮
-        showColumns: true,//列选择按钮
+        showColumns: false,//列选择按钮
         buttonsAlign: "right",//按钮对齐方式
         locale: "zh-CN",//中文支持
         detailView: false,
-        showToggle:true,
+        showToggle:false,
         sortName:'bci',
         sortOrder:"desc",
         columns: [
@@ -161,18 +160,7 @@ function sensor(data) {
                 },
             },
         ],
-        // onClickRow: function (row, $element) {
-        //     // if ($element[0].innerText=='添加') {
-        //     //     add_sensor_outter(row.id);
-        //     // }
-        //     text = $element[0].innerText
-        //     console.log($element[0].innerText);
-        //     console.log(typeof(text));
-        //     console.log(text.length);
-        //     if (field=='删除') {
-        //         delete_sensor_outter(row.id);
-        //     }
-        // }
+
     });
 }
 
@@ -199,10 +187,7 @@ function add_sensor(data){
 }
 
 function add_sensor_outter(add_users){
-    // var users = $('#sensor').bootstrapTable('getSelections', 'none');
-    // console.log(users);
-    console.log(add_users);
-    console.log(typeof(add_users));
+
     var add_sensor_url = '/manage/add_social_sensors/?add_users='+add_users;
     $.ajax({
         url: add_sensor_url,
@@ -266,11 +251,11 @@ function sort(data) {
         searchAlign: "left",
         searchOnEnterKey: false,//回车搜索
         // showRefresh: true,//刷新按钮
-        showColumns: true,//列选择按钮
+        showColumns: false,//列选择按钮
         buttonsAlign: "right",//按钮对齐方式
         locale: "zh-CN",//中文支持
         detailView: false,
-        showToggle:true,
+        showToggle:false,
         sortName:'bci',
         sortOrder:"desc",
         columns: [
@@ -312,6 +297,7 @@ function sort(data) {
                 formatter: function (value, row,index) {
                     // var del='<a>删除</a>';
                     var modify='<a style="cursor:pointer;" data-toggle="modal" data-target="#modify_rank" onclick="editInfo(\''+row.topic+'\',\''+row.rank+'\')">修改</a>';
+
                     return modify;
                 },
             }
@@ -348,7 +334,7 @@ function modify_sort(data){
 }
 
 function modify_sort_outter(topic,rank){
-    console.log("modify!!");
+
     var modify_sort_url='/manage/revise_order/?topic='+topic+'&rank='+rank;
     $.ajax({
         url: modify_sort_url,
@@ -370,9 +356,7 @@ sort_outter();
 function interfer_parameter(data) {
     var data=eval(data);
     var data_list = [];
-    
-    // console.log(data_list);
-    
+
     for(var key in data){
         data_dic = {}
         if(key == "extend_retweet_threshold"){
@@ -388,7 +372,6 @@ function interfer_parameter(data) {
         }
         data_list.push(data_dic);
     }
-    console.log(data_list);
 
     $('#emulation').bootstrapTable('load',data_list);
     $('#emulation').bootstrapTable({
@@ -401,11 +384,11 @@ function interfer_parameter(data) {
         searchAlign: "left",
         searchOnEnterKey: false,//回车搜索
         // showRefresh: true,//刷新按钮
-        showColumns: true,//列选择按钮
+        showColumns: false,//列选择按钮
         buttonsAlign: "right",//按钮对齐方式
         locale: "zh-CN",//中文支持
         detailView: false,
-        showToggle:true,
+        showToggle:false,
         sortName:'bci',
         sortOrder:"desc",
         columns: [
@@ -446,8 +429,7 @@ function interfer_parameter(data) {
                 valign: "middle",//垂直
                 width:200,
                 formatter: function (value, row,index) {
-                    console.log(row.name);
-                    console.log(row.para_value);
+
 
                     var modify='<a style="cursor:pointer;" data-toggle="modal" data-target="#modify_para" onclick="editInfo_para(\''+row.name+'\',\''+row.para_value+'\')">修改</a>';
                     

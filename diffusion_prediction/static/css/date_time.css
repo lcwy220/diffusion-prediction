@@ -343,7 +343,7 @@ position: absolute;
 
 #btn_radio_place {
 	position: relative;
-	top: 7px;
+	top: 15px;
 }
 
 .control-pane{
@@ -463,16 +463,8 @@ position: absolute;
 
 #blog_scan_area_emotion_page{
 	background-color: #E4E4E4;
-    width: 60%;
-    height: 30px;
     position: relative;
-    margin-left: 20.1%;
-    margin-top: -10%;
-    /* margin-bottom: 10%; */
-    display: table;
-    overflow: hidden;
-    /* height: auto; */
-    float: left;
+   padding-bottom:20px;
 }
 
 #blog_scan_area_network_page{
@@ -650,7 +642,7 @@ position: absolute;
 	font-family: Microsoft YaHei;
 	color: #FFCC00;
 	position: relative;
-	margin-bottom: 3.6%;
+	margin:0;
 	/*float: left;*/
 }
 
@@ -739,6 +731,7 @@ div.pager span.disabled {
 #main_place {
 	width: 600px;
     height: 600px;
+    margin-left:200px;
     position: relative;
 	display: inline-block;
 }
@@ -825,7 +818,7 @@ div.pager span.disabled {
 }
 
 #right_col_title_1 {
-	
+	text-align:center;
 	}
 #right_col_title_1_blue {
 	background-color:#1196DB;
@@ -874,8 +867,8 @@ div.pager span.disabled {
 #right_col_title_2_network {
 	background-color: #E4E4E4;
 	width: 265px;
-	height: 570px;
-	max-height: 570px;
+	height: 590px;
+	max-height: 590px;
 	position: relative;
 	overflow: hidden;
 }
@@ -902,7 +895,7 @@ div.pager span.disabled {
 	width: 20px;
 	height: 20px;
 	position: relative;
-	margin-left: 6%;
+	margin-left: 7%;
 	margin-top: 1.3%;
 	float: left;
 }
@@ -927,8 +920,7 @@ div.pager span.disabled {
 
 #publish {
 	position: relative;
-	margin-left: 30%;
-	margin-top: -8.5%;
+	top:5px;
 	float: left;
 	font-size: 16px;
 	font-family: Microsoft YaHei;
@@ -983,6 +975,7 @@ background-color:#FFFFFF;
 
 
 #main_network {
+margin-left:200px;
 	width:600px;
 	height:600px;
 	position: relative;
@@ -1001,14 +994,13 @@ background-color:#FFFFFF;
 
 #right_col_network {
 	background-color: #FFFFFF;
-	width: 300px;
 	height: 600px;
 	position: absolute;
 	top: 0;
 	right: 0;
 }
 #right_col_title_1_network {
-	
+	text-align:center;
 	}
 #right_col_title_1_network_blue {
 	background-color:#1196DB;
@@ -1034,9 +1026,6 @@ background-color:#FFFFFF;
 	width: 30px;
 	height: 30px;
 	position: relative;
-	margin-left: 2%;
-	margin-top: -3%;
-	float: left;
 }
 
 
@@ -1046,9 +1035,6 @@ background-color:#FFFFFF;
 	font-family: Microsoft YaHei;
 	color: #000000;
 	position: relative;
-	margin-left: 1%;
-	margin-top: -3.4%;
-	float: left;
 }
 
 #trend_pusher {
@@ -1104,14 +1090,14 @@ background-color:#FFFFFF;
 	width:800px;
 	height:400px;
 	position: relative;
-	margin-left: 22%;
-	margin-top: 0.5%;
+	margin:0 auto;
 }
 
 
 #main_emotion_2 {
 	width:600px;
 	height:600px;
+	margin-left:200px;
 	position: relative;
 }
 
@@ -1157,10 +1143,9 @@ background-color:#FFFFFF;
 }
 
 #main_meaning_3 {
-	/*width:600px;*/
-	/*height:auto;*/
+	width:600px;
+	height:auto;
 	margin: 0 auto;
-	overflow: hidden;
 }
 
 
@@ -1244,7 +1229,7 @@ background-color:#FFFFFF;
 	/*background-color: #E4E4E4;*/
 	/*background-color: #00CC00;*/
 	width: 284px;
-	height: 470px;
+	height: 490px;
 	position: relative;
 	margin-left: 0%;
 	margin-top: 1%;
@@ -1254,10 +1239,6 @@ background-color:#FFFFFF;
 	/*background-color: #E4E4E4;*/
 	/*background-color: #00CC00;*/
 	width: 284px;
-	height: 470px;
+	height: 490px;
 	position: relative;
-	margin-left: 0%;
-	margin-top: 1%;
-}
-
-
+	}

@@ -3,16 +3,51 @@
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/prediction.css">
 <style>
+    /*AG*/
+    /*.table>thead:first-child>tr:first-child>th {*/
+        /*width:1%!important;*/
+    /*}*/
+    /*AG------*/
 
+    /*学校*/
+    .fixed-table-container thead th .th-inner {
+        overflow: auto;
+        text-overflow: inherit;
+        white-space: normal;
+    }
+    .table>thead:first-child>tr:first-child>th {
+        width: 8%!important;
+    }
+    .fixed-table-container thead th .sortable {
+        padding-right: 10px;
+    }
+    .bootstrap-table .table {
+        border-bottom: none;
+    }
+    /*学校-------------*/
+    .form-control {
+        width:100%!important;
+        margin:0!important;
+    }
+
+     #basic_infor  p {
+        font-size:16px;
+        margin:15px auto;
+        color:#0A0A0A;
+    }
+     #basic_infor  p  span{
+        font-weight:600;
+    }
 </style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
     <div class="build_prediction">
-        <h1 class="title-1" style='margin: 10px auto;color: #292727;font-size: 22px'>
-            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
-            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left: -2px;margin-bottom: -3px;"></span>
+            <h2 style="margin:30px auto;;"><b class="icon icon-tags"></b>&nbsp;态势预测</h2>
+        <h1 class="title-1" style='margin: 25px auto;color: #292727;font-size: 22px'>
+             <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
             新建预测任务
         </h1>
       
@@ -28,7 +63,7 @@
             <div class="task_words menu_m">
                 <span class="menu_m_s">关键词</span>
                 <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
-                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
+                <input id="key-2" class="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;">
                 <b class="icon icon-plus add_new" style="display: inline-block;margin-left: 10px;cursor: pointer;"></b>
             </div>
             <div class="task_time menu_m">
@@ -75,30 +110,72 @@
             </div>
 
             <div class="new_build menu_m" style="height: 25px">
-                <button id="build" style="float: right;margin-right: 100px">新建任务</button>
+                <button id="build" style="float: right;">新建任务</button>
             </div>
         </div>
     </div>
     <div class="prediction_task">
         <h1 class="title-2" style='margin: 15px auto;color: #292727;font-size: 22px'>
-        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
-        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left:-2px;margin-bottom: -3px;"></span>
+         <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
         任务列表
         </h1>
         <div id="task_lists" style="width: 100%;">
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="basic_infor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top:150px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">任务详情信息</h4>
+      </div>
+      <div class="modal-body">
+          <p>
+               任务名称: <span id="ba_name"></span>
+          </p>
+        <p>
+            提交人: <span id="ba_user"></span>
+        </p>
+          <p>
+              添加时间: <span id="ba_submit"></span>
+          </p>
+          <p>
+              备注: <span id="ba_remark"></span>
+          </p>
+          <p>
+              匹配关键词: <span id="ba_keywords"></span>
+          </p>
+          <p>
+              开始时间: <span id="ba_start"></span>
+          </p>
+          <p>
+              终止时间: <span id="ba_end"></span>
+          </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-$('.add_new').on('click',function () {
-    var _input='<input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" ' +
-            'title="多个关键词请用‘,’(逗号)隔开" style="width: 200px;margin: 10px 0 0 327px;">';
-    $(this).before(_input);
-});
+ $('.add_new').on('click',function () {
+        var _input='<div class="_div"><input class="key-2" type="text" placeholder="请输入您的Or关键词(必填）" ' +
+                'title="多个关键词请用‘,’(逗号)隔开" style="width:200px;display:inline-block;margin: 10px 0 0 328px;">'+
+                 '<b class="icon icon-remove remove_new" style="display: inline-block;margin-left: 10px;cursor: pointer;"></b></div>';
+        $(this).after(_input);
+        $('.remove_new').on('click',function () {
+            $(this).parent('._div').remove();
+    });
+    });
    
     $(function () {
         $('#datetimepicker1').datetimepicker();
