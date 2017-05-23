@@ -40,16 +40,10 @@ a,a:link,a:hover,a:visited,a:active {
 }
 
 #nav .nav_top h2 {
-    /*padding:10px 0 10px 70px;*/
-    /*margin-left: 6px;*/
-    /*margin-top: -5px;*/
-    /*background: url("/static/images/logo.png") no-repeat;*/
-    /*background-size:50px 50px ;*/
-
-    /*以下内容为学校样式，非AG*/
-    font-size:24px;
     padding:10px 0 10px 70px;
-    background: url("/static/images/logo.png") no-repeat;
+    margin-left: 6px;
+    margin-top: -5px;
+     background: url("/static/images/logo.png") no-repeat;
     background-size:50px 50px ;
 }
 #nav .nav_bottom {
@@ -58,12 +52,9 @@ a,a:link,a:hover,a:visited,a:active {
     margin-top:10px;
 }
 #nav .nav_bottom .list {
-    float: right;
+    /*float: right;*/
     margin-right: 30px;
-    /*margin-top: 10px;*/
-
-    /*以下为学校样式*/
-    margin-top:20px;
+    margin-top: 10px;
 }
 #nav .nav_bottom .list .main_li {
     float: left;
@@ -74,11 +65,9 @@ a,a:link,a:hover,a:visited,a:active {
     height: 64px;
     padding: 0 20px;
     line-height: 64px;
-    /*font-size: 20px;*/
+    font-size: 20px;
     color: #fff;
     cursor: pointer;
-    /*以下为学校样式*/
-    font-size: 14px;
 }
 #nav .nav_bottom .list .main_li .line {
     position: relative;
@@ -117,4 +106,18 @@ a,a:link,a:hover,a:visited,a:active {
     background-color: #9b9b9b;
     border-radius: 5px;
     margin-top: 10px;
+}
+@media screen and (max-width: 1370px){
+	#nav .nav_top h2 {
+		font-size: 24px;
+	    margin-left: 0;
+	    margin-top: 0;
+	}
+	#nav .nav_bottom .list {	
+		float: right;    
+	    margin-top:20px;
+	}
+	#nav .nav_bottom .list .main_li .li_a {
+		font-size: 14px;
+	}
 }

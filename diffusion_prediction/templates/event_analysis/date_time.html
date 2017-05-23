@@ -101,22 +101,52 @@
    			</label>
 		</div>
 		
-		<div class="halving_line3"></div>
+		<div class="halving_line3" style="width:100%;margin:6px auto 0;"></div>
 	</div>
-	<div id="blog_scan_area_time" style="width:70.5%;padding: 20px;">
+	<!--<div id="blog_scan_area_time" style="width:70.5%;padding: 20px;">-->
 		
 		<!-- 画图，见time_blogscan.js文件（此处移除了所有的） -->
 		<!--<div id="emotion_loading" style="text-align:center;">正在加载，请稍候...</div>-->
 
-	</div>
+	<!--</div>-->
+<style>
+	.current_weibo span:hover {
+		background-color: inherit;
+	}
+	.current_weibo #div-button input:hover {
+		background-color: #eee!important;
+	}
+</style>
+                <div class="current_weibo" style="background-color:#e4e4e4;width:70.5%;margin:0 auto;padding:0 20px;">
+                    <div id="group_emotion_loading" style="display:block;text-align:center;">
+                        正在加载，请稍后...
+                    </div>
+                    <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                        <table id="input-table" class="In-table" style='width:100%;'>
+                            <tbody class="In-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='pages_number' style="width:100%;text-align:center;padding: 10px 0 20px;">
+                        <span style="display:none;">每页<b id="PageNo">5</b>组</span>
+                        <span style="display: inline-block">总共<b id="Pagenums"></b>条微博</span>
+                        <div id="div-button" style="display:inline-block;margin-left:10px;">
+                            <input type="button" value="首页" id="F-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="上一页" id="Pre-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="下一页" id="Nex-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="尾页" id="L-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                        </div>
+                        <span style="display:inline-block;">&nbsp;当前第<b id="s2"></b>页</span>
+                        <span style="display:inline-block;">总共<b id="s1"></b>页</span>
+                    </div>
+                </div>
+	<!--<div  id="blog_scan_area_time_page" style="width:70.5%;padding:0 20px 20px;">-->
+		<!--<ul class="pager" style="margin: 0 auto;">-->
+			<!--<li class="previous" onclick="up_time()"><a style="font-size: 16px;" >&larr; 上一页</a></li>-->
+			<!--<li class="next"  onclick="down_time()"><a style="font-size: 16px;">下一页 &rarr;</a></li>-->
+		<!--</ul>-->
 
-	<div  id="blog_scan_area_time_page" style="width:70.5%;padding:0 20px 20px;">
-		<ul class="pager" style="margin: 0 auto;">
-			<li class="previous" onclick="up_time()"><a style="font-size: 16px;" >&larr; 上一页</a></li>
-			<li class="next"  onclick="down_time()"><a style="font-size: 16px;">下一页 &rarr;</a></li>
-		</ul>
-
-	</div>
+	<!--</div>-->
 
 	</div>
 

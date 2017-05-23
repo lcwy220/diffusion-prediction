@@ -3,31 +3,31 @@
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/prediction.css">
 <style>
-    /*AG*/
-    /*.table>thead:first-child>tr:first-child>th {*/
-        /*width:1%!important;*/
-    /*}*/
-    /*AG------*/
-
-    /*学校*/
-    .fixed-table-container thead th .th-inner {
-        overflow: auto;
-        text-overflow: inherit;
-        white-space: normal;
-    }
     .table>thead:first-child>tr:first-child>th {
-        width: 8%!important;
+        width:1%!important;
     }
-    .fixed-table-container thead th .sortable {
-        padding-right: 10px;
+    @media screen and (max-width: 1370px){
+        .fixed-table-container thead th .th-inner {
+            overflow: auto;
+            text-overflow: inherit;
+            white-space: normal;
+        }
+        .table>thead:first-child>tr:first-child>th {
+            width: 8%!important;
+        }
+        .fixed-table-container thead th .sortable {
+            padding-right: 10px;
+        }
+        .bootstrap-table .table {
+            border-bottom: none;
+        }
     }
-    .bootstrap-table .table {
-        border-bottom: none;
-    }
-    /*学校-------------*/
     .form-control {
         width:100%!important;
         margin:0!important;
+    }
+    .bootstrap-table .table {
+        border-bottom:none;
     }
 
      #basic_infor  p {
@@ -162,6 +162,43 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="_same_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="_same_task2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word2'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat2()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 <!-- 自己的JS -->
@@ -177,19 +214,15 @@
     });
     });
    
+     var _date=new Date();
     $(function () {
-        $('#datetimepicker1').datetimepicker();
-        $('#datetimepicker2').datetimepicker();
-        $("#datetimepicker1").on("dp.change",function (e) {
-            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker2").on("dp.change",function (e) {
-            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-        });
+        $('#datetimepicker1').datetimepicker('setEndDate',_date);
+        $('#datetimepicker2').datetimepicker('setStartDate',_date);
+
     });
-    $('.prediction_results').on('click',function () {
-        window.open('/prediction/forecast_result/');
-    })
+    // $('.prediction_results').on('click',function () {
+    //     window.open('/prediction/forecast_result/');
+    // })
 </script>
 <script src="/static/js/prediction.js"></script>
 {% endblock %}

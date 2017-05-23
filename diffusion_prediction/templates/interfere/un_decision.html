@@ -3,28 +3,25 @@
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/un_decision.css">
 <style>
-#optional_task input {
-    width: 30px!important;
-}
-/*AG*/
-/*.table>thead:first-child>tr:first-child>th {*/
-    /*width: 1%!important;*/
-/*}*/
-/*AG------*/
-
-/*学校*/
-.fixed-table-container thead th .th-inner {
-    overflow: auto;
-    text-overflow: inherit;
-    white-space: normal;
-}
-.table>thead:first-child>tr:first-child>th {
-    width:2%!important;
-}
-.fixed-table-container thead th .sortable {
-    padding-right:20px;
-}
-/*学校------*/
+    #optional_task input {
+        width: 30px!important;
+    }
+    .table>thead:first-child>tr:first-child>th {
+        width:1%!important;
+    }
+    @media screen and (max-width: 1370px){
+        .fixed-table-container thead th .th-inner {
+            overflow: auto;
+            text-overflow: inherit;
+            white-space: normal;
+        }
+        .table>thead:first-child>tr:first-child>th {
+            width: 2%!important;
+        }
+        .fixed-table-container thead th .sortable {
+            padding-right: 20px;
+        }
+    }
      .form-control {
         width:100%!important;
         margin:0!important;
@@ -159,7 +156,42 @@
     </div>
   </div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="_same_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="_same_task2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word2'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat2()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 <!-- 自己的JS -->
@@ -174,20 +206,16 @@
             $(this).parent('._div').remove();
     });
     });
+     var _date=new Date();
     $(function () {
-        $('#datetimepicker3').datetimepicker();
-        $('#datetimepicker4').datetimepicker();
-        $("#datetimepicker3").on("dp.change",function (e) {
-            $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker4").on("dp.change",function (e) {
-            $('#datetimepicker3').data("DateTimePicker").maxDate(e.date);
-        });
+        $('#datetimepicker3').datetimepicker('setEndDate',_date);
+        $('#datetimepicker4').datetimepicker('setStartDate',_date);
+
     });
 
-    $('.decision_results').on('click',function () {
-        window.open('/interfere/strategy_results/');
-    })
+    // $('.decision_results').on('click',function () {
+    //     window.open('/interfere/strategy_results/');
+    // })
 </script>
 <script src="/static/js/un_decision-1.js"></script>
 <script src="/static/js/un_decision-2.js"></script>

@@ -1,4 +1,3 @@
-
 {% extends "public_nav.html" %}
 {% block title %}<title>事件分析</title>{% endblock %}
 {% block my_css %}
@@ -15,25 +14,9 @@
         width: 60%;
         margin: 0 auto 30px;
     }
-    /*AG*/
-    /*.table>thead:first-child>tr:first-child>th {*/
-        /*width: 1%!important;*/
-    /*}*/
-    /*AG---*/
-
-    /*学校*/
-    .fixed-table-container thead th .th-inner {
-        overflow: auto;
-        text-overflow: inherit;
-        white-space: normal;
-    }
     .table>thead:first-child>tr:first-child>th {
-        width: 8%!important;
+        width: 1%!important;
     }
-    .fixed-table-container thead th .sortable {
-        padding-right: 10px;
-    }
-    /*学校-----*/
     #basic_infor  p {
         font-size:16px;
         margin:15px auto;
@@ -41,6 +24,19 @@
     }
      #basic_infor  p  span{
         font-weight:600;
+    }
+    @media screen and (max-width: 1370px){
+        .fixed-table-container thead th .th-inner {
+            overflow: auto;
+            text-overflow: inherit;
+            white-space: normal;
+        }
+        .table>thead:first-child>tr:first-child>th {
+            width: 8%!important;
+        }
+        .fixed-table-container thead th .sortable {
+            padding-right: 10px;
+        }
     }
 </style>
 {% endblock %}
@@ -152,6 +148,24 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="_same_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 <!-- 自己的JS -->
@@ -166,16 +180,11 @@
             $(this).parent('._div').remove();
     });
     });
-
+    var _date=new Date();
     $(function () {
-        $('#datetimepicker6').datetimepicker();
-        $('#datetimepicker7').datetimepicker();
-        $("#datetimepicker6").on("dp.change",function (e) {
-            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker7").on("dp.change",function (e) {
-            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-        });
+        $('#datetimepicker6').datetimepicker('setEndDate',_date);
+        $('#datetimepicker7').datetimepicker('setEndDate',_date);
+
     });
     var start_time,end_time;
     function st_finish(start,end) {

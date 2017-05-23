@@ -25,7 +25,7 @@ def hot_event():
     start_ts = request.args.get('start_ts','')
     end_ts = request.args.get('end_ts','')
     pinyin_task_name = pinyin.get(task_name.encode('utf-8'),format='strip',delimiter='_')
-    return render_template('event_analysis/date_base.html',task_name=pinyin_task_name,start_ts=start_ts,end_ts=end_ts)
+    return render_template('event_analysis/date_base.html',task_name=pinyin_task_name,rel_name=task_name,start_ts=start_ts,end_ts=end_ts)
 
 
 @mod.route('/submit_event_task/')

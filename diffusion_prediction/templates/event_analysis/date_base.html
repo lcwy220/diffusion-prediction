@@ -30,7 +30,9 @@
 </script>
 
 <div id="container">
-    <p class="type-list" >
+
+    <div class="type-list" >
+    <h1 id='name_title' style="text-align: center;font-size: 32px;margin: 10px 0 20px;"></h1>
         <span class="time" onclick="time_load()">
             <b class="icon icon-time"></b>&nbsp;&nbsp;时间
         </span>
@@ -42,7 +44,7 @@
             <b class="icon icon-github-alt"></b>&nbsp;&nbsp;情绪</span>
         <span class="meaning" onclick="meaning_load()">
             <b class="icon icon-edit"></b>&nbsp;&nbsp;语义</span>
-    </p>
+    </div>
 
     <!-- 分割线 -->
     <div class="halving_line"></div>
@@ -82,7 +84,33 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-    var topic_name='毛泽东诞辰纪念日';
+    //-------加载-------
+    var _PageHeight = document.documentElement.clientHeight,
+            _PageWidth = document.documentElement.clientWidth;
+    var _LoadingTop = document.body.clientHeight/4,
+            _LoadingLeft = document.body.clientWidth;
+    var _LoadingHtml = '<div id="loadingDiv" style="position:absolute;left:0;text-align:center;width:100%;height:' +
+            _PageHeight + 'px;top:0;background:#fff;opacity:0.9;filter:alpha(opacity=90);z-index:10000;">' +
+            '<div style="width:100%;position: fixed;top:'+_LoadingTop+'px">' +
+            '<img style="margin:200px auto 0;" src="/static/images/dote.gif"></div></div>';
+    document.write(_LoadingHtml);
+    //document.onreadystatechange = completeLoading;
+    window.onload=function () {
+        completeLoading();
+    };
+    function completeLoading() {
+        if (document.readyState == "complete") {
+            var loadingMask = document.getElementById('loadingDiv');
+            loadingMask.parentNode.removeChild(loadingMask);
+        }
+    }
+
+    //------加载结束------
+
+
+
+    var topic_name='{{task_name}}';
+    $('#name_title').text('{{rel_name}}');
     //---------时间控件
     $(function () {
         $('#datetimepicker11').datetimepicker();
@@ -149,7 +177,6 @@
 <script src="../../static/js/jqcloud-1.0.4.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src='../../static/js/dataTool.js'></script>
 <script type="text/javascript" src="../../static/js/jquery.eeyellow.Timeline.js"></script>
-<script id="hello" type="text/javascript" src=""></script>
 
 
  <script type="text/javascript" src="../../static/js/date_time.js"></script>

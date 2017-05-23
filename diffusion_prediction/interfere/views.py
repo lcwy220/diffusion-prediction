@@ -326,5 +326,46 @@ def ajax_show_analysis_task():
 
     return json.dumps(return_dict)
 
+# below the diffusion path 
+@mod.route('/key_user/')
+def ajax_get_hot_user():
+    task_name = request.args.get('task_name','')
+    update_time = request.args.get("update_time","")
+    pinyin_task_name = pinyin.get(task_name.encode('utf-8'), format='strip', delimiter="_")
+    index_name = "stimulation_"+pinyin_task_name
+    index_type = "stimulation_results"
+    es_results = es_prediction.get(index=index_name, doc_type=index_type, id=update_time)["_source"]
+    future_results = json.loads(es_results["future_results"])
 
+    results = []
+    for start_uid, end_dict in future_results.iteritems():
+        tmp_uid_list = end_dict.keys()
+        tmp_uid_list.append(start_uid)
+        tmp_profile = es_user_profile.mget(index=profile_index_name, doc_type=profile_index_type,body={"ids":tmp_uid_list})["docs"]
+        tmp_profile_dict = dict()
+        for item in tmp_profile:
+            if item["found"]:
+                nick_name = item["_source"]["nick_name"]
+                fansnum = item["_source"]["fansnum"]
+            else:
+                nick_name = start_uid
+                fansnum = ''
+            tmp_iter = dict()
+            tmp_iter["nick_name"] = nick_name
+            tmp_iter["fansnum"] = fansnum
+            tmp_iter["uid"] = item["_id"]
+            if item["_id"] != start_uid:
+                tmp_iter["retweeted"] = end_dict[item["_id"]]
+            tmp_profile_dict[item["_id"]] = tmp_iter
+        tmp = []
+        tmp.extend([start_uid, tmp_profile_dict[start_uid]["nick_name"], tmp_profile_dict[start_uid]["fansnum"]])
+        tmp.append(len(end_dict))
+        tmp.append(int(sum(end_dict.values())))
+        tmp_profile_dict.pop(start_uid)
+        tmp_sorted_profile = sorted(tmp_profile_dict.values(), key=lambda x:x["retweeted"], reverse=True)
+        tmp.append(tmp_sorted_profile)
+        results.append(tmp)
+    results = sorted(results, key=lambda x:x[3], reverse=True)
+
+    return json.dumps(results)
 

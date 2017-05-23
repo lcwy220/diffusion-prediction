@@ -1,29 +1,80 @@
 //新建任务
 
+var name='',must_val='',_should=[],s_str=[],should_val='',start='',end='',remark='';
 $('#build').on('click',function () {
-    var name=$('#new_task').val();
-    var must_val=$('#key-1').val().replace(/,|，/g,'_');
+     name=$('#new_task').val();
+     must_val=$('#key-1').val().replace(/,|，/g,'_');
 //    var should_val=$('#key-2').val();
-     var _should=[],s_str=[];
+      _should=[],s_str=[];
     $("input.key-2").each(function(){
+    if ($(this).val()!=''){
         _should.push($(this).val());
+    }
     });
     for(var s=0;s<_should.length;s++){
         s_str.push(_should[s].replace(/,|，/g,'|'));
     }
-    var should_val=s_str.join('_');
-    var start= Date.parse(new Date($('.start').val())).toString().substr(0,10);
-    var end= Date.parse(new Date($('.end').val())).toString().substr(0,10);
-    var remark = $("#remarks").val();
-    if (name==''||must_val==''||should_val==''||$('.start').val()==''||$('.end').val()==''){
-        alert('请检查您的名称，关键词，时间。不能为空！');
+     should_val=s_str.join('_');
+     start= Date.parse(new Date($('.start').val())).toString().substr(0,10);
+     end= Date.parse(new Date($('.end').val())).toString().substr(0,10);
+     remark = $("#remarks").val();
+    if (name==''||$('.start').val()==''||$('.end').val()==''){
+        alert('请检查您的名称，时间。不能为空！');
+    }else if (!((must_val)||(should_val))){
+        alert('请检查您的关键词。不能为空！');
     }else if (start>end){
         alert('请检查您的时间，开始时间不能大于结束时间。');
     }else {
         st_finish(start,end);
+        var check_same_task_url='/manage_event/check_same_task/?task_name='+name;
+        $.ajax({
+            url: check_same_task_url,
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            success:function(data){
+                var data=eval(data);
+                var check=[];
+                var one='';
+                for (var key in data){
+                    check.push(data[key]);
+                }         
+                if(check[0]==0&&check[1]==0&&check[2]==0){
+                    _creat();
+                }else {
+                    if(check[0]==1) {
+                        one+=' 干预决策任务';
+                    }
+                    if(check[1]==1) {
+                        one+=' 态势预测任务';
+                    }
+                    if(check[2]==1) {
+                        one+=' 事件分析任务';
+                    }
+                    $('#_same_task #_word').html('<b style="color:red;">'+one+'</b>中与您的任务名称<b style="color:red;">重复</b>，您确定还要创建吗？')
+                    $('#_same_task').modal('show'); 
+     
+                }
 
-        var new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_time='+start+'&stop_time=' +
-            end+'&must_keywords='+must_val+'&should_keywords='+should_val+'&submit_user=admin@qq.com'+'&remark='+remark;
+                
+            }
+        });
+        
+    }
+});
+function _creat(){
+    
+         var new_task_url='/manage_event/submit_event_task/?task_name='+name+'&start_time='+start+'&stop_time=' +
+            end+'&submit_user='+submit_user;
+         if(remark!=''){
+            new_task_url+='&remark='+remark;
+        }
+        if(must_val!=''){
+            new_task_url+='&must_keywords='+must_val;
+        }
+        if (should_val!=''){
+            new_task_url+='&should_keywords='+should_val;
+        }
         $.ajax({
             url: new_task_url,
             type: 'GET',
@@ -31,8 +82,7 @@ $('#build').on('click',function () {
             async: true,
             success:build_task
         });
-    }
-});
+}
 function build_task(data) {
     if (data[0]==1){
         alert('创建成功。');
@@ -40,8 +90,9 @@ function build_task(data) {
         $('.new_task_menu input').each(function(){
             $(this).val('');
         })
+        $('.task_words ._div').remove();
     }else {
-        alert('创建失败。');
+        alert('创建失败！本模块已有相同任务。');
     }
 };
 
@@ -52,7 +103,6 @@ function getLocalTime(nS) {
 }
 
 //展示所有任务
-
 
 function task(data) {
     var data=eval(data);
@@ -82,6 +132,7 @@ function task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
+                width:50,
                 formatter: function (value, row, index) {
                     return index+1;
                 }
@@ -176,7 +227,7 @@ function task(data) {
                        var e = '<a style="cursor:pointer;" onclick="go_to_detail_event(\''+ row.task_name 
                        +'\',\''+row.start_time
                        +'\',\''+row.stop_time
-                       +'\',\''+row.event_value_finish+'\')">查看</a>';
+                       +'\',\''+row.event_value_finish+'\')">点击查看</a>';
 
                         return e
                 },
@@ -211,7 +262,6 @@ function infor(_id){
         async: true,
         success:function(data){
             var data=eval(data);
-            console.log(data)
             $('#ba_name').text(data.task_name);
              $('#ba_user').text(data.submit_user);
               $('#ba_submit').text(getLocalTime(data.submit_time));
@@ -231,7 +281,6 @@ function infor(_id){
              for (var s=0;s<data.should_keywords.length;s++){
              var a,b=[],c;
                  for (var h=0;h<data.should_keywords[s].length;h++){
-
                     if(h==0){
                         a=data.should_keywords[s][h].toString();
                     }else {

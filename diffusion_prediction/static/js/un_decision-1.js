@@ -16,7 +16,6 @@ function optional_task(data) {
             } 
         }
     }
-    console.log(data_new)
     $('#optional_task').bootstrapTable('load',data_new);
     $('#optional_task').bootstrapTable({
         data:data_new,
@@ -36,14 +35,14 @@ function optional_task(data) {
         sortName:'bci',
         sortOrder:"desc",
         columns: [
-//            {
-//                title: "全选",
-//                field: "select",
-//                checkbox: true,
-//                align: "center",//水平
-//                valign: "middle",//垂直
-//
-//            },
+            {
+                title: "全选",
+                field: "select",
+                checkbox: true,
+                align: "center",//水平
+                valign: "middle",//垂直
+
+            },
             // {
             //     title: "",//标题
             //     field: "",//键名
@@ -74,7 +73,6 @@ function optional_task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                width:100,
                 
             },
             {
@@ -84,7 +82,6 @@ function optional_task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                width:200,
                 formatter: function (value, row, index) {
                     return getLocalTime(value);
                 },
@@ -96,7 +93,6 @@ function optional_task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                width:200,
                 formatter: function (value, row, index) {
                     return getLocalTime(value);
                 },
@@ -108,7 +104,6 @@ function optional_task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                width:100,
             },
             {
                 title: "任务来源",//标题
@@ -117,7 +112,6 @@ function optional_task(data) {
                 order: "desc",//默认排序方式
                 align: "center",//水平
                 valign: "middle",//垂直
-                width:100,
                 
             },
             // {
@@ -133,9 +127,15 @@ function optional_task(data) {
             //     },
             // },
         ],
-        // onClickRow: function (row, tr) {
-        //     // tr[0].childNodes[5].innerText
-        // }
+        onCheck: function (row) {
+            
+            $("#new_task").val(row.task_name);
+            $("#remarks").val(row.remark);
+        },
+        onUncheck:function(row){
+            $("#new_task").val('');
+            $("#remarks").val('');
+        }
     });
 }
 
@@ -314,15 +314,6 @@ function task_lists(data) {
 
 function go_to_detail_inf(task_name,update_time){
 
-    // if(compute_status==0){
-    //   alert('尚未计算，请稍后查看。');
-    // }else if(compute_status==1){
-    //   alert('正在计算，请稍后查看。');
-    // }else if(compute_status==2){
-    //     console.log(task_name,start_time,stop_time,compute_status);
-    //   window.open('/interfere/intervention_strategy/?task_name='+task_name);
-    // }
-
     window.open('/interfere/intervention_strategy/?task_name='+task_name+'&update_time='+update_time);
 }
 
@@ -356,7 +347,6 @@ function infor(_id){
         async: true,
         success:function(data){
             var data=eval(data);
-            console.log(data)
             $('#ba_name').text(data.task_name);
              $('#ba_user').text(data.submit_user);
               $('#ba_submit').text(getLocalTime(data.submit_time));
@@ -470,79 +460,105 @@ mation_url='/manage_event/show_task_detail/?task_name='+_id;
 
 //新建任务
 function create_task(data){
-    var data=eval(data);
-    if (data[0] = 1) {
+    if (data[0] == '1') {
         alert("创建成功！");
 $('.decision_menu input').each(function(){
             $(this).val('');
         })
+         $('.task_words ._div').remove();
         task_lists_outter();
     }
     else{
-        alert("创建失败！请检查后重新提交。")
+        alert("创建失败！本模块已有相同任务。")
     }
 
 }
-
+var choose_data;
 $("#build_inf").on('click',function(){
     
     choose_data = $('#optional_task').bootstrapTable('getAllSelections');
 
     if(choose_data.length){
-        for(var i=0;i<choose_data.length;i++){
-            var task_name = choose_data[i].task_name;
-            var start_time = choose_data[i].start_time;
-            var stop_time = choose_data[i].stop_time;
-            var remark = choose_data[i].remark;
-            var must_keywords = choose_data[i].must_keywords;
-            var should_keywords = choose_data[i].should_keywords;
-            var interfer_during = $("#inter_time").val();
-          
-            if ( $("#new_task").val()){
+        if (choose_data.length==1) {
+            var task_name = choose_data[0].task_name;
+            if ( $("#new_task").val()!=''){
                 task_name = $("#new_task").val();
-
             }
-          
-            if( Date.parse(new Date($('.start').val())).toString().substr(0,10) != 'NaN'){
-                start_time = Date.parse(new Date($('.start').val())).toString().substr(0,10);
-            }
-            if( Date.parse(new Date($('.end').val())).toString().substr(0,10) != 'NaN'){
-                stop_time = Date.parse(new Date($('.end').val())).toString().substr(0,10);
-            }
-
-            if( $("#remarks").val() ){
-                remark = $("#remarks").val();
-            }
-
-            if( $("#key-1").val()){
-                must_keywords = $("#key-1").val().replace(/,|，/g,'_');
-            }
-
-             if( $(".key-2").val()!=''){
-                 var _should=[],s_str=[];
-                $("input.key-2").each(function(){
-                    _should.push($(this).val());
-                });
-                for(var s=0;s<_should.length;s++){
-                    s_str.push(_should[s].replace(/,|，/g,'|'));
-                }
-               should_keywords=s_str.join('_');
-            }
-
-            var create_task_url = '/interfere/create_interfere_task/?task_name='+task_name+
-            '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+
-            '&remark='+remark+'&must_keywords='+must_keywords+'&should_keywords='+should_keywords+'&submit_user='+'admin@qq.com';
-            // console.log(create_task_url);
+            var check_same_task_url='/interfere/check_same_task/?task_name='+task_name;
             $.ajax({
-                url: create_task_url,
+                url: check_same_task_url,
                 type: 'GET',
                 dataType: 'json',
                 async: true,
-                success:create_task
+                success:function(data){
+                    var data=eval(data);
+                    var check=[];
+                    var one='';
+                    for (var key in data){
+                        check.push(data[key]);
+                    }         
+                    if(check[0]==0&&check[1]==0&&check[2]==0){
+                        _creat();
+                    }else {
+                        if(check[0]==1) {
+                            one+=' 干预决策任务';
+                        }
+                        if(check[1]==1) {
+                            one+=' 态势预测任务';
+                        }
+                        if(check[2]==1) {
+                            one+=' 事件分析任务';
+                        }
+                        $('#_same_task2 #_word2').html('<b style="color:red;">'+one+'</b>中与您的任务名称<b style="color:red;">重复</b>，您确定还要创建吗？')
+                        $('#_same_task2').modal('show'); 
+         
+                    }
+
+                    
+                }
+            });
+            }else{
+                alert('因业务需求，您只能选择一个任务添加。')
+            }
+    }else{
+        var task_name = $("#new_task").val(); 
+        if (task_name==''){
+            alert('请检查您的名称。不能为空！');
+        }else{
+           var check_same_task_url='/prediction/check_same_task/?task_name='+task_name;
+            $.ajax({
+                url: check_same_task_url,
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                success:function(data){
+                    var data=eval(data);
+                    var one='';
+                    if(data['interfere']==0&&data['prediction']==0&&data['event_analysis']==0){
+                        _creat();
+                    }else {
+                        if(data['interfere']==1) {
+                            one+=' 干预决策任务';
+                        }
+                        if(data['prediction']==1) {
+                            one+=' 态势预测任务';
+                        }
+                        if(data['event_analysis']==1) {
+                            one+=' 事件分析任务';
+                        }
+                        $('#_same_task2 #_word2').html('<b style="color:red;">'+one+'</b>中与您的任务名称<b style="color:red;">重复</b>，您确定还要创建吗？')
+                        $('#_same_task2').modal('show'); 
+                    }
+
+                    
+                }
             });
         }
-    }else{
-        var task_name = $("#new_task").val();
+    }
+    
+})
+function _creat(){
+    var task_name = $("#new_task").val();
         var start_time = Date.parse(new Date($('.start').val())).toString().substr(0,10);
         var stop_time = Date.parse(new Date($('.end').val())).toString().substr(0,10);
         var interfer_during = $("#inter_time").val();
@@ -556,15 +572,24 @@ $("#build_inf").on('click',function(){
             s_str.push(_should[s].replace(/,|，/g,'|'));
         }
         var should_keywords=s_str.join('_');
-        if (task_name==''||must_keywords==''||should_keywords==''||$('.start').val()==''||$('.end').val()==''){
+        if (task_name==''||$('.start').val()==''||$('.end').val()==''){
         alert('请检查您的名称，关键词，时间。不能为空！');
+    }else if (!((must_keywords)||(should_keywords))){
+        alert('请检查您的关键词。不能为空！');
     }else if (start_time>stop_time){
         alert('请检查您的时间，开始时间不能大于结束时间。');
     }else {
-        var create_task_url = '/interfere/create_interfere_task/?task_name='+task_name+
-        '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+
-        '&remark='+remark+'&must_keywords='+must_keywords+'&should_keywords='+should_keywords+'&submit_user='+'admin@qq.com';
-        // console.log(create_task_url);
+       var create_task_url = '/interfere/create_interfere_task/?task_name='+task_name+
+        '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+'&submit_user='+submit_user;
+        if (must_keywords!=''){
+            create_task_url+='&must_keywords='+must_keywords;
+        }
+         if (should_keywords!=''){
+            create_task_url+='&should_keywords='+should_keywords;
+        }
+         if (remark!=''){
+            create_task_url+='&remark='+remark;
+        }
         $.ajax({
             url: create_task_url,
             type: 'GET',
@@ -573,12 +598,63 @@ $("#build_inf").on('click',function(){
             success:create_task
         });
     }
+        }
 
 
-    }
-    
-})
+function _creat2(){
+        var task_name = choose_data[0].task_name;
+        var start_time = choose_data[0].start_time;
+        var stop_time = choose_data[0].stop_time;
+        var remark = choose_data[0].remark;
+        var must_keywords = choose_data[0].must_keywords;
+        var should_keywords = choose_data[0].should_keywords;
+        var interfer_during = $("#inter_time").val();
+      
+        if ( $("#new_task").val()!=''){
+            task_name = $("#new_task").val();
+        }
+      
+        if( Date.parse(new Date($('.start').val())).toString().substr(0,10) != 'NaN'){
+            start_time = Date.parse(new Date($('.start').val())).toString().substr(0,10);
+        }
+        if( Date.parse(new Date($('.end').val())).toString().substr(0,10) != 'NaN'){
+            stop_time = Date.parse(new Date($('.end').val())).toString().substr(0,10);
+        }
 
+        if( $("#remarks").val()!='' ){
+            remark = $("#remarks").val();
+        }
+
+        if( $("#key-1").val()!=''){
+            must_keywords = $("#key-1").val().replace(/,|，/g,'_');
+        }
+
+         if( $(".key-2").val()!=''){
+             var _should=[],s_str=[];
+            $("input.key-2").each(function(){
+                 if ($(this).val()!=''){
+                    _should.push($(this).val());
+                }
+            });
+            for(var s=0;s<_should.length;s++){
+                s_str.push(_should[s].replace(/,|，/g,'|'));
+            }
+           should_keywords=s_str.join('_');
+        }
+
+        var create_task_url = '/interfere/create_interfere_task/?task_name='+task_name+
+        '&start_time='+start_time+'&stop_time='+stop_time+'&interfer_during='+interfer_during+
+        '&remark='+remark+'&must_keywords='+must_keywords+'&should_keywords='+should_keywords+'&submit_user='+submit_user;
+        // console.log(create_task_url);
+        $.ajax({
+            url: create_task_url,
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            success:create_task
+        }); 
+
+}        
 //新建任务---完----
 
 //删除任务  
