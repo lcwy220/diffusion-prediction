@@ -1,6 +1,3 @@
-// var topic = 'aoyunhui';
-// var start_ts = 1467648000;
-// var end_ts = 1470844800;
 var sort_item_network = 'timestamp';
 var blog_type_network = 'maker';
 
@@ -21,6 +18,7 @@ $(objDiv).css("display", "none");
 } 
 
 function set_trend_type(val) {
+
   case_val = val;
   $('#right_col_title_2_network').empty();
 
@@ -56,53 +54,6 @@ function set_blog_type_network(type){
   
 }
 
-
-//上一页
-function up_network(){
-     //首先 你页面上要有一个标志  标志当前是第几页
-     //然后在这里减去1 再放进链接里  
-     if(no_page_network==0){
-         alert("当前已经是第一页!");
-         return false;
-     }else{
-    no_page_network--;
-    
-    Draw_blog_scan_area_network_result();
-    
-     }
-}
-//下一页
-function down_network(){
-     //首先 你页面上要有一个标志  标志当前是第几页
-     //然后在这里加上1 再放进链接里  
-     
-     if(no_page_network==Math.min(9,Math.ceil(blog_num_max_global_network/10)-1)){
-         alert("当前已经是最后一页!");
-         
-         return false;
-     }else{
-    no_page_network++;
-    
-    Draw_blog_scan_area_network_result();
-    
-     }
-}
-
-function first_network(){
-   
-     no_page_network=0;
-     /*这里在将当前页数赋值到页面做显示标志*/
-     Draw_blog_scan_area_network_result();
-}
-//下一页
-function last_network(){
-     
-     no_page_network=(Math.ceil(blog_num_max_global_network/10)-1);
-    
-     /*这里在将当前页数赋值到页面做显示标志*/
-     // window.location.href="a.htm?b=123&b=qwe&c="+pageno;
-     Draw_blog_scan_area_network_result();
-}
 
 function go_to_info(uid){
   window.open('/index/viewinformation/?uid='+uid);
@@ -167,8 +118,6 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
           toolbox: {
               show : true,
               feature : {
-                  restore : {show: true},
-                  magicType: {show: true, type: ['force', 'chord']},
                   saveAsImage : {show: true}
               }
           },
@@ -259,8 +208,6 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
           }
       }
       myChart.on(ecConfig.EVENT.CLICK, focus)
-
-    
        myChart.setOption(option);           
           
     }  
@@ -271,28 +218,23 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     $('#right_col_title_2_network').empty();
     var item = data;
     var html = '';
-    console.log("执行发起者！");
-    console.log(item);
     item_len = 0
     for (var k in item){
       item_len++;
 
     }
     if (item_len == 0){
-      console.log("发起者！无数据");
-      html += '<div style="background-color: #FFFFFF;width: 80%;height: 100px;position: relative;margin-left: 10%;margin-top: 12%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 15%;margin-left: 10%;">呀，暂时还没有数据喔~</p></div>'
+      html += '<div style="text-align:center;padding:30px 0;"><p style="color: #FF9900;font-size: 16px;">呀，暂时还没有数据喔~</p></div>'
     }else{
       html += '<table id="table_photo">';
       for(i=0;i<Math.min(7,item.length);i=i+1){
-        console.log(item);
         html += '<tr>';
-      
           if (item[i].photo=='no'){
             item[i].photo='/static/images/photo_unknown.png';
           }
           var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
           // html += '<td><img title=用户昵称：' +item[k].name+'<br/>粉丝数：'+item[k].fans+'<br/>发布时间：'+item[k].+'style="width:40px;height:40px" class="photo_user" src='+item[k].photo+'/><td>';
-          html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+item[i].photo+'/><td>';
+          html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;position:relative;left:-12px;top:-2px;" class="photo_user" src='+item[i].photo+'/><td>';
           html += '<td><p style="font-size: 12px;">用户昵称：'+item[i].name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+item[i].fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
           
         html += '</tr>'; 
@@ -349,7 +291,7 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
         }
         // var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
         var item_timestamp_datetime = new Date(parseInt(item[i].timestamp) * 1000).toLocaleString();
-        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;margin-top: -35px;" class="photo_user" src='+photo_img+'/><td>';
+        html += '<td><img onclick="go_to_info('+item[i].uid+')" style="width:40px;height:40px;position:relative;left:-10px;" class="photo_user" src='+photo_img+'/><td>';
         html += '<td><p style="font-size: 12px;">用户昵称：'+nick_name+'<br>用户ID：'+item[i].uid+'<br>粉丝数：'+fans+'<br>发布时间：'+item_timestamp_datetime+'<p><td>';
         
       
@@ -361,84 +303,325 @@ topic_analysis_network.prototype = {   //获取数据，重新画表
     $('#right_col_title_2_network').append(html);
   },
 
-  Draw_blog_scan_area_network:function(data){
-    $('#blog_scan_area_network').empty();
-    var item = data;
-    var html = '';
-    var blog_num_max_local_network = Math.min(100,item.length);
-    
-    blog_num_max_global_network = blog_num_max_local_network;
+  Draw_blog_scan_area_network: function (data){
+    $('#group_emotion_loading3').css('display', 'none');
+    $('#input-table3').show();
+    var dataArray = data;
+    $('#Pagenums3').text(dataArray.length);
+    var PageNo=document.getElementById('PageNo3');                   //设置每页显示行数
+    var InTb=document.getElementById('input-table3');               //表格
+    var Fp=document.getElementById('F-page3');                      //首页
+    var Nep=document.getElementById('Nex-page3');                  //下一页
+    var Prp=document.getElementById('Pre-page3');                  //上一页
+    var Lp=document.getElementById('L-page3');                     //尾页
+    var S1=document.getElementById('s13');                         //总页数
+    var S2=document.getElementById('s23');                         //当前页数
+    var currentPage;                                              //定义变量表示当前页数
+    var SumPage;
 
-    if (item.length == 0){
-    html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
-    }else{
-      var num_page = Math.ceil(blog_num_max_local_network/10);  //num_page表示微博数据共有多少页
-      var item_i_network = no_page_network*10;
-      
-      var max_i_network = item_i_network+Math.min(10,blog_num_max_local_network-item_i_network);
-      
-      for (i=item_i_network; i<max_i_network; i++){
-       
-        if (item[i]._source.photo_url=='unknown'){
-          item[i]._source.photo_url='../../static/images/photo_unknown.png'
+    if(PageNo.innerText!='')                                       //判断每页显示是否为空
+    {
+        InTb.innerHTML='';                                     //每次进来都清空表格
+        S2.innerHTML='';                                        //每次进来清空当前页数
+        currentPage=1;                                          //首页为1
+        S2.appendChild(document.createTextNode(currentPage));
+        S1.innerHTML='';                                        //每次进来清空总页数
+        if(dataArray.length%PageNo.innerText==0)                    //判断总的页数
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText);
         }
-        if (item[i]._source.uname=='unknown'){
-          item[i]._source.uname=item[i]._source.uid;
+        else
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText)+1
         }
-        var item_timestamp_datetime = new Date(parseInt(item[i]._source.timestamp) * 1000).toLocaleString();
-        html += '<div class="blog_time">';
-        //html += '<div><img class="img-circle" src="../../static/images/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
-        html += '<div><img class="img-circle" src="'+item[i]._source.photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
-        html += '<div>';
-        //html += '<a target="_blank" href=" " class="user_name" style="float:left;">央视新闻</a>';
-        html += '<a target="_blank" href="/index/viewinformation/?uid='+item[i]._source.uid+'" class="user_name" style="float:left;">'+item[i]._source.uname+'</a>';
-        //html += '<p style="text-align:left;width: 92%;position: relative;margin-top: -4%;margin-left: 13%;font-family: Microsoft YaHei;float:left;">(中国&nbsp;北京)</p>';
-        //html += '<p style="text-align:left;width: 92%;position: relative;margin-top: -4%;margin-left: 13%;font-family: Microsoft YaHei;float:left;">(中国&nbsp;北京)</p>';
-        html += '</div>';
-        html += '<div class="blog_text">'
-        //html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
-        html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i]._source.text+'</font></p>';
-        html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
-        //html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
-        //html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-        html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-        html += '<span style="float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';
-        //html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-        html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
+        S1.appendChild(document.createTextNode(SumPage));
+        var oTBody=document.createElement('tbody');               //创建tbody
+        oTBody.setAttribute('class','In-table');                   //定义class
+        InTb.appendChild(oTBody);
+        //将创建的tbody添加入table
+        var html_c = '';
+        if(dataArray==''){
+            html_c = "<p style='text-align: center'>用户未发布任何微博</p>";
+            oTBody.innerHTML = html_c;
+        }else{
 
-        // html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">'; 
-        // html += '<span style="display: inline-block;margin-top: -3%;margin-left: 3%;">'+item_timestamp_datetime+'</span>';
-        // html += '<span style="margin-top: -3%;float: left;margin-left: 50%;">转发数('+item[i]._source.retweeted+')&nbsp;|&nbsp;</span>';       
-        // html += '<span style="margin-top: -3%;float: left;margin-left: 59.5%;" >评论数('+item[i]._source.comment+')</span>';
-        //html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
-        //html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-        html += '</p>';
-        html += '</div>';               
-        html += '</div>';
-      // }
-      }
-       html += '<div id="PageTurn" class="pager" style="margin-left:46.5%;height: 40px;margin-bottom: -20px;z-index: 99;">'
-       html += '<p style="font-size: 20px;">共<font id="P_RecordCount" style="color:#FF9900;font-size: 20px;">'+num_page+'</font>页&nbsp;&nbsp;&nbsp;&nbsp;</p>'
-       html += '</div>'
-      // html += '<div id="PageTurn" class="pager" style="margin-left:40%;">'
-      //   html += '<span >共<font id="P_RecordCount" style="color:#FF9900;">'+item.length+'</font>条记录&nbsp;&nbsp;&nbsp;&nbsp;</span>'
-      //   html += '<span >第<font id="P_Index" style="color:#FF9900;"></font><font id="P_PageCount" style="color:#FF9900;">'+1+'</font>页&nbsp;&nbsp;&nbsp;&nbsp;</span>'
-      //   html += '<span >每页<font id="P_PageSize" style="color:#FF9900;">'+10+'</font>条记录&nbsp;&nbsp;&nbsp;&nbsp;</span>'
-      //   html += '<span id="S_First" class="disabled" >首页</span>'
-      //   html += '<span id="S_Prev"  class="disabled" >上一页</span>'
-      //   html += '<span id="S_navi"><!--页号导航--></span>'
-      //   html += '<span id="S_Next"  class="disabled" >下一页</span>'
-      //   html += '<span id="S_Last"  class="disabled" >末页</span>'
-      //   html += '<input id="Txt_GO" class="cssTxt" name="Txt_GO" type="text" size="1" style="width: 35px;height: 20px;"  /> '
-      //   html += '<span id="P_GO" >GO</span>'
-      // html += '</div>'
-    
+            for(i=0;i<parseInt(PageNo.innerText);i++)
+            {                                                          //循环打印数组值
+                oTBody.insertRow(i);
+                //--判断内容
+               if (dataArray[i]._source.photo_url=='unknown'){
+				dataArray[i]._source.photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i]._source.uname=='unknown'){
+				dataArray[i]._source.uname=dataArray[i]._source.uid
+			}
+                var item_timestamp_datetime = new Date(parseInt(dataArray[i]._source.timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i]._source.photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i]._source.uid+'" class="user_name" style="float:left;">'+dataArray[i]._source.uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i]._source.text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i]._source.retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i]._source.comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].insertCell(0);
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+            }
+
+        }
     }
-    
-    
-    $('#blog_scan_area_network').append(html);
-    
-  },
+
+    Fp.onclick=function()
+    {
+
+        if(PageNo.innerText!="")                                       //判断每页显示是否为空
+        {
+            InTb.innerHTML='';                                     //每次进来都清空表格
+            S2.innerHTML='';                                        //每次进来清空当前页数
+            currentPage=1;                                          //首页为1
+            S2.appendChild(document.createTextNode(currentPage));
+            S1.innerHTML='';                                        //每次进来清空总页数
+            if(dataArray.length%PageNo.innerText==0)                    //判断总的页数
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            var oTBody=document.createElement('tbody');               //创建tbody
+            oTBody.setAttribute('class','In-table');                   //定义class
+            InTb.appendChild(oTBody);                                     //将创建的tbody添加入table
+            var html_c = '';
+
+            if(dataArray==''){
+                html_c = "<p style='text-align: center'>用户未发布任何微博</p>";
+                oTBody.rows[0].cells[0].innerHTML = html_c;
+            }else{
+
+                for(i=0;i<parseInt(PageNo.innerText);i++)
+                {                                                          //循环打印数组值
+                    oTBody.insertRow(i);
+                   //--判断内容
+               if (dataArray[i]._source.photo_url=='unknown'){
+				dataArray[i]._source.photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i]._source.uname=='unknown'){
+				dataArray[i]._source.uname=dataArray[i]._source.uid
+			}
+                var item_timestamp_datetime = new Date(parseInt(dataArray[i]._source.timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i]._source.photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i]._source.uid+'" class="user_name" style="float:left;">'+dataArray[i]._source.uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i]._source.text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i]._source.retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i]._source.comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                        oTBody.rows[i].insertCell(0);
+                    oTBody.rows[i].cells[0].innerHTML = html_c;
+                }
+            }
+        }
+    }
+
+    Nep.onclick=function()
+    {
+        if(currentPage<SumPage)                                 //判断当前页数小于总页数
+        {
+            InTb.innerHTML='';
+            S1.innerHTML='';
+            if(dataArray.length%PageNo.innerText==0)
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            S2.innerHTML='';
+            currentPage=currentPage+1;
+            S2.appendChild(document.createTextNode(currentPage));
+            var oTBody=document.createElement('tbody');
+            oTBody.setAttribute('class','In-table');
+            InTb.appendChild(oTBody);
+            var a;                                                 //定义变量a
+            a=PageNo.innerText*(currentPage-1);                       //a等于每页显示的行数乘以上一页数
+            var c;                                                  //定义变量c
+            if(dataArray.length-a>=PageNo.innerText)                  //判断下一页数组数据是否小于每页显示行数
+            {
+                c=PageNo.innerText;
+            }
+            else
+            {
+                c=dataArray.length-a;
+            }
+            for(i=0;i<c;i++)
+            {
+                oTBody.insertRow(i);
+                //--判断内容（次数循环是 i+a）
+
+
+                //--判断内容
+               if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                //数组从第i+a开始取值
+            }
+        }
+    }
+
+    Prp.onclick=function()
+    {
+        if(currentPage>1)                        //判断当前是否在第一页
+        {
+            InTb.innerHTML='';
+            S1.innerHTML='';
+            if(dataArray.length%PageNo.innerText==0)
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            S2.innerHTML='';
+            currentPage=currentPage-1;
+            S2.appendChild(document.createTextNode(currentPage));
+            var oTBody=document.createElement('tbody');
+            oTBody.setAttribute('class','In-table');
+            InTb.appendChild(oTBody);
+            var a;
+            a=PageNo.innerText*(currentPage-1);
+            for(i=0;i<parseInt(PageNo.innerText);i++)
+            {
+                oTBody.insertRow(i);
+                //--判断内容（次数循环是 i+a）
+                if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                    oTBody.rows[i].cells[0].innerHTML = html_c;
+            }
+        }
+    }
+
+    Lp.onclick=function()
+    {
+        InTb.innerHTML='';
+        S1.innerHTML='';
+        if(dataArray.length%PageNo.innerText==0)
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText);
+        }
+        else
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+        }
+        S1.appendChild(document.createTextNode(SumPage));
+        S2.innerHTML='';
+        currentPage=SumPage;
+        S2.appendChild(document.createTextNode(currentPage));
+        var oTBody=document.createElement('tbody');
+        oTBody.setAttribute('class','In-table');
+        InTb.appendChild(oTBody);
+        var a;
+        a=PageNo.innerText*(currentPage-1);
+        var c;
+        if(dataArray.length-a>=PageNo.innerText)
+        {
+            c=PageNo.innerText;
+        }
+        else
+        {
+            c=dataArray.length-a;
+        }
+        for(i=0;i<c;i++)
+        {
+            oTBody.insertRow(i);
+             if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+        }
+    }
+},
+
+
 
 }
 

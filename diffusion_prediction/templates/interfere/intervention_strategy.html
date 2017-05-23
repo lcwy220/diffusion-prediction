@@ -2,8 +2,41 @@
 {% block title %}<title></title>{% endblock %}
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/intervention_strategy.css">
-<style>
+<link rel="stylesheet" type="text/css" href="../../static/css/date_time.css">
 
+<style>
+    .blog_time {
+        overflow:inherit;
+        margin:0 30px 30px;
+    padding:20px;
+    }
+    .user_name {
+        float:none;
+    }
+    div.pager {
+        margin:0;
+    }
+    .pager .previous>a,.pager .next>a {
+        float:none;
+    }
+    #btn_radio_time {
+        float:none;
+    }
+    .table>thead:first-child>tr:first-child>th {
+        width:1%!important;
+    }
+    #people .fixed-table-container thead th .sortable {
+        padding-right: 15px;
+    }
+    #people .fixed-table-container thead th .th-inner {
+        white-space: normal;
+    }
+    #people .table>thead:first-child>tr:first-child>th {
+        width:14%!important;
+    }
+#people .modal-dialog {
+        width:700px!important;
+    }
 </style>
 {% endblock %}
 
@@ -13,9 +46,9 @@
     update_time = "{{update_time}}";
     
 </script>
-<div id="container" style="width:950px;height:750px">
+<div id="container" style="width:65%;height:auto;">
     <!-- Nav tabs -->
-    <ul id="myTabs" class="nav nav-tabs" role="tablist">  
+    <ul id="myTabs" class="nav nav-tabs" role="tablist" style="margin-top:5%;">  
         
         <li role="presentation" class="active">
             <a href="#current_weibo" aria-controls="settings" role="tab" data-toggle="tab" style="font-size: 18px">当前热门微博</a>
@@ -40,41 +73,74 @@
                 当前热门微博
             </h1> -->
             <div id="current_hot_weibo">
-                <div style="padding-left: 30px">
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#a73cff;
-                position: relative;top: 9px;"></span>
-                    <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c;
-                position: relative;top: 9px;"></span>
-                    <span style="display: inline-block;font-size: 20px;color:#868686;
-                position: relative;top: 5px;">排序方式：</span>
-                    <div class="btn-group sorting" role="group" style="display: inline-block;">
-                        <button type="button" class="btn btn-default s-1">按总数</button>
-                        <button type="button" class="btn btn-default s-2">按转发</button>
-                        <button type="button" class="btn btn-default s-3">按评论</button>
-                    </div>
-                </div>
-                <div id="group_emotion_loading2" style="display:block;text-align:center;">正在加载，请稍后...</div>
-                <div id="influeweibo2" style="overflow-x: auto; overflow-y: auto;height:auto;">
-                    <table id="input-table2" class="In-table" style="display: block;">
-                        <tbody class="In-table" style='width:100%!important;'>
-                        </tbody>
-                    </table>
-                </div>
-                <div class='fanye' style="width:100%;text-align:center;margin-top: 30px">
-                    <span style="display:none;">每页显示<input type="text" id="PageNo2" size="4" value="4" style='text-align:center;border:1px solid #ccc;'/>组</span>
-                    <div id="div-button2" style="display:inline-block;margin-left:5px;">
-                        <input type="button" value="首页" id="F-page2">
-                        <input type="button" value="上一页" id="Pre-page2">
-                        <input type="button" value="下一页" id="Nex-page2">
-                        <input type="button" value="尾页" id="L-page2">
-                    </div>
+               <div id="blog_scan_area_time_top" style="width:100%;">
+                   <p style="float:left;margin-left:20px;margin-top:-5px;">
+                        <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;
+                                position: relative;top: 22px;"></span>
+                        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;
+                        position: relative;top: 22px;"></span>
+                    </p>
+               		<p id="blog_scan_title2_time">排序方式：</p>
+               		<div class="btn-group" data-toggle="buttons" id="btn_radio_time">
+                  			<label class="btn btn-primary active" id="label7" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_time('time')">
+                    			<input type="radio" name="options" id="option7" onClick="changecolor(this)"> 按时间
+                  			</label>
+                  			<label class="btn btn-primary" id="label8" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_time('hot')">
+                     			<input type="radio" name="options" id="option8" onClick="changecolor(this)"> 按热度
+                  			</label>
+               		</div>
+               		
+               		<div class="halving_line3" style="width: 100%;margin:6px auto 0;"></div>
+               </div>
+               	<!--<div id="blog_scan_area_time" style="width:100%;">-->
+               		<!---->
+               		<!--&lt;!&ndash; 画图，见time_blogscan.js文件（此处移除了所有的） &ndash;&gt;-->
+               		<!--&lt;!&ndash;<div id="emotion_loading2" style="text-align:center;">正在加载，请稍候...</div>&ndash;&gt;-->
 
-                    <span style="display:inline-block;">&nbsp;当前第<span id="s22"></span>页</span>
-                    <span style="display:inline-block;">总共<span id="s12"></span>页</span>
+               	<!--</div>-->
+
+               	<!--<div  id="blog_scan_area_time_page" style="width:100%;padding-bottom:20px;">-->
+               		<!--<ul class="pager">-->
+               			<!--<li class="previous" onclick="up_time()"><a style="font-size: 16px;" >&larr; 上一页</a></li>-->
+               			<!--<li class="next"  onclick="down_time()"><a style="font-size: 16px;">下一页 &rarr;</a></li>-->
+               		<!--</ul>-->
+
+               	<!--</div>-->
+                <style>
+                    .current_weibo span:hover,.current_weibo2 span:hover {
+                        background-color: inherit;
+                    }
+                    .current_weibo #div-button input:hover,.current_weibo2 #div-button2 input:hover {
+                        background-color: #eee!important;
+                    }
+                </style>
+                <div class="current_weibo" style="background-color:#e4e4e4;">
+                    <div id="group_emotion_loading" style="display:block;text-align:center;">
+                        正在加载，请稍后...
+                    </div>
+                    <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                        <table id="input-table" class="In-table" style='width:100%;'>
+                            <tbody class="In-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='pages_number' style="width:100%;text-align:center;padding: 10px 0 20px;">
+                        <span style="display:none;">每页<b id="PageNo">5</b>组</span>
+                        <span style="display: inline-block">总共<b id="Pagenums"></b>条微博</span>
+                        <div id="div-button" style="display:inline-block;margin-left:10px;">
+                            <input type="button" value="首页" id="F-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="上一页" id="Pre-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="下一页" id="Nex-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="尾页" id="L-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                        </div>
+                        <span style="display:inline-block;">&nbsp;当前第<b id="s2"></b>页</span>
+                        <span style="display:inline-block;">总共<b id="s1"></b>页</span>
+                    </div>
                 </div>
-            </div>
+                
+            <!--</div>-->
         </div>
-        
+        </div>
         <div role="tabpanel" class="tab-pane" id="potential_weibo">
             <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
                 <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
@@ -82,57 +148,101 @@
                 潜在热门微博
             </h1> -->
             <div id="hot_weibo">
-                <div style="padding-left: 30px">
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#a73cff;
-                position: relative;top: 9px;"></span>
-                    <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c;
-                position: relative;top: 9px;"></span>
-                    <span style="display: inline-block;font-size: 20px;color:#868686;
-                position: relative;top: 5px;">排序方式：</span>
-                    <div class="btn-group sorting" role="group" style="display: inline-block;">
-                        <button type="button" class="btn btn-default s-1">按总数</button>
-                        <button type="button" class="btn btn-default s-2">按转发</button>
-                        <button type="button" class="btn btn-default s-3">按评论</button>
-                    </div>
-                </div>
-                <div id="group_emotion_loading" style="display:block;text-align:center;">正在加载，请稍后...</div>
-                <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
-                    <table id="input-table" class="In-table" style="display: block;">
-                        <tbody class="In-table" style='width:100%!important;'>
-                        </tbody>
-                    </table>
-                </div>
-                <div class='fanye' style="width:100%;text-align:center;margin-top: 30px">
-                    <span style="display:none;">每页显示<input type="text" id="PageNo" size="4" value="4" style='text-align:center;border:1px solid #ccc;'/>组</span>
-                    <div id="div-button" style="display:inline-block;margin-left:5px;">
-                        <input type="button" value="首页" id="F-page">
-                        <input type="button" value="上一页" id="Pre-page">
-                        <input type="button" value="下一页" id="Nex-page">
-                        <input type="button" value="尾页" id="L-page">
-                    </div>
+               <div id="blog_scan_area_poten_top" style="width:100%;background-color: #E4E4E4;">
+               <p style="float:left;margin-left:20px;margin-top: -5px;">
+                    <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;
+                    position: relative;top: 22px;"></span>
+                    <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;
+                position: relative;top: 22px;"></span>
+	           </p>
+                <p id="blog_scan_title2_time">排序方式：</p>
+               <div class="btn-group" data-toggle="buttons" id="btn_radio_time">
+                        <label class="btn btn-primary active" id="label8" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_poten('poten')">
+                      <input type="radio" name="options" id="option8" onClick="changecolor(this)"> 按潜力
+                    </label>
+                    <label class="btn btn-primary " id="label7" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_poten('time')">
+                            <input type="radio" name="options" id="option7" onClick="changecolor(this)"> 按时间
+                        </label>
+                        <label class="btn btn-primary" id="label8" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_poten('hot')">
+                            <input type="radio" name="options" id="option8" onClick="changecolor(this)"> 按热度
+                        </label>
 
-                    <span style="display:inline-block;">&nbsp;当前第<span id="s2"></span>页</span>
-                    <span style="display:inline-block;">总共<span id="s1"></span>页</span>
+                </div>
+               		
+               		<!--<div class="halving_line3"></div>-->
+               </div>
+
+               	<!--<div id="blog_scan_area_poten" style="width:100%;background-color: #E4E4E4;padding-top:30px;">-->
+               		<!---->
+               		<!--&lt;!&ndash; 画图，见time_blogscan.js文件（此处移除了所有的） &ndash;&gt;-->
+               		<!--&lt;!&ndash;<div id="emotion_loading" style="width:100%;"><center>正在加载，请稍候...</center></div>&ndash;&gt;-->
+
+               	<!--</div>-->
+
+               	<!--<div  id="blog_scan_area_poten_page" style="width:100%;padding-bottom:20px;background-color: #E4E4E4;">-->
+               		<!--<ul class="pager">-->
+               			<!--<li class="previous" onclick="up_poten()"><a style="font-size: 16px;" >&larr; 上一页</a></li>-->
+               			<!--<li class="next"  onclick="down_poten()"><a style="font-size: 16px;">下一页 &rarr;</a></li>-->
+               		<!--</ul>-->
+
+               	<!--</div> -->
+                <div class="current_weibo2" style="background-color:#e4e4e4;">
+                    <div id="group_emotion_loading2" style="display:block;text-align:center;">
+                        正在加载，请稍后...
+                    </div>
+                    <div id="influeweibo2" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                        <table id="input-table2" class="In-table" style='width:100%;'>
+                            <tbody class="In-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='pages_number' style="width:100%;text-align:center;padding: 10px 0 20px;">
+                        <span style="display:none;">每页<b id="PageNo2">5</b>组</span>
+                        <span style="display: inline-block">总共<b id="Pagenums2"></b>条微博</span>
+                        <div id="div-button2" style="display:inline-block;margin-left:10px;">
+                            <input type="button" value="首页" id="F-page2" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="上一页" id="Pre-page2" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="下一页" id="Nex-page2" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="尾页" id="L-page2" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                        </div>
+                        <span style="display:inline-block;">&nbsp;当前第<b id="s22"></b>页</span>
+                        <span style="display:inline-block;">总共<b id="s12"></b>页</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="potential_users">
-            <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
-                潜在关键用户
-            </h1> -->
+           
             <div id="user"></div>
         </div>
         
         <div role="tabpanel" class="tab-pane " id="critical_path">
-            <!-- <h1 class="title-1" style='color: #919191;font-size: 30px'>
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-                <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
-                关键传播路径
-            </h1> -->
-            <div id="start_end" style="width:900px;height:700px"></div>
+           
+            <div id="start_end" style="width:1000px;height:800px;margin:20px auto;"></div>
+            <div class="start_end_table">
+                <div id="start_end_table"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="people" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">关联用户</h4>
+            </div>
+            <div class="modal-body" id="user_content">
+                <div>
+                    <div id="user_list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
         </div>
     </div>
 </div>
@@ -144,7 +254,10 @@
     $('#myTabs a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
-    })
+    });
+
+    var task_name = '{{task_name}}';
+    var update_time = '{{update_time}}';
 </script>
 <!-- <script src="/static/js/chord.js"></script> -->
 <script src="/static/js/intervention_strategy.js"></script>

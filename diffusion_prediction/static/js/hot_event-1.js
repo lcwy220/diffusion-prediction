@@ -1,5 +1,5 @@
 var line_url='/social_sensing/get_warning_detail/';
-var weibo_url,final_time,text_type=1,order='total';
+var weibo_url,final_time,text_type=1,order='retweeted';
 
 
 
@@ -12,6 +12,7 @@ $.ajax({
     success:hot_line
 });
 function request(weibo_url_txt) {
+    console.log(weibo_url_txt);
     $.ajax({
         url: weibo_url_txt,
         type: 'GET',
@@ -99,11 +100,7 @@ function hot_line(data) {
     })
     //获取微博链接并执行函数
     $('.sorting button').on('click',function () {
-        if ($(this).text()=='按总数'){
-            order='total';
-            weibo_url='/social_sensing/get_text_detail/?ts='+final_time+'&text_type='+text_type+'&order='+order;
-            request(weibo_url);
-        }else if ($(this).text()=='按转发'){
+        if ($(this).text()=='按转发'){
             order='retweeted';
             weibo_url='/social_sensing/get_text_detail/?ts='+final_time+'&text_type='+text_type+'&order='+order;
             request(weibo_url);

@@ -5,7 +5,7 @@
     width: 60%;
     padding: 20px 30px;
     margin: 0 auto 40px;
-    border: 1px solid darkgray;
+    border: 1px solid black;
     border-radius: 10px;
 }
 #container .new_perception_task .new_task_menu .menu_m {
@@ -31,20 +31,20 @@
     border-radius: 0;
 }
 #container .new_perception_task .new_task_menu span {
-    color: #919191;
+    color: #000;
     font-weight: 500;
     font-size: 16px;
 }
 #container .new_perception_task .new_task_menu .new_build button {
-    color: #6b5c5c;
+    color: #000;
     font-weight: 500;
     font-size: 16px;
-    background-color: #eae3e3;
+    background-color: #AFAAAA;
     padding: 5px 10px;
     border-radius: 10px;
 }
 #container .new_perception_task .new_task_menu .new_build button:hover {
-    background-color: #2e90e6;
+    background-color: #24282B;
     color: white;
 }
 /*任务列表*/

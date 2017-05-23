@@ -3,16 +3,50 @@
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/un_decision.css">
 <style>
-
+    #optional_task input {
+        width: 30px!important;
+    }
+    .table>thead:first-child>tr:first-child>th {
+        width:1%!important;
+    }
+    @media screen and (max-width: 1370px){
+        .fixed-table-container thead th .th-inner {
+            overflow: auto;
+            text-overflow: inherit;
+            white-space: normal;
+        }
+        .table>thead:first-child>tr:first-child>th {
+            width: 2%!important;
+        }
+        .fixed-table-container thead th .sortable {
+            padding-right: 20px;
+        }
+    }
+     .form-control {
+        width:100%!important;
+        margin:0!important;
+    }
+    .bootstrap-table .table {
+        border:none;
+    }
+     #basic_infor  p {
+        font-size:16px;
+        margin:15px auto;
+        color:#0A0A0A;
+    }
+     #basic_infor  p  span{
+        font-weight:600;
+    }
 </style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
     <div class="build_decision">
-        <h1 class="title-1" style='margin: 10px auto;color: #292727;font-size: 22px'>
-            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
-            <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left: -2px;margin-bottom: -3px;"></span>
+        <h2 style="margin:30px auto;;"><b class="icon icon-tags"></b>&nbsp;干预决策</h2>
+        <h1 class="title-1" style='margin: 25px auto;color: #292727;font-size: 22px'>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
             新建决策任务
         </h1>
         <div class="decision_menu">
@@ -27,7 +61,8 @@
             <div class="task_words menu_m">
                 <span class="menu_m_s">关键词</span>
                 <input id="key-1" type="text" placeholder="请输入您的And关键词(必填)" title="多个关键词请用‘,’(逗号)隔开">
-                <input id="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开">
+                <input id="key-2" class="key-2" type="text" placeholder="请输入您的Or关键词(必填）" title="多个关键词请用‘,’(逗号)隔开">
+                <b class="icon icon-plus add_new" style="display: inline-block;margin-left: 10px;cursor: pointer;"></b>
             </div>
             <div class="task_time menu_m">
                 <span style="position: relative;top: -7px;" class="menu_m_s">时间选择</span>
@@ -59,8 +94,8 @@
             <div class="task_interval menu_m">
                 <span class="menu_m_s">计算间隔</span>
                 <select id="inter_time" style="margin-left: 20px">
-                    <option value="3600">1 hour</option>
-                    <option value="10800">3 hour</option>
+                    <option value="3600">1 小时</option>
+                    <option value="10800">3 小时</option>
                 </select>
             </div>
             <div class="choose menu_m">
@@ -69,17 +104,91 @@
             </div>
 
             <div class="new_build menu_m" style="height: 25px">
-                <button id="build_inf" style="float: right;margin-right: 130px">新建任务</button>
+                <button id="build_inf" style="float: right;">新建任务</button>
             </div>
         </div>
     </div>
     <div class="prediction_task">
         <h1 class="title-2" style='margin: 15px auto;color: #292727;font-size: 22px'>
-        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6550e4;margin-bottom: -3px;"></span>
-        <span style="display: inline-block;width: 5px;height: 22px;background-color:#6c41b5;margin-left:-2px;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left:-2px;margin-bottom: -3px;"></span>
         任务列表
         </h1>
         <div id="role_lists" style="width: 100%">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="basic_infor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top:150px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">任务详情信息</h4>
+      </div>
+      <div class="modal-body">
+          <p>
+               任务名称: <span id="ba_name"></span>
+          </p>
+        <p>
+            提交人: <span id="ba_user"></span>
+        </p>
+          <p>
+              添加时间: <span id="ba_submit"></span>
+          </p>
+          <p>
+              备注: <span id="ba_remark"></span>
+          </p>
+          <p>
+              匹配关键词: <span id="ba_keywords"></span>
+          </p>
+          <p>
+              开始时间: <span id="ba_start"></span>
+          </p>
+          <p>
+              终止时间: <span id="ba_end"></span>
+          </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="_same_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat()">仍然创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="_same_task2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="margin-top:80px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">温馨提示</h4>
+            </div>
+            <div class="modal-body">
+                <p id='_word2'></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="_creat2()">仍然创建</button>
+            </div>
         </div>
     </div>
 </div>
@@ -88,20 +197,25 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
+ $('.add_new').on('click',function () {
+        var _input='<div class="_div"><input class="key-2" type="text" placeholder="请输入您的Or关键词(必填）" ' +
+                'title="多个关键词请用‘,’(逗号)隔开" style="display:inline-block;margin: 10px 0 0 308px;">'+
+                 '<b class="icon icon-remove remove_new" style="display: inline-block;margin-left: 10px;cursor: pointer;"></b></div>';
+        $(this).after(_input);
+        $('.remove_new').on('click',function () {
+            $(this).parent('._div').remove();
+    });
+    });
+     var _date=new Date();
     $(function () {
-        $('#datetimepicker3').datetimepicker();
-        $('#datetimepicker4').datetimepicker();
-        $("#datetimepicker3").on("dp.change",function (e) {
-            $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker4").on("dp.change",function (e) {
-            $('#datetimepicker3').data("DateTimePicker").maxDate(e.date);
-        });
+        $('#datetimepicker3').datetimepicker('setEndDate',_date);
+        $('#datetimepicker4').datetimepicker('setStartDate',_date);
+
     });
 
-    $('.decision_results').on('click',function () {
-        window.open('/interfere/strategy_results/');
-    })
+    // $('.decision_results').on('click',function () {
+    //     window.open('/interfere/strategy_results/');
+    // })
 </script>
 <script src="/static/js/un_decision-1.js"></script>
 <script src="/static/js/un_decision-2.js"></script>

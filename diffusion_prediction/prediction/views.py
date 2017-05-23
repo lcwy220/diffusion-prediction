@@ -34,11 +34,13 @@ def situation_prediction():
 def forecast_result():
     topic_name_on_detail = request.args.get('task_name','')
     pinyin_task_name = pinyin.get(topic_name_on_detail.encode('utf-8'), format='strip', delimiter="_")
+    start = request.args.get('start','')
+    end = request.args.get('end','')
     #topic_name_on_detail_ch = request.args.get('en_name','')
     #date_from = request.args.get('date_from','')
     #date_to = request.args.get('date_to','')
     #return render_template('/perleption/forecast_result.html',topic_name=topic_name_on_detail,en_name=topic_name_on_detail_ch,date_from=date_from,date_to=date_to)
-    return render_template('/perleption/forecast_result.html',task_name=pinyin_task_name)
+    return render_template('/perleption/forecast_result.html',task_name=pinyin_task_name,task_name2=topic_name_on_detail,start=start,end=end)
     # return render_template('perleption/forecast_result.html')  
 
 

@@ -30,7 +30,7 @@
 {% block header %}    
 <div id="nav">
     <div class="nav_top">
-        <h3>政治安全突发事件应急干预决策支持库系统</h3>
+        <h2 style="color:#fff;">政治安全突发事件应急干预决策支持库系统</h2>
     </div>
     <div class="nav_bottom">
         <ul class="list">
@@ -123,20 +123,21 @@
     }).on('mouseout',function () {
         $(this).siblings('.line').css({left:'-100%'});
     });
-    window.onscroll=function () {
-        $('#nav').css({backgroundColor:'#777'});
-        $('#nav .nav_top').css({color:'white'});
-        $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#fff'});
-        $('#nav .nav_bottom .list .main_li .li_a').css({color:'white'});
-        $('#nav .setting a').css({color:'white'});
-        if ($(document).scrollTop()==0){
-            $('#nav').css({backgroundColor:'#fff'});
-            $('#nav .nav_top').css({color:'black'});
-            $('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#2e90e6'});
-            $('#nav .nav_bottom .list .main_li .li_a').css({color:'black'});
-            $('#nav .setting a').css({color:'black'});
-        }
-    };
+    <!--window.onscroll=function () {-->
+        <!--$('#nav').css({backgroundColor:'#777'});-->
+        <!--$('#nav .nav_top').css({color:'white'});-->
+        <!--$('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#fff'});-->
+        <!--$('#nav .nav_bottom .list .main_li .li_a').css({color:'white'});-->
+        <!--$('#nav .setting a').css({color:'white'});-->
+        <!--if ($(document).scrollTop()==0){-->
+            <!--$('#nav').css({backgroundColor:'#fff'});-->
+            <!--$('#nav .nav_top').css({color:'black'});-->
+            <!--$('#nav .nav_bottom .list .main_li .line').css({backgroundColor:'#2e90e6'});-->
+            <!--$('#nav .nav_bottom .list .main_li .li_a').css({color:'black'});-->
+            <!--$('#nav .setting a').css({color:'black'});-->
+        <!--}-->
+    <!--};-->
+    var submit_user='{{g.user}}';
     </script>
 {% endblock %}
 

@@ -1,5 +1,6 @@
 #container {
-    padding-top: 100px;
+    padding-top: 140px;
+    padding-bottom:50px;
 }
 #container .res_top {
     width: 100%;
@@ -13,8 +14,8 @@
 #container .macro_big .title-1,
 #container .micro_small .title-1 {
     /*width: 60%;*/
-    margin: 10px auto;
-    color: #919191;
+    margin: 25px auto;
+    color: #0A0A0A;
     font-size: 30px;
     text-align: left;
 }

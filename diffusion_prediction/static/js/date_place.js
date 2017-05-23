@@ -1,65 +1,8 @@
 
-// var topic = 'aoyunhui';
-// //var start_ts = 1468166400;
-// var start_ts = 1468474200;
-// //var end_ts = 1468170900;
-// var end_ts = 1468495800;
 var province = '北京';
 var sort_item = 'timestamp';
 var no_page_place = 0;
 var blog_num_max_global_place = 0;
-
-
-// var topic = $('#topic_text').text();
-// var start_ts = set_timestamp().start_timestamp_return; 
-// var end_ts = set_timestamp().end_timestamp_return;
-// var start_ts,end_ts,pointInterval;
-
-
-// function set_timestamp(){
-// 	var start_time_new = get_timestamp().start_return;
-// 	var end_time_new = get_timestamp().end_return; 
-// 	var start_timestamp = datetime_to_timestamp(start_time_new);
-// 	var end_timestamp = datetime_to_timestamp(end_time_new);
-	
-// 	start_ts = start_timestamp;
-// 	end_ts = end_timestamp;
-
-// 	Draw_geo_map_result();
-// }
-
-
-// function get_timestamp(){
-// 	var start_time = $('#datetimepicker3_input').val(); 
-// 	var end_time = $('#datetimepicker4_input').val();
-// 	return {
-// 		start_return:start_time,
-// 		end_return:end_time
-// 	};
-// }
-
-
-// function datetime_to_timestamp(datetime) {
-//  		var date_time_string = datetime;
-//  		var date_time_array =date_time_string.split(/[/: ]/);
-//  		var date_array_new = [date_time_array[2],date_time_array[0],date_time_array[1]];
-//  		if (date_time_array[5] == 'PM'){
-//  			date_time_array[3] = parseInt(date_time_array[3])+12;  //替换元素，小时数字加12
-//  		}
-//  		var time_array_new = [date_time_array[3],date_time_array[4],'00'];
-//  		var timestamp_date_str = date_array_new.join('/');
-//  		var timestamp_time_str = time_array_new.join(':');
-//  		var timestamp_time_array = [timestamp_date_str,timestamp_time_str]
-//  		var timestamp_str = timestamp_time_array.join(' ');
-//  		var timestamp = (new Date(timestamp_str)).getTime()/1000;
-//  		return timestamp;
-// 	}
-
-
-// function get_per_time(val) {
-// 	pointInterval = val;
-// 	set_timestamp();
-// }
 
 //应该直接排序，然后再取前十名，不应该求最大值，然后将其删除再取最大值。
 
@@ -80,7 +23,7 @@ function set_order_type_place(type){
 //上一页
 function up_place(){
      //首先 你页面上要有一个标志  标志当前是第几页
-     //然后在这里减去1 再放进链接里  
+     //然后在这里减去1 再放进链接里
      if(no_page_place==0){
          alert("当前已经是第一页!");
          return false;
@@ -89,14 +32,14 @@ function up_place(){
  		//console.log(no_page_place);
  		//console.log('执行了上一页操作');
  		Draw_blog_scan_area_place_result();
- 		
+
      }
 }
 //下一页
 function down_place(){
      //首先 你页面上要有一个标志  标志当前是第几页
-     //然后在这里加上1 再放进链接里  
-     
+     //然后在这里加上1 再放进链接里
+
      if(no_page_place==Math.min(9,Math.ceil(blog_num_max_global_place/10)-1)){
          alert("当前已经是最后一页!");
          //console.log(no_page_place);
@@ -106,21 +49,21 @@ function down_place(){
  		//console.log(no_page_place);
  		//console.log('执行了下一页操作');
  		Draw_blog_scan_area_place_result();
- 		
+
      }
 }
 
 function first_place(){
-   
+
      no_page_place=0;
      /*这里在将当前页数赋值到页面做显示标志*/
      Draw_blog_scan_area_place_result();
 }
 //下一页
 function last_place(){
-     
+
      no_page_place=(Math.ceil(blog_num_max_global_place/10)-1);
-    
+
      /*这里在将当前页数赋值到页面做显示标志*/
      // window.location.href="a.htm?b=123&b=qwe&c="+pageno;
      Draw_blog_scan_area_place_result();
@@ -251,7 +194,6 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
     });
   },
 	Draw_geo_map:function(data){
-		console.log("map！！");
 		var data1=[],data2=[],data3=[];
 		for (var key in data){
 			if (key==1){  //原创
@@ -268,98 +210,331 @@ topic_analysis_place.prototype = {   //获取数据，重新画表
 				}
 			}
 		}
-		// console.log(data1);
-		// console.log(data2);
-		// console.log(data3);
 	 	$('#main_place').empty();
 	 	$('#top15_content_place').empty();
-	 	// var item = data1;
 		label_1(data1);
-		// $('#label-1').on('click',function () {
-		// 	// item=data1;
-		// 	label_1(data1);
-		// });
-		// $('#label-2').on('click',function () {
-		// 	// item=data2;
-		// 	label_2(data2);
-		// })
-		// $('#label-3').on('click',function () {
-		// 	// item=data3;
-		// 	label_3(data3);
-		// })
-
-		// console.log(item_json);
-
 	},
 
 	// Draw_geo_map{}
 
 
-	Draw_blog_scan_area_place: function(data){
-		$('#blog_scan_area_place').empty();
-  	//$('#blog_scan_area_time').empty();
-     var item = data;
-	 var html = '';
-		//var key_datetime = new Date(key*1000).format('yyyy/MM/dd hh:mm');
-		//key_datetime = new Date(parseInt(key) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-		//console.log(data.length);
-		var blog_num_max_local_place = Math.min(100,item.length);
-		
-		blog_num_max_global_place = blog_num_max_local_place;
-		
-		if (item.length == 0){
-		html += '<div style="background-color: #FFFFFF;width: 96%;height: 100px;position: relative;margin-left: 2%;margin-top: 2%;float: left;"><p style="color: #FF9900;font-size: 16px;font-family: Microsoft YaHei;margin-top: 5%;margin-left: 40%;">呀，暂时还没有数据喔~</p></div>'
-		}else{
-			var num_page = Math.ceil(blog_num_max_local_place/10);  //num_page表示微博数据共有多少页
-			var item_i_place = no_page_place*10;
-			
-			var max_i_place = item_i_place+Math.min(10,blog_num_max_local_place-item_i_place);
-			
-			for (i=item_i_place; i<max_i_place; i++){
+	Draw_blog_scan_area_place:  function (data){
+    $('#group_emotion_loading2').css('display', 'none');
+    $('#input-table2').show();
+    var dataArray = data;
+    $('#Pagenums2').text(dataArray.length);
+    var PageNo=document.getElementById('PageNo2');                   //设置每页显示行数
+    var InTb=document.getElementById('input-table2');               //表格
+    var Fp=document.getElementById('F-page2');                      //首页
+    var Nep=document.getElementById('Nex-page2');                  //下一页
+    var Prp=document.getElementById('Pre-page2');                  //上一页
+    var Lp=document.getElementById('L-page2');                     //尾页
+    var S1=document.getElementById('s12');                         //总页数
+    var S2=document.getElementById('s22');                         //当前页数
+    var currentPage;                                              //定义变量表示当前页数
+    var SumPage;
 
-				if (item[i][1].photo_url=='unknown'){
-					item[i][1].photo_url='../../static/images/photo_unknown.png'
-				}
-				if (item[i][1].uname=='unknown'){
-					item[i][1].uname=item[i][1].uid
-					//console.log(item[i][1].uname);
-				}
-				console.log(item[i]);
-				var item_timestamp_datetime = new Date(parseInt(item[i][1].timestamp) * 1000).toLocaleString();
-				html += '<div class="blog_time">';
-				//html += '<div><img class="img-circle" src="../../static/info_consume/image/cctv_news.jpg" style="width: 40px;height: 40px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
-				html += '<div><img class="img-circle" src="'+item[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>';
-				html +=	'<div>';
-				//html += '<a target="_blank" href=" " class="user_name" style="float:left;">央视新闻</a>';
-				html += '<a target="_blank" href="/index/viewinformation/?uid='+item[i][1].uid+'" class="user_name" style="float:left;">'+item[i][1].uname+'</a>';
-				//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: -4%;margin-left: 13%;font-family: Microsoft YaHei;float:left;">(中国&nbsp;北京)</p>';
-				//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: -4%;margin-left: 13%;font-family: Microsoft YaHei;float:left;">(中国&nbsp;北京)</p>';
-				html += '</div>';
-				html += '<div class="blog_text">'
-				//html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 3%;font-family: Microsoft YaHei;"><font color="black">【投票：奥运闭幕式 你期待谁当中国旗手？】里约奥运明日闭幕，闭幕式中国代表团旗手是谁？有报道说乒乓球双料冠军丁宁是一个可能，女排夺冠，女排姑娘也是一个可能。你期待闭幕式中国代表团旗手是谁？</font></p>';
-				html += '<p style="text-align:left;width: 92%;position: relative;margin-top: 15%;margin-left: 6%;font-family: Microsoft YaHei;"><font color="black">'+item[i][1].text+'</font></p>';
-				html += '<p style="float: left;width: 100%;position: relative;margin-top: 3%;margin-left: 3%;font-family: Microsoft YaHei;">';
-				//html += '<span class="time_info" style="padding-right: 10px;color:#858585">';
-				//html += '<span style="float:left">2016-08-19 21:11:46&nbsp;&nbsp;</span>';
-				html += '<span style="display: inline-block;margin-bottom: 2%;margin-left: -63%;">'+item_timestamp_datetime+'</span>';
-				html += '<span style="float: left;margin-left: 50%;">转发数('+item[i][1].retweeted+')&nbsp;|&nbsp;</span>';
-				//html += '<span id="oule" style="margin-top: -3%;display: inline-block;margin-left: 54%;">转发数('+Math.round(Math.random()*1000)+')&nbsp;&nbsp;&nbsp;|</span>';
-				html += '<span style="margin-top: -1.5%;float: left;margin-left: 59.5%;" >评论数('+item[i][1].comment+')</span>';
-				//html += '<span style="margin-top: -3%;display: inline-block;" >&nbsp;&nbsp;&nbsp;&nbsp;评论数('+Math.round(Math.random()*1000)+')</span>';
-				//html += '&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-				html += '</p>';
-				html += '</div>';							 	
-				html += '</div>';
-			// }
+    if(PageNo.innerText!='')                                       //判断每页显示是否为空
+    {
+        InTb.innerHTML='';                                     //每次进来都清空表格
+        S2.innerHTML='';                                        //每次进来清空当前页数
+        currentPage=1;                                          //首页为1
+        S2.appendChild(document.createTextNode(currentPage));
+        S1.innerHTML='';                                        //每次进来清空总页数
+        if(dataArray.length%PageNo.innerText==0)                    //判断总的页数
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText);
+        }
+        else
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+        }
+        S1.appendChild(document.createTextNode(SumPage));
+        var oTBody=document.createElement('tbody');               //创建tbody
+        oTBody.setAttribute('class','In-table');                   //定义class
+        InTb.appendChild(oTBody);
+        //将创建的tbody添加入table
+        var html_c = '';
+        if(dataArray==''){
+            html_c = "<p style='text-align: center'>用户未发布任何微博</p>";
+            oTBody.innerHTML = html_c;
+        }else{
+
+            for(i=0;i<parseInt(PageNo.innerText);i++)
+            {                                                          //循环打印数组值
+                oTBody.insertRow(i);
+                //--判断内容
+               if (dataArray[i][1].photo_url=='unknown'){
+				dataArray[i][1].photo_url='../../static/images/photo_unknown.png'
 			}
-			   html += '<div id="PageTurn" class="pager" style="margin-left:46.5%;height: 40px;margin-bottom: -20px;z-index: 99;">'
-		       html += '<p style="font-size: 20px;">共<font id="P_RecordCount" style="color:#FF9900;font-size: 20px;">'+num_page+'</font>页&nbsp;&nbsp;&nbsp;&nbsp;</p>'
-		       html += '</div>'
+			if (dataArray[i][1].uname=='unknown'){
+				dataArray[i][1].uname=dataArray[i][1].uid
+			}
+                var item_timestamp_datetime = new Date(parseInt(dataArray[i][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i][1].uid+'" class="user_name" style="float:left;">'+dataArray[i][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].insertCell(0);
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+            }
 
-		
-		}
-		$('#blog_scan_area_place').append(html);
-  	},
+        }
+    }
+
+    Fp.onclick=function()
+    {
+
+        if(PageNo.innerText!="")                                       //判断每页显示是否为空
+        {
+            InTb.innerHTML='';                                     //每次进来都清空表格
+            S2.innerHTML='';                                        //每次进来清空当前页数
+            currentPage=1;                                          //首页为1
+            S2.appendChild(document.createTextNode(currentPage));
+            S1.innerHTML='';                                        //每次进来清空总页数
+            if(dataArray.length%PageNo.innerText==0)                    //判断总的页数
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            var oTBody=document.createElement('tbody');               //创建tbody
+            oTBody.setAttribute('class','In-table');                   //定义class
+            InTb.appendChild(oTBody);                                     //将创建的tbody添加入table
+            var html_c = '';
+
+            if(dataArray==''){
+                html_c = "<p style='text-align: center'>用户未发布任何微博</p>";
+                oTBody.rows[0].cells[0].innerHTML = html_c;
+            }else{
+
+                for(i=0;i<parseInt(PageNo.innerText);i++)
+                {                                                          //循环打印数组值
+                    oTBody.insertRow(i);
+                   //--判断内容
+               if (dataArray[i][1].photo_url=='unknown'){
+				dataArray[i][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i][1].uname=='unknown'){
+				dataArray[i][1].uname=dataArray[i][1].uid
+			}
+                var item_timestamp_datetime = new Date(parseInt(dataArray[i][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i][1].uid+'" class="user_name" style="float:left;">'+dataArray[i][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                        oTBody.rows[i].insertCell(0);
+                    oTBody.rows[i].cells[0].innerHTML = html_c;
+                }
+            }
+        }
+    }
+
+    Nep.onclick=function()
+    {
+        if(currentPage<SumPage)                                 //判断当前页数小于总页数
+        {
+            InTb.innerHTML='';
+            S1.innerHTML='';
+            if(dataArray.length%PageNo.innerText==0)
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            S2.innerHTML='';
+            currentPage=currentPage+1;
+            S2.appendChild(document.createTextNode(currentPage));
+            var oTBody=document.createElement('tbody');
+            oTBody.setAttribute('class','In-table');
+            InTb.appendChild(oTBody);
+            var a;                                                 //定义变量a
+            a=PageNo.innerText*(currentPage-1);                       //a等于每页显示的行数乘以上一页数
+            var c;                                                  //定义变量c
+            if(dataArray.length-a>=PageNo.innerText)                  //判断下一页数组数据是否小于每页显示行数
+            {
+                c=PageNo.innerText;
+            }
+            else
+            {
+                c=dataArray.length-a;
+            }
+            for(i=0;i<c;i++)
+            {
+                oTBody.insertRow(i);
+                //--判断内容（次数循环是 i+a）
+
+
+                //--判断内容
+               if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                //数组从第i+a开始取值
+            }
+        }
+    }
+
+    Prp.onclick=function()
+    {
+        if(currentPage>1)                        //判断当前是否在第一页
+        {
+            InTb.innerHTML='';
+            S1.innerHTML='';
+            if(dataArray.length%PageNo.innerText==0)
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText);
+            }
+            else
+            {
+                SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+            }
+            S1.appendChild(document.createTextNode(SumPage));
+            S2.innerHTML='';
+            currentPage=currentPage-1;
+            S2.appendChild(document.createTextNode(currentPage));
+            var oTBody=document.createElement('tbody');
+            oTBody.setAttribute('class','In-table');
+            InTb.appendChild(oTBody);
+            var a;
+            a=PageNo.innerText*(currentPage-1);
+            for(i=0;i<parseInt(PageNo.innerText);i++)
+            {
+                oTBody.insertRow(i);
+                //--判断内容（次数循环是 i+a）
+                if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                    oTBody.rows[i].cells[0].innerHTML = html_c;
+            }
+        }
+    }
+
+    Lp.onclick=function()
+    {
+        InTb.innerHTML='';
+        S1.innerHTML='';
+        if(dataArray.length%PageNo.innerText==0)
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText);
+        }
+        else
+        {
+            SumPage=parseInt(dataArray.length/PageNo.innerText)+1
+        }
+        S1.appendChild(document.createTextNode(SumPage));
+        S2.innerHTML='';
+        currentPage=SumPage;
+        S2.appendChild(document.createTextNode(currentPage));
+        var oTBody=document.createElement('tbody');
+        oTBody.setAttribute('class','In-table');
+        InTb.appendChild(oTBody);
+        var a;
+        a=PageNo.innerText*(currentPage-1);
+        var c;
+        if(dataArray.length-a>=PageNo.innerText)
+        {
+            c=PageNo.innerText;
+        }
+        else
+        {
+            c=dataArray.length-a;
+        }
+        for(i=0;i<c;i++)
+        {
+            oTBody.insertRow(i);
+             if (dataArray[i+a][1].photo_url=='unknown'){
+				dataArray[i+a][1].photo_url='../../static/images/photo_unknown.png'
+			}
+			if (dataArray[i+a][1].uname=='unknown'){
+				dataArray[i+a][1].uname=dataArray[i+a][1].uid
+			}
+			oTBody.rows[i].insertCell(0);
+			         var item_timestamp_datetime = new Date(parseInt(dataArray[i+a][1].timestamp) * 1000).toLocaleString();
+                html_c = '<div class="blog_time" id="blog_time">'+
+						 '<div><img class="img-circle" src="'+dataArray[i+a][1].photo_url+'" style="width: 30px;height: 30px;position: relative;margin-left: 2%;margin-top: 2%;float:left;"></div>'+
+						'<div>'+
+						 '<a target="_blank" href="/index/viewinformation/?uid='+dataArray[i+a][1].uid+'" class="user_name" style="float:left;">'+dataArray[i+a][1].uname+'</a>'+
+			 			'</div>'+
+			 			 '<div class="blog_text">'+
+			 			'<p style="position: relative;margin:60px 0 0 50px;font-family: Microsoft YaHei;"><font color="black">'+dataArray[i+a][1].text+'</font></p>'+
+			 			'<p style="float: left;width: 100%;position: relative;margin:30px 0 20px 30px;font-family: Microsoft YaHei;">'+
+			 			'<span style="display: inline-block;margin:0 0 0 20px;">'+item_timestamp_datetime+'</span>'+
+			 			'<span style="display: inline-block;margin-left:500px;">转发数('+dataArray[i+a][1].retweeted+')&nbsp;|&nbsp;</span>'+
+			 			'<span >评论数('+dataArray[i+a][1].comment+')</span>'+
+			 			'</p>'+
+			 			'</div>'+
+			 			'</div>';
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+                oTBody.rows[i].cells[0].innerHTML = html_c;
+        }
+    }
+},
 
 }
 
@@ -382,29 +557,12 @@ function Draw_geo_map_result(){
 }	
 
 function Draw_blog_scan_area_place_result(){
-	// start_ts = 1468474200;
-	// end_ts = 1468495800;
-	// console.log(province);
-	//topic = topic_name_on_detail;
-	//start_ts = datetime_to_timestamp($("#datetimepicker9_input").val());
-	//end_ts = datetime_to_timestamp($("#datetimepicker10_input").val());
-	// var topic = "{{task_name}}";
-	// var start_ts = "{{start_ts}}"
-	// var end_ts = "{{end_ts}}"
-
-	// var topic = 'mao_ze_dong_dan_chen_ji_nian_ri';
-	// var start_ts = 1482681600;
-	// var end_ts = 1483113600;
 
     url = "/topic_geo_analyze/geo_weibo_content/?topic=" + topic+'&start_ts='+start_ts+'&end_ts='+end_ts+'&province='+province+'&sort_item='+sort_item;
  	topic_analysis_place.call_sync_ajax_request(url,topic_analysis_place.Draw_blog_scan_area_place);
 }
 
 function place_load(){
-	// console.log("place_load!!!");
-	// console.log(topic);
-	// console.log(start_ts);
-	// console.log(end_ts);
 	Draw_geo_map_result();
 	Draw_blog_scan_area_place_result();
 }
@@ -436,14 +594,9 @@ function label_1(la_1) {
 			item_city_json[k].name='未知';
 		}
 		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
-		// console.log(item_city_json[k].name);
-		// console.log(item_city_json[k].value);
 	}
 
 	item_json = item_province_json.concat(item_city_json_new);
-	// console.log(item_province_json);
-	// console.log(item_city_json_new);
-	// console.log(item_json);
 	item_province_json.sort(function(a,b){
 		return b.value-a.value});
 
@@ -462,9 +615,6 @@ function label_1(la_1) {
 			//var zrEvent = zrender.src.core.event;
 
 			// 基于准备好的dom，初始化echarts图表
-			//var myChart = ec.init(document.getElementById('main'));
-			//var myChart = echarts.init(document.getElementById('main_place'));
-			// 过渡---------------------
 			var curIndx = 0;
 			var mapType = [
 				'china',
@@ -531,33 +681,41 @@ function label_1(la_1) {
 			var option = {
 				title: {
 					text : '全国34个省市自治区',
-					subtext : 'china （滚轮或点击切换）'
+					subtext : '中国 （滚轮或点击切换）'
 				},
 				tooltip : {
 					trigger: 'item',
 					formatter: '滚轮切换或点击进入该省<br/>{b}'
 				},
-				legend: {
-					orient: 'vertical',
-					x:'right',
-					data:['微博数据']
-				},
+				// legend: {
+				// 	orient: 'vertical',
+				// 	x:'right',
+				// 	data:['微博数据']
+				// }
 				dataRange: {
 					min: 0,
 					//max: 100,
 					max:item_province_json[0].value,
-					color:['orange','white'],
+					y:'400px',
+					color:['#0270dd','white'],
 					text:['高','低'],           // 文本，默认为数值文本
 					calculable : true
 				},
 				series : [
 					{
-						name: '随机数据',
+						// name: '随机数据',
 						type: 'map',
 						mapType: 'china',
 						selectedMode : 'single',
 						itemStyle:{
-							normal:{label:{show:true}},
+							normal: {
+								show: true,
+								borderColor:"#252422",
+								borderWidth:"1",
+								label: {
+									show: true,
+								},
+							},
 							emphasis:{label:{show:true}}
 						},
 						data:item_json
@@ -616,14 +774,9 @@ function label_2(la_2) {
 			item_city_json[k].name='未知';
 		}
 		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
-		// console.log(item_city_json[k].name);
-		// console.log(item_city_json[k].value);
 	}
 
 	item_json = item_province_json.concat(item_city_json_new);
-	// console.log(item_province_json);
-	// console.log(item_city_json_new);
-	// console.log(item_json);
 	item_province_json.sort(function(a,b){
 		return b.value-a.value});
 
@@ -797,14 +950,9 @@ function label_3(la_3) {
 			item_city_json[k].name='未知';
 		}
 		item_city_json_new.push({name:item_city_json[k].name+'市',value:item_city_json[k].value});
-		// console.log(item_city_json[k].name);
-		// console.log(item_city_json[k].value);
 	}
 
 	item_json = item_province_json.concat(item_city_json_new);
-	// console.log(item_province_json);
-	// console.log(item_city_json_new);
-	// console.log(item_json);
 	item_province_json.sort(function(a,b){
 		return b.value-a.value});
 

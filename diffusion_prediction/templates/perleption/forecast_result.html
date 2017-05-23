@@ -10,33 +10,45 @@
 {% block main %}
 <div id="container">
     <div class="res_top">
-        <h1 class="res_title" style="text-align: center;font-size: 32px">毛泽东诞辰纪念日</h1>
+        <h1 class="res_title" style="text-align: center;font-size: 32px"></h1>
         <hr/>
     </div>
     <!--宏观预测-->
     <div class="macro_big">
         <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#2BB12E;margin-left: -6px"></span>
             宏观预测
         </h1>
         <div class="big_content">
             <!--<p style="color: black">该话题将在<b>12月22日12:12</b>达到<b>200</b>条，<b>需要</b>干预</p>-->
-            <div id="big_img_weibo"></div>
+            <div style="width:45%;display:inline-block;">
+                <p id="_one" style="text-align:left;font-size:18px;font-weight:700;">总数量预测</p>
+                <p id="_two" style="text-align:left;font-size:16px;margin-top:15px;;"></p>
+                <div id="big_img_weibo"  style="width:100%;"></div>
+            </div>
+
             <div id="big_img_person" style="margin-left: 20px"></div>
-            <div id="big_img_line"></div>
+            <div style="width:92%;margin:0 auto;">
+                <p id="_thr" style="text-align:left;font-size:18px;font-weight:700;">趋势图</p>
+                <p id="_four" style="text-align:left;font-size:16px;margin-top:15px;"></p>
+                <div id="big_img_line" style="width:100%;"></div>
+            </div>
+
         </div>
     </div>
 
     <!--微观预测-->
     <div class="micro_small">
         <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#08c"></span>
+            <span style="display: inline-block;width: 5px;height: 25px;background-color:#2BB12E;margin-left: -6px"></span>
             微观预测
         </h1>
         <div class="small_content">
             <div class="small_line">
+                <p id="_five" style="text-align:left;font-size:18px;font-weight:700;">连续预测对比图</p>
+                <p id="_six" style="text-align:left;font-size:16px;margin-top:15px;"></p>
                 <div id="small_trend"></div>
             </div>
         </div>
@@ -48,7 +60,10 @@
 <!-- 自己的JS -->
 {% block my_js %}
 <script type="text/javascript">
-
+ var start_ts = '{{start}}';
+    var end_ts = '{{end}}';
+var task_name='{{task_name2}}';
+    $('.res_title').text('{{task_name2}}');
 </script>
 <script src="/static/js/forecast_result-1.js"></script>
 <script src="/static/js/forecast_result-2.js"></script>

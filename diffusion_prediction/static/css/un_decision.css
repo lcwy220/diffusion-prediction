@@ -16,7 +16,7 @@
     /*width: 80%;*/
     padding: 20px 30px;
     margin: 0 auto 40px;
-    border: 1px solid darkgray;
+    border: 1px solid black;
     border-radius: 10px;
 }
 #container .decision_menu .menu_m {
@@ -28,7 +28,7 @@
     width: 80px;
 }
 #container .decision_menu span {
-    color: #919191;
+    color: #000;
     font-weight: 500;
     font-size: 16px;
 }
@@ -40,16 +40,20 @@
     border-radius: 5px;
     border: 1px solid #6f6f6f;
 }
-#container .decision_menu .menu_m #build {
+#container .decision_menu .menu_m #build_inf {
     padding: 5px 15px;
-    color: #ffffff;
-    background-color: #9b9b9b;
+    color: #000;
+    background-color: #AFAAAA;
     border-radius: 5px;
     margin-top: 10px;
 }
 #container .decision_menu .menu_m #build:hover {
-    background-color: #337ab7;
-    color: #d2dcf7;
+    background-color: #24282B;
+    color: #fff;
+}
+#container .decision_menu .menu_m #build_inf:hover {
+ background-color: #24282B;
+    color: #fff;
 }
 
 #container .decision_menu .prediction_menu {

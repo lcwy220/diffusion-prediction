@@ -1,5 +1,8 @@
 
 <style type="text/css">
+	.pager li {
+		display: inline-block;
+	}
 	@media screen and (min-width: 850px) and (max-width: 1200px){
         #myfriends {
           min-width: 535px;
@@ -37,29 +40,32 @@
 
 </style>
 <!-- 分析指标——时间热度图 -->
-		<div>
-			<div id="time_trend_title_line1"></div>
-			<p id="time_trend_title">时间热度图</p>
-			<!-- <img id="img_doubt" src="../../static/info_consume/image/doubt.png"> -->
-		</div>
-		<div><p id="per_time">单位时间：</p></div>
-		<div class="btn-group" data-toggle="buttons">	
-   			<label class="btn btn-primary" id="label1" value="900" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('900')">
-     			<input type="radio" name="options" id="option1" onClick="changecolor(this)"> 15min
-   			</label>
-   			<label class="btn btn-primary" id="label2" value="1800" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('1800')">
-      			<input type="radio" name="options" id="option2" onClick="changecolor(this)"> 30min
-   			</label>
-   			<label class="btn btn-primary active" id="label3" value="3600" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('3600')">
-      			<input type="radio" name="options" id="option3" onClick="changecolor(this)"> 1 hour
-   			</label>
-<!--    			<label class="btn btn-primary" id="label4" value="86400" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('86400')">
-      			<input type="radio" name="options" id="option4" onClick="changecolor(this)"> 1 day
-   			</label> -->
-   			
-		</div>	
-		
-	
+<div style="width: 70.5%;margin: 20px auto;">
+	<div style="display: inline-block;">
+		<span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
+		<p id="time_trend_title" style="display: inline-block;">时间热度图</p>
+		<!-- <img id="img_doubt" src="../../static/info_consume/image/doubt.png"> -->
+	</div>
+	<div style="float: right;"><p id="per_time" style="display: inline-block;top:4px;">单位时间：</p>
+	<div class="btn-group" data-toggle="buttons">
+		<label class="btn btn-primary" id="label1" value="900" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('900')">
+			<input type="radio" name="options" id="option1" onClick="changecolor(this)"> 15min
+		</label>
+		<label class="btn btn-primary" id="label2" value="1800" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('1800')">
+			<input type="radio" name="options" id="option2" onClick="changecolor(this)"> 30min
+		</label>
+		<label class="btn btn-primary active" id="label3" value="3600" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('3600')">
+			<input type="radio" name="options" id="option3" onClick="changecolor(this)"> 1 hour
+		</label>
+		<!--    			<label class="btn btn-primary" id="label4" value="86400" style="background-color:#FFFFFF;border-color: #E4E4E4;color:#868686" onclick="get_per_time_time('86400')">
+                          <input type="radio" name="options" id="option4" onClick="changecolor(this)"> 1 day
+                       </label> -->
+
+	</div>
+	</div>
+</div>
+
 <!-- 引入时间热力图 -->
 <div id="main_time">
 	
@@ -70,15 +76,21 @@
 		<div class="halving_line2"></div>
 
 <!-- 微博浏览区 -->
-	<div>
-		<div id="blog_scan_title_line1"></div>
+	<div style="width:70.5%;margin: 20px auto;">
+		<span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+        <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
 		<p id="blog_scan_title">微博浏览区</p>
 		<!-- <img id="img_doubt" src="../../static/info_consume/image/doubt.png"> -->
 	</div>
-	<div style="">
-<div id="blog_scan_area_time_top" style="width:70.5%;margin:0 0 0 20.1%;">
-		<div id="blog_scan_title_line2_time"></div>
-		<div id="blog_scan_title_line3_time"></div>
+	<div style="margin-bottom: 30px;">
+<div id="blog_scan_area_time_top" style="width:70.5%;margin:0 auto;">
+	<p style="float:left;margin-left:20px;;">
+		<span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;
+                position: relative;top: 22px;"></span>
+                <span style="display: inline-block;width: 5px;height: 22px;background-color:#20AB71;
+                position: relative;top: 22px;"></span>
+	</p>
+
 		<p id="blog_scan_title2_time">排序方式：</p>
 		<div class="btn-group" data-toggle="buttons" id="btn_radio_time">
    			<label class="btn btn-primary active" id="label7" style="background-color:#EEEEEE;border-color: #EEEEEE;color:#868686;font-size: 16px;font-family: Microsoft YaHei;" onclick="set_order_type_time('time')">
@@ -89,23 +101,56 @@
    			</label>
 		</div>
 		
-		<div class="halving_line3"></div>
+		<div class="halving_line3" style="width:100%;margin:6px auto 0;"></div>
 	</div>
-	<div id="blog_scan_area_time" style="width:70.5%;">
+	<!--<div id="blog_scan_area_time" style="width:70.5%;padding: 20px;">-->
 		
 		<!-- 画图，见time_blogscan.js文件（此处移除了所有的） -->
-		<div id="emotion_loading" style="width:100%;"><center>正在加载，请稍候...</center></div>
+		<!--<div id="emotion_loading" style="text-align:center;">正在加载，请稍候...</div>-->
+
+	<!--</div>-->
+<style>
+	.current_weibo span:hover {
+		background-color: inherit;
+	}
+	.current_weibo #div-button input:hover {
+		background-color: #eee!important;
+	}
+</style>
+                <div class="current_weibo" style="background-color:#e4e4e4;width:70.5%;margin:0 auto;padding:0 20px;">
+                    <div id="group_emotion_loading" style="display:block;text-align:center;">
+                        正在加载，请稍后...
+                    </div>
+                    <div id="influeweibo" style="overflow-x: auto; overflow-y: auto;height:auto;">
+                        <table id="input-table" class="In-table" style='width:100%;'>
+                            <tbody class="In-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='pages_number' style="width:100%;text-align:center;padding: 10px 0 20px;">
+                        <span style="display:none;">每页<b id="PageNo">5</b>组</span>
+                        <span style="display: inline-block">总共<b id="Pagenums"></b>条微博</span>
+                        <div id="div-button" style="display:inline-block;margin-left:10px;">
+                            <input type="button" value="首页" id="F-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="上一页" id="Pre-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="下一页" id="Nex-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                            <input type="button" value="尾页" id="L-page" style='background-color:#fff;border-radius: 5px;padding: 3px 5px;font-size: 10px;cursor: pointer;'>
+                        </div>
+                        <span style="display:inline-block;">&nbsp;当前第<b id="s2"></b>页</span>
+                        <span style="display:inline-block;">总共<b id="s1"></b>页</span>
+                    </div>
+                </div>
+	<!--<div  id="blog_scan_area_time_page" style="width:70.5%;padding:0 20px 20px;">-->
+		<!--<ul class="pager" style="margin: 0 auto;">-->
+			<!--<li class="previous" onclick="up_time()"><a style="font-size: 16px;" >&larr; 上一页</a></li>-->
+			<!--<li class="next"  onclick="down_time()"><a style="font-size: 16px;">下一页 &rarr;</a></li>-->
+		<!--</ul>-->
+
+	<!--</div>-->
 
 	</div>
 
-	<div  id="blog_scan_area_time_page" style="width:70.5%;">
-		<ul class="pager">
-			<li class="previous" onclick="up_time()"><a style="font-size: 16px;" >&larr; 上一页</a></li>
-			<li class="next"  onclick="down_time()"><a style="font-size: 16px;">下一页 &rarr;</a></li>
-		</ul>
 
-	</div>
 
-	</div>
 
 

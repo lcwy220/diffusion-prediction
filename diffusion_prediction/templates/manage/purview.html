@@ -1,18 +1,21 @@
 {% extends "public_nav.html" %}
-{% block title %}<title>系统管理 - 系统配置</title>{% endblock %}
+{% block title %}<title>系统配置</title>{% endblock %}
 {% block my_css %}
 <link rel="stylesheet" href="/static/css/purview.css">
 <style>
-
+.table>thead:first-child>tr:first-child>th {
+    width:1%!important;
+    }
 </style>
 {% endblock %}
 
 {% block main %}
 <div id="container">
     <div class="authority">
-        <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+        <h2 style="margin:30px auto;;"><b class="icon icon-tags"></b>&nbsp;系统配置</h2>
+        <h1 class="title-1" style='margin: 25px auto;color: #292727;font-size: 22px'>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
             人物传感器
         </h1>
         <div class="pull-right">
@@ -22,17 +25,17 @@
         <div id="sensor" style="width: 100%;"></div>
     </div>
     <div class="sort">
-        <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+        <h1 class="title-1" style='margin: 25px auto;color: #292727;font-size: 22px'>
+           <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
             推荐排序指标
         </h1>
         <div id="sort_quota" style="width: 100%"></div>
     </div>
     <div class="simulation">
-        <h1 class="title-1">
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#FF9900"></span>
-            <span style="display: inline-block;width: 5px;height: 25px;background-color:#00CC00;margin-left: -6px"></span>
+        <h1 class="title-1" style='margin: 25px auto;color: #292727;font-size: 22px'>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#08c;margin-bottom: -3px;"></span>
+            <span style="display: inline-block;width: 5px;height: 22px;background-color:#2BB12E;margin-left: -2px;margin-bottom: -3px;"></span>
             仿真参数
         </h1>
         <div id="emulation" style="width: 100%"></div>
@@ -101,9 +104,11 @@
         // var rank = document.getElementById("sort_quota").rows[id].cells[1].innerText;  
  
         //向模态框中传值  
-        // $('#topic').val(topic);  
+        // $('#topic').val(topic); 
+
         $("#topic").html(topic);
         $('#rank').val(rank);  
+        
         // $('#modify_rank').modal('show'); 
          $(document).ready(function(){    $('#modify_rank').modal('show')}) 
     }  
